@@ -84,7 +84,7 @@ def register_global_settings(sender, **kwargs):
 
 
 @receiver(periodic_task, dispatch_uid='mollie_refresh_tokens')
-def register_global_settings(sender, **kwargs):
+def refresh_mollie_tokens(sender, **kwargs):
     seen = set()
     gs = GlobalSettingsObject()
     for es in Event_SettingsStore.objects.filter(key='payment_mollie_expires'):
