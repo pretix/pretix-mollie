@@ -101,7 +101,7 @@ def oauth_return(request, *args, **kwargs):
             messages.error(request, _('Mollie returned an error: {}').format(data['error_description']))
         elif not profiles:
             messages.error(request, _('Please create a website profile in your Mollie account and try again.'))
-        elif 'id' not in orgadata or 'name' not in orgadata:
+        elif not orgadata.get('id', '') or not orgadata.get('name', ''):
             messages.error(request, _('Please fill in your company details in your Mollie account and try again.'))
         else:
             messages.success(request,
