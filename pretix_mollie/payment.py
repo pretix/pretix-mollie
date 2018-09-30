@@ -89,7 +89,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ('connect_profile',
                      forms.ChoiceField(
                          label=_('Website profile'),
-                         choices=self.settings.get('connect_profiles', as_type=list)
+                         choices=self.settings.get('connect_profiles', as_type=list) or []
                      )),
                     ('endpoint',
                      forms.ChoiceField(
