@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-14 17:41+0200\n"
+"POT-Creation-Date: 2018-12-06 10:11+0100\n"
 "PO-Revision-Date: 2018-08-14 16:16+0000\n"
 "Last-Translator: Raphael Michel <michel@rami.io>\n"
 "Language-Team: German (informal) <https://translate.pretix.eu/projects/"
@@ -28,8 +28,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
-"Der eingegebene Schlüssel \"%(value)s\" sieht ungültig aus. Er sollte mit \""
-"%(prefix)s\" beginnen."
+"Der eingegebene Schlüssel \"%(value)s\" sieht ungültig aus. Er sollte mit "
+"\"%(prefix)s\" beginnen."
 
 #: pretix_mollie/payment.py:31
 msgid "Mollie"
@@ -79,15 +79,15 @@ msgstr "Test-System"
 msgid "Secret key"
 msgstr "Geheimer Schlüssel"
 
-#: pretix_mollie/payment.py:120 pretix_mollie/payment.py:424
+#: pretix_mollie/payment.py:120 pretix_mollie/payment.py:429
 msgid "Credit card"
 msgstr "Kreditkarte"
 
-#: pretix_mollie/payment.py:125 pretix_mollie/payment.py:430
+#: pretix_mollie/payment.py:125 pretix_mollie/payment.py:435
 msgid "Bancontact"
 msgstr "Bancontact"
 
-#: pretix_mollie/payment.py:130 pretix_mollie/payment.py:436
+#: pretix_mollie/payment.py:130 pretix_mollie/payment.py:441
 msgid "Bank transfer"
 msgstr "Banküberweisung"
 
@@ -95,7 +95,7 @@ msgstr "Banküberweisung"
 msgid "Belfius Pay Button"
 msgstr "Belfius-Bezahlbutton"
 
-#: pretix_mollie/payment.py:140 pretix_mollie/payment.py:453
+#: pretix_mollie/payment.py:140 pretix_mollie/payment.py:458
 msgid "Bitcoin"
 msgstr "Bitcoin"
 
@@ -103,15 +103,15 @@ msgstr "Bitcoin"
 msgid "EPS"
 msgstr "EPS"
 
-#: pretix_mollie/payment.py:150 pretix_mollie/payment.py:466
+#: pretix_mollie/payment.py:150 pretix_mollie/payment.py:471
 msgid "giropay"
 msgstr "giropay"
 
-#: pretix_mollie/payment.py:155 pretix_mollie/payment.py:472
+#: pretix_mollie/payment.py:155 pretix_mollie/payment.py:477
 msgid "iDEAL"
 msgstr "iDEAL"
 
-#: pretix_mollie/payment.py:160 pretix_mollie/payment.py:478
+#: pretix_mollie/payment.py:160 pretix_mollie/payment.py:483
 msgid "ING Home’Pay"
 msgstr "ING Home’Pay"
 
@@ -119,11 +119,11 @@ msgstr "ING Home’Pay"
 msgid "KBC/CBC Payment Button"
 msgstr "KBC/CBC-Zahlungsbutton"
 
-#: pretix_mollie/payment.py:170 pretix_mollie/payment.py:490
+#: pretix_mollie/payment.py:170 pretix_mollie/payment.py:495
 msgid "paysafecard"
 msgstr "paysafecard"
 
-#: pretix_mollie/payment.py:175 pretix_mollie/payment.py:497
+#: pretix_mollie/payment.py:175 pretix_mollie/payment.py:502
 msgid "Sofort"
 msgstr "Sofortüberweisung"
 
@@ -131,7 +131,7 @@ msgstr "Sofortüberweisung"
 msgid "Mollie reported an error: {}"
 msgstr "Mollie hat einen Fehler zurückgegeben: {}"
 
-#: pretix_mollie/payment.py:386 pretix_mollie/views.py:199
+#: pretix_mollie/payment.py:391 pretix_mollie/views.py:201
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
@@ -139,63 +139,63 @@ msgstr ""
 "Wir hatten Probleme, Mollie zu erreichen. Bitte versuche es erneut und "
 "kontaktiere uns, wenn das Problem fortbesteht."
 
-#: pretix_mollie/payment.py:423
+#: pretix_mollie/payment.py:428
 msgid "Credit card via Mollie"
 msgstr "Kreditkarte über Mollie"
 
-#: pretix_mollie/payment.py:429
+#: pretix_mollie/payment.py:434
 msgid "Bancontact via Mollie"
 msgstr "Bancontact über Mollie"
 
-#: pretix_mollie/payment.py:435
+#: pretix_mollie/payment.py:440
 msgid "Bank transfer via Mollie"
 msgstr "Banküberweisung über Mollie"
 
-#: pretix_mollie/payment.py:446
+#: pretix_mollie/payment.py:451
 msgid "Belfius Pay Button via Mollie"
 msgstr "Belfius-Bezahlbutton über Mollie"
 
-#: pretix_mollie/payment.py:447
+#: pretix_mollie/payment.py:452
 msgid "Belfius"
 msgstr "Belfius"
 
-#: pretix_mollie/payment.py:452
+#: pretix_mollie/payment.py:457
 msgid "Bitcoin via Mollie"
 msgstr "Bitcoin über Mollie"
 
-#: pretix_mollie/payment.py:459
+#: pretix_mollie/payment.py:464
 msgid "EPS via Mollie"
 msgstr "EPS über Mollie"
 
-#: pretix_mollie/payment.py:460
+#: pretix_mollie/payment.py:465
 msgid "eps"
 msgstr "eps"
 
-#: pretix_mollie/payment.py:465
+#: pretix_mollie/payment.py:470
 msgid "giropay via Mollie"
 msgstr "giropay über Mollie"
 
-#: pretix_mollie/payment.py:471
+#: pretix_mollie/payment.py:476
 msgid "iDEAL via Mollie"
 msgstr "iDEAL über Mollie"
 
-#: pretix_mollie/payment.py:477
+#: pretix_mollie/payment.py:482
 msgid "ING Home’Pay via Mollie"
 msgstr "ING Home’Pay über Mollie"
 
-#: pretix_mollie/payment.py:483
+#: pretix_mollie/payment.py:488
 msgid "KBC/CBC Payment Button via Mollie"
 msgstr "KBC/CBC-Bezahlbutton über Mollie"
 
-#: pretix_mollie/payment.py:484
+#: pretix_mollie/payment.py:489
 msgid "KBC/CBC"
 msgstr "KBC/CBC"
 
-#: pretix_mollie/payment.py:489
+#: pretix_mollie/payment.py:494
 msgid "paysafecard via Mollie"
 msgstr "paysafecard über Mollie"
 
-#: pretix_mollie/payment.py:496
+#: pretix_mollie/payment.py:501
 msgid "Sofort via Mollie"
 msgstr "Sofort über Mollie"
 
@@ -343,7 +343,15 @@ msgstr "Mollie hat einen Fehler zurückgegeben: {}"
 msgid "Please create a website profile in your Mollie account and try again."
 msgstr "Bitte erstelle in Mollie ein Website-Profil und versuche es erneut."
 
-#: pretix_mollie/views.py:106
+#: pretix_mollie/views.py:105
+#, fuzzy
+#| msgid ""
+#| "Please create a website profile in your Mollie account and try again."
+msgid ""
+"Please fill in your company details in your Mollie account and try again."
+msgstr "Bitte erstelle in Mollie ein Website-Profil und versuche es erneut."
+
+#: pretix_mollie/views.py:108
 msgid ""
 "Your Mollie account is now connected to pretix. You can change the settings "
 "in detail below."
@@ -351,11 +359,11 @@ msgstr ""
 "Dein Mollie-Konto ist nun mit pretix verbunden. Weiter unten kannst du die "
 "Einstellungen im Detail bearbeiten."
 
-#: pretix_mollie/views.py:213
+#: pretix_mollie/views.py:215
 msgid "Your Mollie account has been disconnected."
 msgstr "Dein Mollie-Konto wurde getrennt."
 
-#: pretix_mollie/views.py:255
+#: pretix_mollie/views.py:257
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check beck in a couple of minutes."
@@ -364,7 +372,7 @@ msgstr ""
 "bezahlt markieren, da der Server zu beschäftigt war. Wir versuchen es in ein "
 "paar Minuten erneut!"
 
-#: pretix_mollie/views.py:259
+#: pretix_mollie/views.py:261
 msgid ""
 "We received your payment but were unable to mark your ticket as paid as one "
 "of your ordered products is sold out. Please contact the event organizer for "
@@ -374,7 +382,7 @@ msgstr ""
 "bezahlt markieren, da eines der Produkte ausverkauft ist. Kontaktiere bitte "
 "den Veranstalter für weitere Schritte."
 
-#: pretix_mollie/views.py:266
+#: pretix_mollie/views.py:268
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
