@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 10:11+0100\n"
-"PO-Revision-Date: 2018-08-14 16:16+0000\n"
+"PO-Revision-Date: 2018-12-06 09:15+0000\n"
 "Last-Translator: Raphael Michel <michel@rami.io>\n"
 "Language-Team: German (informal) <https://translate.pretix.eu/projects/"
 "pretix/pretix-plugin-mollie/de_Informal/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: pretix_mollie/__init__.py:10
 msgid "Mollie payment integration for pretix"
@@ -344,12 +344,9 @@ msgid "Please create a website profile in your Mollie account and try again."
 msgstr "Bitte erstelle in Mollie ein Website-Profil und versuche es erneut."
 
 #: pretix_mollie/views.py:105
-#, fuzzy
-#| msgid ""
-#| "Please create a website profile in your Mollie account and try again."
 msgid ""
 "Please fill in your company details in your Mollie account and try again."
-msgstr "Bitte erstelle in Mollie ein Website-Profil und versuche es erneut."
+msgstr "Bitte fülle bei Mollie deine Firmendaten aus und versuche es erneut."
 
 #: pretix_mollie/views.py:108
 msgid ""
