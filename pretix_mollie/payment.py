@@ -383,6 +383,11 @@ class MollieMethod(BasePaymentProvider):
                 }
             payment.state = OrderPayment.PAYMENT_STATE_FAILED
             payment.save()
+            payment.order.log_action('pretix.event.order.payment.failed', {
+                'local_id': payment.local_id,
+                'provider': payment.provider,
+                'data': payment.info_data
+            })
             raise PaymentException(_('We had trouble communicating with Mollie. Please try again and get in touch '
                                      'with us if this problem persists.'))
 
