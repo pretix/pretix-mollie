@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 10:11+0100\n"
-"PO-Revision-Date: 2019-01-09 14:45+0000\n"
+"PO-Revision-Date: 2019-01-09 14:46+0000\n"
 "Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/nl/>\n"
@@ -174,11 +174,11 @@ msgstr "EPS via Mollie"
 
 #: pretix_mollie/payment.py:465
 msgid "eps"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:470
 msgid "giropay via Mollie"
-msgstr ""
+msgstr "Giropay via Mollie"
 
 #: pretix_mollie/payment.py:476
 msgid "iDEAL via Mollie"
