@@ -1,0 +1,392 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-06 10:11+0100\n"
+"PO-Revision-Date: 2019-01-09 23:00+0000\n"
+"Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
+"Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/nl/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.1.1\n"
+
+#: pretix_mollie/__init__.py:10
+msgid "Mollie payment integration for pretix"
+msgstr "Mollie-betalingsintegratie voor pretix"
+
+#: pretix_mollie/__init__.py:12
+msgid "Integration for the Mollie payment provider."
+msgstr "Integratie voor de betalingsprovider Mollie."
+
+#: pretix_mollie/forms.py:17
+#, python-format
+msgid ""
+"The provided key \"%(value)s\" does not look valid. It should start with "
+"\"%(prefix)s\"."
+msgstr ""
+"De opgegeven key \"%(value)s\" ziet er niet geldig uit. Hij moet beginnen "
+"met \"%(prefix)s\"."
+
+#: pretix_mollie/payment.py:31
+msgid "Mollie"
+msgstr "Mollie"
+
+#: pretix_mollie/payment.py:61
+msgid ""
+"To accept payments via Mollie, you will need an account at Mollie. By "
+"clicking on the following button, you can either create a new Mollie account "
+"connect pretix to an existing one."
+msgstr ""
+"Om betalingen met Mollie te accepteren heeft u een account bij Mollie nodig. "
+"Door op de volgende knop te klikken kunt u een nieuw account bij Mollie "
+"aanmaken, of Pretix met een bestaand account verbinden."
+
+#: pretix_mollie/payment.py:65
+msgid "Connect with Mollie"
+msgstr "Verbinden met Mollie"
+
+#: pretix_mollie/payment.py:75
+msgid "Disconnect from Mollie"
+msgstr "Verbinding met Mollie verbreken"
+
+#: pretix_mollie/payment.py:86
+msgid "Mollie account"
+msgstr "Mollie-account"
+
+#: pretix_mollie/payment.py:91
+msgid "Website profile"
+msgstr "Websiteprofiel"
+
+#: pretix_mollie/payment.py:96
+msgid "Endpoint"
+msgstr "Endpoint"
+
+#: pretix_mollie/payment.py:99
+msgctxt "mollie"
+msgid "Live"
+msgstr "Live"
+
+#: pretix_mollie/payment.py:100
+msgctxt "mollie"
+msgid "Testing"
+msgstr "Testing"
+
+#: pretix_mollie/payment.py:110
+msgid "Secret key"
+msgstr "Geheime sleutel"
+
+#: pretix_mollie/payment.py:120 pretix_mollie/payment.py:429
+msgid "Credit card"
+msgstr "Creditcard"
+
+#: pretix_mollie/payment.py:125 pretix_mollie/payment.py:435
+msgid "Bancontact"
+msgstr "Bancontact"
+
+#: pretix_mollie/payment.py:130 pretix_mollie/payment.py:441
+msgid "Bank transfer"
+msgstr "Bankoverschrijving"
+
+#: pretix_mollie/payment.py:135
+msgid "Belfius Pay Button"
+msgstr "Belfius Pay Button"
+
+#: pretix_mollie/payment.py:140 pretix_mollie/payment.py:458
+msgid "Bitcoin"
+msgstr "Bitcoin"
+
+#: pretix_mollie/payment.py:145
+msgid "EPS"
+msgstr "EPS"
+
+#: pretix_mollie/payment.py:150 pretix_mollie/payment.py:471
+msgid "giropay"
+msgstr "giropay"
+
+#: pretix_mollie/payment.py:155 pretix_mollie/payment.py:477
+msgid "iDEAL"
+msgstr "iDEAL"
+
+#: pretix_mollie/payment.py:160 pretix_mollie/payment.py:483
+msgid "ING Home’Pay"
+msgstr "ING Home'Pay"
+
+#: pretix_mollie/payment.py:165
+msgid "KBC/CBC Payment Button"
+msgstr "KBC/CBC-Betaalknop"
+
+#: pretix_mollie/payment.py:170 pretix_mollie/payment.py:495
+msgid "paysafecard"
+msgstr "paysafecard"
+
+#: pretix_mollie/payment.py:175 pretix_mollie/payment.py:502
+msgid "Sofort"
+msgstr "Sofort-betaling"
+
+#: pretix_mollie/payment.py:302
+msgid "Mollie reported an error: {}"
+msgstr "Mollie meldde een fout: {}"
+
+#: pretix_mollie/payment.py:391 pretix_mollie/views.py:201
+msgid ""
+"We had trouble communicating with Mollie. Please try again and get in touch "
+"with us if this problem persists."
+msgstr ""
+"We hadden moeite met het communiceren met Mollie. Probeer het opnieuw, en "
+"neem contact met ons op als het probleem aanhoudt."
+
+#: pretix_mollie/payment.py:428
+msgid "Credit card via Mollie"
+msgstr "Creditcard via Mollie"
+
+#: pretix_mollie/payment.py:434
+msgid "Bancontact via Mollie"
+msgstr "Bancontact via Mollie"
+
+#: pretix_mollie/payment.py:440
+msgid "Bank transfer via Mollie"
+msgstr "Bankoverschrijving via Mollie"
+
+#: pretix_mollie/payment.py:451
+msgid "Belfius Pay Button via Mollie"
+msgstr "Belfius Pay Button via Mollie"
+
+#: pretix_mollie/payment.py:452
+msgid "Belfius"
+msgstr "Belfius"
+
+#: pretix_mollie/payment.py:457
+msgid "Bitcoin via Mollie"
+msgstr "Bitcoin via Mollie"
+
+#: pretix_mollie/payment.py:464
+msgid "EPS via Mollie"
+msgstr "EPS via Mollie"
+
+#: pretix_mollie/payment.py:465
+msgid "eps"
+msgstr "EPS"
+
+#: pretix_mollie/payment.py:470
+msgid "giropay via Mollie"
+msgstr "Giropay via Mollie"
+
+#: pretix_mollie/payment.py:476
+msgid "iDEAL via Mollie"
+msgstr "iDEAL via Mollie"
+
+#: pretix_mollie/payment.py:482
+msgid "ING Home’Pay via Mollie"
+msgstr "ING Home'Pay via Mollie"
+
+#: pretix_mollie/payment.py:488
+msgid "KBC/CBC Payment Button via Mollie"
+msgstr "KBC/CBC-Betaalknop via Mollie"
+
+#: pretix_mollie/payment.py:489
+msgid "KBC/CBC"
+msgstr "KBC/CBC"
+
+#: pretix_mollie/payment.py:494
+msgid "paysafecard via Mollie"
+msgstr "paysafecard via Mollie"
+
+#: pretix_mollie/payment.py:501
+msgid "Sofort via Mollie"
+msgstr "SOFORT via Mollie"
+
+#: pretix_mollie/signals.py:54
+msgid "Payment canceled."
+msgstr "Betaling geannuleerd."
+
+#: pretix_mollie/signals.py:55
+msgid "Payment failed."
+msgstr "Betaling mislukt."
+
+#: pretix_mollie/signals.py:56
+msgid "Payment succeeded."
+msgstr "Betaling geslaagd."
+
+#: pretix_mollie/signals.py:57
+msgid "Payment expired."
+msgstr "Betaling verlopen."
+
+#: pretix_mollie/signals.py:58
+msgid ""
+"Payment method disabled since we were unable to refresh the access token. "
+"Please contact support."
+msgstr ""
+"Betalingsmethode uitgeschakeld, omdat we het access token niet konden "
+"vernieuwen. Neem contact op met ondersteuning."
+
+#: pretix_mollie/signals.py:63
+msgid "Mollie reported an event: {}"
+msgstr "Mollie meldde een gebeurtenis: {}"
+
+#: pretix_mollie/signals.py:73
+msgid "Mollie Connect: Client ID"
+msgstr "Mollie Connect: Client ID"
+
+#: pretix_mollie/signals.py:80
+msgid "Mollie Connect: Client secret"
+msgstr "Mollie Connect: Clientgeheim"
+
+#: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:3
+#: pretix_mollie/templates/pretix_mollie/checkout_payment_form.html:3
+msgid ""
+"After you submitted your order, we will redirect you to Mollie to complete "
+"your payment. You will then be redirected back here to get your tickets."
+msgstr ""
+"Nadat u uw bestelling heeft ingediend zullen we u naar Mollie doorverwijzen "
+"om uw betaling uit te voeren. U zult hierna naar hier worden teruggestuurd "
+"om uw tickets te krijgen."
+
+#: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
+msgid "Payment method"
+msgstr "Betalingsmethode"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:6
+msgid "ID"
+msgstr "ID"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:8
+msgid "Status"
+msgstr "Status"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:11
+msgid "Paid at"
+msgstr "Betaald op"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:15
+msgid "Expires at"
+msgstr "Verloopt op"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:18
+msgid "Settlement amount"
+msgstr "Uitbetalingshoeveelheid"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:21
+msgid "Card holder"
+msgstr "Kaarthouder"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:25
+msgid "Card number"
+msgstr "Kaartnummer"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:29
+msgid "Card type"
+msgstr "Kaarttype"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:33
+msgid "Payer name"
+msgstr "Naam betaler"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:37
+msgid "BIC"
+msgstr "BIC"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:41
+msgid "Bitcoin amount"
+msgstr "Bitcoinhoeveelheid"
+
+#: pretix_mollie/templates/pretix_mollie/control.html:48
+msgid "Error message"
+msgstr "Foutmelding"
+
+#: pretix_mollie/templates/pretix_mollie/pending.html:4
+msgid ""
+"We're waiting for an answer from the payment provider regarding your "
+"payment. Please contact us if this takes more than a few days."
+msgstr ""
+"We wachten op een antwoord van de betalingsprovider over uw betaling. Neem "
+"contact met ons op als dit langer dan een paar dagen duurt."
+
+#: pretix_mollie/templates/pretix_mollie/pending.html:9
+msgid ""
+"The payment transaction could not be completed for the following reason:"
+msgstr "De betalingstransactie kon om de volgende reden niet voltooid worden:"
+
+#: pretix_mollie/templates/pretix_mollie/pending.html:16
+msgid "Unknown reason"
+msgstr "Onbekende reden"
+
+#: pretix_mollie/templates/pretix_mollie/redirect.html:17
+msgid "The payment process has started in a new window."
+msgstr "Het betalingsproces is begonnen in een nieuw venster."
+
+#: pretix_mollie/templates/pretix_mollie/redirect.html:20
+msgid "The window to enter your payment data was not opened or was closed?"
+msgstr "Is het venster om uw betaling uit te voeren niet geopend?"
+
+#: pretix_mollie/templates/pretix_mollie/redirect.html:24
+msgid "Click here in order to open the window."
+msgstr "Klik hier om het venster te openen."
+
+#: pretix_mollie/views.py:49 pretix_mollie/views.py:55
+#: pretix_mollie/views.py:98
+msgid "An error occurred during connecting with Mollie, please try again."
+msgstr ""
+"Er is iets misgegaan tijdens het communiceren met Mollie, probeer het "
+"opnieuw."
+
+#: pretix_mollie/views.py:101
+msgid "Mollie returned an error: {}"
+msgstr "Mollie meldde een fout: {}"
+
+#: pretix_mollie/views.py:103
+msgid "Please create a website profile in your Mollie account and try again."
+msgstr ""
+"Maak een websiteprofiel aan in uw Mollie-account en probeer het opnieuw."
+
+#: pretix_mollie/views.py:105
+msgid ""
+"Please fill in your company details in your Mollie account and try again."
+msgstr "Vul uw bedrijfsgegevens in in uw Mollie-account en probeer het opnieuw."
+
+#: pretix_mollie/views.py:108
+msgid ""
+"Your Mollie account is now connected to pretix. You can change the settings "
+"in detail below."
+msgstr ""
+"Uw Mollie-account is nu verbonden met pretix. U kunt hieronder de "
+"instellingen in detail aanpassen."
+
+#: pretix_mollie/views.py:215
+msgid "Your Mollie account has been disconnected."
+msgstr "De verbinding met uw Mollie-account is verbroken."
+
+#: pretix_mollie/views.py:257
+msgid ""
+"We received your payment but were unable to mark your ticket as the server "
+"was too busy. Please check beck in a couple of minutes."
+msgstr ""
+"We hebben uw betaling ontvangen, maar konden uw ticket niet als betaald "
+"markeren, omdat de server overbelast was. Kijk alstublieft over een paar "
+"minuten opnieuw op deze pagina."
+
+#: pretix_mollie/views.py:261
+msgid ""
+"We received your payment but were unable to mark your ticket as paid as one "
+"of your ordered products is sold out. Please contact the event organizer for "
+"further steps."
+msgstr ""
+"We hebben uw betaling ontvangen, maar konden uw ticket niet als betaald "
+"markeren, omdat een van de producten die u bestelde is uitverkocht. Neem "
+"contact op met de organisator voor verdere instructies."
+
+#: pretix_mollie/views.py:268
+msgid ""
+"Sorry, there was an error in the payment process. Please check the link in "
+"your emails to continue."
+msgstr ""
+"Sorry, er trad een fout op in het betalingsproces. Klik op de link in uw "
+"email om door te gaan."
