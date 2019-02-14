@@ -133,7 +133,9 @@ def oauth_return(request, *args, **kwargs):
 
 def handle_payment(payment, mollie_id):
     pprov = payment.payment_provider
-    if pprov.settings.connect_client_id and pprov.settings.access_token and pprov.settings.endpoint == "test":
+    if payment.info_data and payment.info_data.get('mode', 'live') == 'test':
+        qp = 'testmode=true'
+    elif pprov.settings.connect_client_id and pprov.settings.access_token and pprov.settings.endpoint == "test":
         qp = 'testmode=true'
     else:
         qp = ''
