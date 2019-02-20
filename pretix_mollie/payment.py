@@ -76,6 +76,16 @@ class MollieSettingsHolder(BasePaymentProvider):
                 )
 
     @property
+    def test_mode_message(self):
+        if self.settings.connect_client_id and not self.settings.api_key:
+            is_testmode = True
+        else:
+            is_testmode = 'test_' in self.settings.secret_key
+        if is_testmode:
+            return _('The Mollie plugin is operating in test mode. No money will actually be transferred.')
+        return None
+
+    @property
     def settings_form_fields(self):
         if self.settings.connect_client_id and not self.settings.api_key:
             # Mollie Connect
@@ -280,7 +290,7 @@ class MollieMethod(BasePaymentProvider):
             },
         }
         if self.settings.connect_client_id and self.settings.access_token:
-            body['testmode'] = self.settings.endpoint == 'test'
+            body['testmode'] = refund.payment.info_data.get('mode', 'live') == 'test'
         try:
             print(self.request_headers, body)
             req = requests.post(
@@ -361,7 +371,7 @@ class MollieMethod(BasePaymentProvider):
         }
         if self.settings.connect_client_id and self.settings.access_token:
             b['profileId'] = self.settings.connect_profile
-            b['testmode'] = self.settings.endpoint == 'test'
+            b['testmode'] = self.settings.endpoint == 'test' or self.event.testmode
         return b
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
