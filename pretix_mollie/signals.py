@@ -100,12 +100,14 @@ def refresh_mollie_tokens(sender, **kwargs):
                         'refresh_token': es.object.settings.payment_mollie_refresh_token,
                         'redirect_uri': build_absolute_uri('plugins:pretix_mollie:oauth.return')
                     })
-                except:
+                except Exception as e:
                     logger.exception('Unable to refresh mollie token')
                     if float(es.object.settings.payment_mollie_expires) > time.time() and not \
                             es.object.settings.payment_mollie_api_key:
                         es.object.settings.payment_mollie__enabled = False
-                        es.object.log_action('pretix_mollie.event.disabled')
+                        es.object.log_action('pretix_mollie.event.disabled', {
+                            'reason': str(e)
+                        })
                 else:
                     if resp.status_code == 200:
                         data = resp.json()
