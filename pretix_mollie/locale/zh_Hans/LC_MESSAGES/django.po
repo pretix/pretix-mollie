@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 10:11+0100\n"
-"PO-Revision-Date: 2019-03-09 17:00+0000\n"
+"PO-Revision-Date: 2019-03-20 11:00+0000\n"
 "Last-Translator: yichengsd <sunzl@jxepub.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.pretix.eu/projects/"
 "pretix/pretix-plugin-mollie/zh_Hans/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
-msgstr ""
+msgstr "提供的密钥\"%(value)s\"看起来无效。它应该以\"%(prefix)s\"开头。"
 
 #: pretix_mollie/payment.py:31
 msgid "Mollie"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:96
 msgid "Endpoint"
-msgstr ""
+msgstr "端点"
 
 #: pretix_mollie/payment.py:99
 msgctxt "mollie"
@@ -77,19 +77,19 @@ msgstr ""
 
 #: pretix_mollie/payment.py:110
 msgid "Secret key"
-msgstr ""
+msgstr "密钥"
 
 #: pretix_mollie/payment.py:120 pretix_mollie/payment.py:429
 msgid "Credit card"
-msgstr ""
+msgstr "信用卡"
 
 #: pretix_mollie/payment.py:125 pretix_mollie/payment.py:435
 msgid "Bancontact"
-msgstr ""
+msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:130 pretix_mollie/payment.py:441
 msgid "Bank transfer"
-msgstr ""
+msgstr "银行转帐"
 
 #: pretix_mollie/payment.py:135
 msgid "Belfius Pay Button"
@@ -105,11 +105,11 @@ msgstr ""
 
 #: pretix_mollie/payment.py:150 pretix_mollie/payment.py:471
 msgid "giropay"
-msgstr ""
+msgstr "Giropay"
 
 #: pretix_mollie/payment.py:155 pretix_mollie/payment.py:477
 msgid "iDEAL"
-msgstr ""
+msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:160 pretix_mollie/payment.py:483
 msgid "ING Home’Pay"
@@ -244,7 +244,7 @@ msgstr "支付方式"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
@@ -268,19 +268,19 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "卡号"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "卡片类型"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "付款人姓名"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
@@ -288,34 +288,34 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
-msgstr ""
+msgstr "错误信息"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:4
 msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
-msgstr ""
+msgstr "我们正在等待付款提供商对您的付款作出答复。如果时间超过几天，请联系我们。"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:9
 msgid ""
 "The payment transaction could not be completed for the following reason:"
-msgstr ""
+msgstr "无法完成付款交易，原因如下："
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:16
 msgid "Unknown reason"
-msgstr ""
+msgstr "未知原因"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr ""
+msgstr "付款流程已在新窗口中启动。"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
-msgstr ""
+msgstr "输入付款数据的窗口未打开或已关闭？"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
-msgstr ""
+msgstr "单击此处打开窗口。"
 
 #: pretix_mollie/views.py:49 pretix_mollie/views.py:55
 #: pretix_mollie/views.py:98
@@ -362,4 +362,4 @@ msgstr ""
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
-msgstr ""
+msgstr "抱歉，付款过程中出错。请检查电子邮件中的链接以继续。"
