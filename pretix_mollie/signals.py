@@ -88,7 +88,7 @@ def refresh_mollie_tokens(sender, **kwargs):
     seen = set()
     gs = GlobalSettingsObject()
     for es in Event_SettingsStore.objects.filter(key='payment_mollie_expires'):
-        if time.time() - float(es.object.settings.payment_mollie_expires) < 600:
+        if float(es.object.settings.payment_mollie_expires) - time.time() < 600:
             rt = es.object.settings.payment_mollie_refresh_token
             if rt not in seen:
                 try:
