@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 10:11+0100\n"
-"PO-Revision-Date: 2018-12-06 09:15+0000\n"
+"PO-Revision-Date: 2019-04-17 18:00+0000\n"
 "Last-Translator: Raphael Michel <michel@rami.io>\n"
 "Language-Team: German (informal) <https://translate.pretix.eu/projects/"
 "pretix/pretix-plugin-mollie/de_Informal/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #: pretix_mollie/__init__.py:10
 msgid "Mollie payment integration for pretix"
@@ -63,7 +63,7 @@ msgstr "Webseiten-Profil"
 
 #: pretix_mollie/payment.py:96
 msgid "Endpoint"
-msgstr "API-Endpunkt"
+msgstr "Endpunkt"
 
 #: pretix_mollie/payment.py:99
 msgctxt "mollie"
@@ -73,7 +73,7 @@ msgstr "Live"
 #: pretix_mollie/payment.py:100
 msgctxt "mollie"
 msgid "Testing"
-msgstr "Test-System"
+msgstr "Testing"
 
 #: pretix_mollie/payment.py:110
 msgid "Secret key"
@@ -125,7 +125,7 @@ msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:175 pretix_mollie/payment.py:502
 msgid "Sofort"
-msgstr "Sofortüberweisung"
+msgstr "Sofort"
 
 #: pretix_mollie/payment.py:302
 msgid "Mollie reported an error: {}"
@@ -302,8 +302,8 @@ msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
 msgstr ""
-"Wir warten auf eine Antwort des Zahlungsdienstleisters bezüglich deiner "
-"Zahlung. Bitte kontaktiere uns, falls dies mehr als ein paar Tage dauert."
+"Wir warten auf eine Antwort vom Zahlungsdienstleister bezüglich deiner "
+"Zahlung. Bitte kontaktiere uns, wenn dies mehr als ein paar Tage dauert."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:9
 msgid ""
