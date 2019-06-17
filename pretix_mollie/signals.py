@@ -6,6 +6,8 @@ import requests
 from django import forms
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+from django_scopes import scopes_disabled
+
 from pretix.base.models import Event_SettingsStore
 from pretix.base.settings import GlobalSettingsObject, settings_hierarkey
 from pretix.base.signals import (
@@ -84,6 +86,7 @@ def register_global_settings(sender, **kwargs):
 
 
 @receiver(periodic_task, dispatch_uid='mollie_refresh_tokens')
+@scopes_disabled()
 def refresh_mollie_tokens(sender, **kwargs):
     seen = set()
     gs = GlobalSettingsObject()
