@@ -1,5 +1,5 @@
 Mollie payment integration for pretix
-==========================
+=====================================
 
 This is a plugin for `pretix`_. 
 
