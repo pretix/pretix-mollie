@@ -299,7 +299,7 @@ class MollieMethod(BasePaymentProvider):
                 headers=self.request_headers
             )
             req.raise_for_status()
-            req.json()
+            refund.info_data = req.json()
         except HTTPError:
             logger.exception('Mollie error: %s' % req.text)
             try:
