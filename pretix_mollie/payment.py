@@ -14,6 +14,8 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
+from pretix_mollie.utils import refresh_mollie_token
+
 from pretix.base.models import Event, OrderPayment, OrderRefund
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
@@ -281,7 +283,7 @@ class MollieMethod(BasePaymentProvider):
         }
         return template.render(ctx)
 
-    def execute_refund(self, refund: OrderRefund):
+    def execute_refund(self, refund: OrderRefund, retry=True):
         payment = refund.payment.info_data.get('id')
         body = {
             'amount': {
@@ -292,7 +294,6 @@ class MollieMethod(BasePaymentProvider):
         if self.settings.connect_client_id and self.settings.access_token:
             body['testmode'] = refund.payment.info_data.get('mode', 'live') == 'test'
         try:
-            print(self.request_headers, body)
             req = requests.post(
                 'https://api.mollie.com/v2/payments/{}/refunds'.format(payment),
                 json=body,
@@ -304,6 +305,11 @@ class MollieMethod(BasePaymentProvider):
             logger.exception('Mollie error: %s' % req.text)
             try:
                 refund.info_data = req.json()
+
+                if payment.info_data.get('status') == 401 and retry:
+                    # Token might be expired, let's retry!
+                    if refresh_mollie_token(self.event, False):
+                        return self.execute_refund(refund, retry=False)
             except:
                 refund.info_data = {
                     'error': True,
@@ -374,7 +380,7 @@ class MollieMethod(BasePaymentProvider):
             b['testmode'] = self.settings.endpoint == 'test' or self.event.testmode
         return b
 
-    def execute_payment(self, request: HttpRequest, payment: OrderPayment):
+    def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         try:
             req = requests.post(
                 'https://api.mollie.com/v2/payments',
@@ -386,6 +392,11 @@ class MollieMethod(BasePaymentProvider):
             logger.exception('Mollie error: %s' % req.text)
             try:
                 payment.info_data = req.json()
+
+                if payment.info_data.get('status') == 401 and retry:
+                    # Token might be expired, let's retry!
+                    if refresh_mollie_token(self.event, False):
+                        return self.execute_payment(request, payment, retry=False)
             except:
                 payment.info_data = {
                     'error': True,
