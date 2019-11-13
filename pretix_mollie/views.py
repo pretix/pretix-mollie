@@ -18,6 +18,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django_scopes import scopes_disabled
+from pretix_mollie.utils import refresh_mollie_token
 
 from pretix.base.models import Event, Order, OrderPayment, Quota
 from pretix.base.payment import PaymentException
@@ -134,7 +135,7 @@ def oauth_return(request, *args, **kwargs):
     }))
 
 
-def handle_payment(payment, mollie_id):
+def handle_payment(payment, mollie_id, retry=True):
     pprov = payment.payment_provider
     if pprov.settings.connect_client_id and payment.info_data and payment.info_data.get('mode', 'live') == 'test':
         qp = 'testmode=true'
@@ -203,6 +204,10 @@ def handle_payment(payment, mollie_id):
                         info=json.dumps(r)
                     )
     except HTTPError:
+        if resp.status_code == 401 and retry:
+            # Token might be expired, let's retry!
+            if refresh_mollie_token(self.event, False):
+                return handle_payment(payment, mollie_id, retry=False)
         raise PaymentException(_('We had trouble communicating with Mollie. Please try again and get in touch '
                                  'with us if this problem persists.'))
 
