@@ -8,13 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-06 10:11+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2019-11-15 17:00+0000\n"
+"Last-Translator: Raphael Michel <michel@rami.io>\n"
+"Language-Team: Latvian <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/lv/>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= "
+"19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
+"X-Generator: Weblate 3.5.1\n"
 
 #: pretix_mollie/__init__.py:10
 msgid "Mollie payment integration for pretix"
@@ -78,7 +82,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:120 pretix_mollie/payment.py:429
 msgid "Credit card"
-msgstr ""
+msgstr "Kredītkarte, debetkarte"
 
 #: pretix_mollie/payment.py:125 pretix_mollie/payment.py:435
 msgid "Bancontact"
@@ -269,7 +273,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "Kartes veids"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
