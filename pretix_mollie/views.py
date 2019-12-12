@@ -206,7 +206,7 @@ def handle_payment(payment, mollie_id, retry=True):
     except HTTPError:
         if resp.status_code == 401 and retry:
             # Token might be expired, let's retry!
-            if refresh_mollie_token(self.event, False):
+            if refresh_mollie_token(payment.order.event, False):
                 return handle_payment(payment, mollie_id, retry=False)
         raise PaymentException(_('We had trouble communicating with Mollie. Please try again and get in touch '
                                  'with us if this problem persists.'))
