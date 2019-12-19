@@ -7,6 +7,7 @@ from decimal import Decimal
 import requests
 from django.contrib import messages
 from django.core import signing
+from django.db import transaction
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -17,17 +18,21 @@ from django.views import View
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.generic import FormView
 from django_scopes import scopes_disabled
+from pretix_mollie.forms import OrganizerMollieSettingsForm
 from pretix_mollie.utils import refresh_mollie_token
+from requests import HTTPError
 
-from pretix.base.models import Event, Order, OrderPayment, Quota
+from pretix.base.models import Event, Order, OrderPayment, Quota, Organizer
 from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
-from pretix.control.permissions import event_permission_required
+from pretix.control.permissions import event_permission_required, AdministratorPermissionRequiredMixin
+from pretix.control.views.event import DecoupleMixin
+from pretix.control.views.organizer import OrganizerDetailViewMixin
 from pretix.helpers.urls import build_absolute_uri
 from pretix.multidomain.urlreverse import eventreverse
-from requests import HTTPError
 
 logger = logging.getLogger(__name__)
 
@@ -229,6 +234,41 @@ def oauth_disconnect(request, **kwargs):
         'event': request.event.slug,
         'provider': 'mollie'
     }))
+
+
+class OrganizerSettingsFormView(DecoupleMixin, OrganizerDetailViewMixin, AdministratorPermissionRequiredMixin,
+                                FormView):
+    model = Organizer
+    permission = 'can_change_organizer_settings'
+    form_class = OrganizerMollieSettingsForm
+    template_name = 'pretix_mollie/organizer_settings.html'
+
+    def get_success_url(self):
+        return reverse('plugins:pretix_mollie:organizer.settings', kwargs={
+            'organizer': self.request.organizer.slug,
+        })
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['obj'] = self.request.organizer
+        return kwargs
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            if form.has_changed():
+                self.request.organizer.log_action(
+                    'pretix.organizer.settings', user=self.request.user, data={
+                        k: form.cleaned_data.get(k) for k in form.changed_data
+                    }
+                )
+            messages.success(self.request, _('Your changes have been saved.'))
+            return redirect(self.get_success_url())
+        else:
+            messages.error(self.request, _('We could not save your changes. See below for details.'))
+            return self.get(request)
 
 
 class MollieOrderView:

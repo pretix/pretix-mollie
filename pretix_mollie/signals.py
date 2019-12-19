@@ -2,20 +2,18 @@ import logging
 import time
 from collections import OrderedDict
 
-import requests
 from django import forms
 from django.dispatch import receiver
+from django.urls import resolve, reverse
 from django.utils.translation import ugettext_lazy as _
 from django_scopes import scopes_disabled
 
 from pretix.base.models import Event_SettingsStore
-from pretix.base.settings import GlobalSettingsObject, settings_hierarkey
 from pretix.base.signals import (
     logentry_display, periodic_task, register_global_settings,
     register_payment_providers,
 )
-from pretix.helpers.urls import build_absolute_uri
-
+from pretix.control.signals import nav_organizer
 from .forms import MollieKeyValidator
 from .utils import refresh_mollie_token
 
@@ -66,7 +64,21 @@ def pretixcontrol_logentry_display(sender, logentry, **kwargs):
         return _('Mollie reported an event: {}').format(text)
 
 
-settings_hierarkey.add_default('payment_mollie_method_cc', True, bool)
+@receiver(nav_organizer, dispatch_uid="mollie_nav_organizer")
+def nav_organizer(sender, request, organizer, **kwargs):
+    if request.user.has_active_staff_session(request.session.session_key):
+        url = resolve(request.path_info)
+        return [{
+            'label': _('Mollie'),
+            'url': reverse('plugins:pretix_mollie:organizer.settings', kwargs={
+                'organizer': request.organizer.slug
+            }),
+            'parent': reverse('control:organizer.edit', kwargs={
+                'organizer': request.organizer.slug
+            }),
+            'active': 'organizer.settings' in url.url_name,
+        }]
+    return []
 
 
 @receiver(register_global_settings, dispatch_uid='mollie_global_settings')

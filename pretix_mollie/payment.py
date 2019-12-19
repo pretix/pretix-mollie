@@ -15,14 +15,13 @@ from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
 from pretix_mollie.utils import refresh_mollie_token
+from requests import HTTPError
 
 from pretix.base.models import Event, OrderPayment, OrderRefund
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri
-from requests import HTTPError
-
 from .forms import MollieKeyValidator
 
 logger = logging.getLogger(__name__)
@@ -53,6 +52,8 @@ class MollieSettingsHolder(BasePaymentProvider):
         )
 
     def settings_content_render(self, request):
+        if self.event.organizer.settings.mollie_api_key:
+            return
         if self.settings.connect_client_id and not self.settings.api_key:
             # Use Mollie Connect
             if not self.settings.access_token:
@@ -79,17 +80,19 @@ class MollieSettingsHolder(BasePaymentProvider):
 
     @property
     def test_mode_message(self):
-        if self.settings.connect_client_id and not self.settings.api_key:
+        api_key = self.event.organizer.settings.mollie_api_key or self.settings.api_key
+        if self.settings.connect_client_id and not api_key:
             is_testmode = True
         else:
-            is_testmode = 'test_' in self.settings.secret_key
+            is_testmode = 'test_' in api_key
         if is_testmode:
             return _('The Mollie plugin is operating in test mode. No money will actually be transferred.')
         return None
 
     @property
     def settings_form_fields(self):
-        if self.settings.connect_client_id and not self.settings.api_key:
+        api_key = self.event.organizer.settings.mollie_api_key or self.settings.api_key
+        if self.settings.connect_client_id and not api_key:
             # Mollie Connect
             if self.settings.access_token:
                 fields = [
@@ -116,6 +119,14 @@ class MollieSettingsHolder(BasePaymentProvider):
             else:
                 return {}
         else:
+            if self.event.organizer.settings.mollie_api_key:
+                api_key_kwargs = {
+                    'disabled': True,
+                    'help_text': _("A secret key has been configured on organizer level."),
+                    'required': False
+                }
+            else:
+                api_key_kwargs = {}
             fields = [
                 ('api_key',
                  forms.CharField(
@@ -123,71 +134,98 @@ class MollieSettingsHolder(BasePaymentProvider):
                      validators=(
                          MollieKeyValidator(['live_', 'test_']),
                      ),
+                     **api_key_kwargs
                  )),
             ]
+        organizer_method_limits = any([
+            self.event.organizer.settings.mollie_allow_method_creditcard,
+            self.event.organizer.settings.mollie_allow_method_creditcard,
+            self.event.organizer.settings.mollie_allow_method_bancontact,
+            self.event.organizer.settings.mollie_allow_method_banktransfer,
+            self.event.organizer.settings.mollie_allow_method_belfius,
+            self.event.organizer.settings.mollie_allow_method_bitcoin,
+            self.event.organizer.settings.mollie_allow_method_eps,
+            self.event.organizer.settings.mollie_allow_method_giropay,
+            self.event.organizer.settings.mollie_allow_method_ideal,
+            self.event.organizer.settings.mollie_allow_method_inghomepay,
+            self.event.organizer.settings.mollie_allow_method_kbc,
+            self.event.organizer.settings.mollie_allow_method_paysafecard,
+            self.event.organizer.settings.mollie_allow_method_sofort,
+        ])
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_creditcard:
+            fields.append(('method_creditcard',
+                           forms.BooleanField(
+                               label=_('Credit card'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_bancontact:
+            fields.append(('method_bancontact',
+                           forms.BooleanField(
+                               label=_('Bancontact'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_banktransfer:
+            fields.append(('method_banktransfer',
+                           forms.BooleanField(
+                               label=_('Bank transfer'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_belfius:
+            fields.append(('method_belfius',
+                           forms.BooleanField(
+                               label=_('Belfius Pay Button'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_bitcoin:
+            fields.append(('method_bitcoin',
+                           forms.BooleanField(
+                               label=_('Bitcoin'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_eps:
+            fields.append(('method_eps',
+                           forms.BooleanField(
+                               label=_('EPS'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_giropay:
+            fields.append(('method_giropay',
+                           forms.BooleanField(
+                               label=_('giropay'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_ideal:
+            fields.append(('method_ideal',
+                           forms.BooleanField(
+                               label=_('iDEAL'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_inghomepay:
+            fields.append(('method_inghomepay',
+                           forms.BooleanField(
+                               label=_('ING Home’Pay'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_kbc:
+            fields.append(('method_kbc',
+                           forms.BooleanField(
+                               label=_('KBC/CBC Payment Button'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_paysafecard:
+            fields.append(('method_paysafecard',
+                           forms.BooleanField(
+                               label=_('paysafecard'),
+                               required=False,
+                           )))
+        if not organizer_method_limits or self.event.organizer.settings.mollie_allow_method_sofort:
+            fields.append(('method_sofort',
+                           forms.BooleanField(
+                               label=_('Sofort'),
+                               required=False,
+                           )))
         d = OrderedDict(
-            fields + [
-                ('method_creditcard',
-                 forms.BooleanField(
-                     label=_('Credit card'),
-                     required=False,
-                 )),
-                ('method_bancontact',
-                 forms.BooleanField(
-                     label=_('Bancontact'),
-                     required=False,
-                 )),
-                ('method_banktransfer',
-                 forms.BooleanField(
-                     label=_('Bank transfer'),
-                     required=False,
-                 )),
-                ('method_belfius',
-                 forms.BooleanField(
-                     label=_('Belfius Pay Button'),
-                     required=False,
-                 )),
-                ('method_bitcoin',
-                 forms.BooleanField(
-                     label=_('Bitcoin'),
-                     required=False,
-                 )),
-                ('method_eps',
-                 forms.BooleanField(
-                     label=_('EPS'),
-                     required=False,
-                 )),
-                ('method_giropay',
-                 forms.BooleanField(
-                     label=_('giropay'),
-                     required=False,
-                 )),
-                ('method_ideal',
-                 forms.BooleanField(
-                     label=_('iDEAL'),
-                     required=False,
-                 )),
-                ('method_inghomepay',
-                 forms.BooleanField(
-                     label=_('ING Home’Pay'),
-                     required=False,
-                 )),
-                ('method_kbc',
-                 forms.BooleanField(
-                     label=_('KBC/CBC Payment Button'),
-                     required=False,
-                 )),
-                ('method_paysafecard',
-                 forms.BooleanField(
-                     label=_('paysafecard'),
-                     required=False,
-                 )),
-                ('method_sofort',
-                 forms.BooleanField(
-                     label=_('Sofort'),
-                     required=False,
-                 )),
-            ] + list(super().settings_form_fields.items())
+            fields + list(super().settings_form_fields.items())
         )
         d.move_to_end('_enabled', last=False)
         return d
@@ -230,7 +268,9 @@ class MollieMethod(BasePaymentProvider):
     @property
     def request_headers(self):
         headers = {}
-        if self.settings.connect_client_id and self.settings.access_token:
+        if self.event.organizer.settings.mollie_api_key:
+            headers['Authorization'] = 'Bearer %s' % self.event.organizer.settings.mollie_api_key
+        elif self.settings.connect_client_id and self.settings.access_token:
             headers['Authorization'] = 'Bearer %s' % self.settings.access_token
         else:
             headers['Authorization'] = 'Bearer %s' % self.settings.api_key

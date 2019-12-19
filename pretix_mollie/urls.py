@@ -3,7 +3,7 @@ from pretix.multidomain import event_url
 
 from .views import (
     ReturnView, WebhookView, oauth_disconnect, oauth_return, redirect_view,
-)
+    OrganizerSettingsFormView)
 
 event_patterns = [
     url(r'^mollie/', include([
@@ -14,6 +14,8 @@ event_patterns = [
 ]
 
 urlpatterns = [
+    url(r'^control/organizer/(?P<organizer>[^/]+)/mollie/',
+        OrganizerSettingsFormView.as_view(), name='organizer.settings'),
     url(r'^control/event/(?P<organizer>[^/]+)/(?P<event>[^/]+)/mollie/disconnect/',
         oauth_disconnect, name='oauth.disconnect'),
     url(r'^_mollie/oauth_return/$', oauth_return, name='oauth.return'),

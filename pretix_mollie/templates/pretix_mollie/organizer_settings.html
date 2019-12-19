@@ -1,0 +1,46 @@
+{% extends "pretixcontrol/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load formset_tags %}
+{% block title %}{% trans "Mollie Settings" %}{% endblock %}
+{% block content %}
+    <h1>
+        {% trans "Mollie Settings" %}
+    </h1>
+
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <fieldset>
+            <legend>{% trans "General information" %}</legend>
+            {% bootstrap_field form.mollie_api_key layout="control" %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Allowed payment methods" %}</legend>
+            <p class="help-block">
+                {% blocktrans trimmed %}
+                    Selecting no payment methods will allow all payments on events. When payment methods are selected,
+                    the Mollie plugin will only allow events to configure selected methods.
+                {% endblocktrans %}
+            </p>
+            {% bootstrap_field form.mollie_allow_method_creditcard layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_creditcard layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_bancontact layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_banktransfer layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_belfius layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_bitcoin layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_eps layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_giropay layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_ideal layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_inghomepay layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_kbc layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_paysafecard layout="control" %}
+            {% bootstrap_field form.mollie_allow_method_sofort layout="control" %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}
