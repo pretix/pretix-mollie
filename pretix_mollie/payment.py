@@ -28,7 +28,18 @@ from .forms import MollieKeyValidator
 logger = logging.getLogger(__name__)
 
 
-class SecreyKeyInput(TextInput):
+class SecretKeyInput(TextInput):
+
+    def __init__(self, secret_key, attrs=None):
+        self.secret_key = secret_key
+        if attrs is None:
+            attrs = {}
+        attrs.update({
+            'placeholder': self.secret_key[:5] + "*" * len(self.secret_key[5:]),
+            'autocomplete': 'new-password'  # see https://bugs.chromium.org/p/chromium/issues/detail?id=370363#c7
+        })
+        super().__init__(attrs)
+
     def get_context(self, name, value, attrs):
         value = None
         return super().get_context(name, value, attrs)
@@ -122,13 +133,6 @@ class MollieSettingsHolder(BasePaymentProvider):
             else:
                 return {}
         else:
-            api_key_kw = {}
-            if self.settings.api_key:
-                api_key_kw['required'] = False
-                # We can show the first 5 characters of the key, as it indicates test or live key.
-                api_key_kw['help_text'] = (_("A secret key has currently been configured: %s. The remainder of the "
-                                             "secret key has been hidden for security purposes.") %
-                                           (self.settings.api_key[:5] + "*" * len(self.settings.api_key[5:])))
             fields = [
                 ('api_key',
                  forms.CharField(
@@ -136,10 +140,8 @@ class MollieSettingsHolder(BasePaymentProvider):
                      validators=(
                          MollieKeyValidator(['live_', 'test_']),
                      ),
-                     widget=SecreyKeyInput(attrs={
-                         'autocomplete': 'new-password'  # see https://bugs.chromium.org/p/chromium/issues/detail?id=370363#c7
-                     }),
-                     **api_key_kw,
+                     widget=SecretKeyInput(secret_key=self.settings.api_key),
+                     required=bool(self.settings.api_key),
                  )),
             ]
         d = OrderedDict(
