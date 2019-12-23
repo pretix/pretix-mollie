@@ -8,6 +8,7 @@ from datetime import timedelta
 import requests
 from django import forms
 from django.core import signing
+from django.forms.widgets import TextInput
 from django.http import HttpRequest
 from django.template.loader import get_template
 from django.urls import reverse
@@ -15,17 +16,22 @@ from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
 from pretix_mollie.utils import refresh_mollie_token
+from requests import HTTPError
 
 from pretix.base.models import Event, OrderPayment, OrderRefund
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri
-from requests import HTTPError
-
 from .forms import MollieKeyValidator
 
 logger = logging.getLogger(__name__)
+
+
+class SecreyKeyInput(TextInput):
+    def get_context(self, name, value, attrs):
+        value = None
+        return super().get_context(name, value, attrs)
 
 
 class MollieSettingsHolder(BasePaymentProvider):
@@ -116,6 +122,13 @@ class MollieSettingsHolder(BasePaymentProvider):
             else:
                 return {}
         else:
+            api_key_kw = {}
+            if self.settings.api_key:
+                api_key_kw['required'] = False
+                # We can show the first 5 characters of the key, as it indicates test or live key.
+                api_key_kw['help_text'] = (_("A secret key has currently been configured: %s. The remainder of the "
+                                             "secret key has been hidden for security purposes.") %
+                                           (self.settings.api_key[:5] + "*" * len(self.settings.api_key[5:])))
             fields = [
                 ('api_key',
                  forms.CharField(
@@ -123,6 +136,10 @@ class MollieSettingsHolder(BasePaymentProvider):
                      validators=(
                          MollieKeyValidator(['live_', 'test_']),
                      ),
+                     widget=SecreyKeyInput(attrs={
+                         'autocomplete': 'new-password'  # see https://bugs.chromium.org/p/chromium/issues/detail?id=370363#c7
+                     }),
+                     **api_key_kw,
                  )),
             ]
         d = OrderedDict(
@@ -191,6 +208,12 @@ class MollieSettingsHolder(BasePaymentProvider):
         )
         d.move_to_end('_enabled', last=False)
         return d
+
+    def settings_form_clean(self, cleaned_data):
+        data = super().settings_form_clean(cleaned_data)
+        if not data.get('payment_mollie_api_key'):
+            data['payment_mollie_api_key'] = self.settings.api_key
+        return data
 
 
 class MollieMethod(BasePaymentProvider):
