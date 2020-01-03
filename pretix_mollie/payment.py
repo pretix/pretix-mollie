@@ -140,8 +140,8 @@ class MollieSettingsHolder(BasePaymentProvider):
                      validators=(
                          MollieKeyValidator(['live_', 'test_']),
                      ),
-                     widget=SecretKeyInput(secret_key=self.settings.api_key),
-                     required=bool(self.settings.api_key),
+                     widget=SecretKeyInput(secret_key=self.settings.api_key or ''),
+                     required=not bool(self.settings.api_key),
                  )),
             ]
         d = OrderedDict(
