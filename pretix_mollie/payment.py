@@ -8,6 +8,7 @@ from datetime import timedelta
 import requests
 from django import forms
 from django.core import signing
+from django.forms.widgets import TextInput
 from django.http import HttpRequest
 from django.template.loader import get_template
 from django.urls import reverse
@@ -15,17 +16,33 @@ from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
 from pretix_mollie.utils import refresh_mollie_token
+from requests import HTTPError
 
 from pretix.base.models import Event, OrderPayment, OrderRefund
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri
-from requests import HTTPError
-
 from .forms import MollieKeyValidator
 
 logger = logging.getLogger(__name__)
+
+
+class SecretKeyInput(TextInput):
+
+    def __init__(self, secret_key, attrs=None):
+        self.secret_key = secret_key
+        if attrs is None:
+            attrs = {}
+        attrs.update({
+            'placeholder': self.secret_key[:5] + "*" * len(self.secret_key[5:]),
+            'autocomplete': 'new-password'  # see https://bugs.chromium.org/p/chromium/issues/detail?id=370363#c7
+        })
+        super().__init__(attrs)
+
+    def get_context(self, name, value, attrs):
+        value = None
+        return super().get_context(name, value, attrs)
 
 
 class MollieSettingsHolder(BasePaymentProvider):
@@ -123,6 +140,8 @@ class MollieSettingsHolder(BasePaymentProvider):
                      validators=(
                          MollieKeyValidator(['live_', 'test_']),
                      ),
+                     widget=SecretKeyInput(secret_key=self.settings.api_key or ''),
+                     required=not bool(self.settings.api_key),
                  )),
             ]
         d = OrderedDict(
@@ -191,6 +210,12 @@ class MollieSettingsHolder(BasePaymentProvider):
         )
         d.move_to_end('_enabled', last=False)
         return d
+
+    def settings_form_clean(self, cleaned_data):
+        data = super().settings_form_clean(cleaned_data)
+        if not data.get('payment_mollie_api_key'):
+            data['payment_mollie_api_key'] = self.settings.api_key
+        return data
 
 
 class MollieMethod(BasePaymentProvider):
