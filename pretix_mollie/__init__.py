@@ -7,9 +7,10 @@ class PluginApp(AppConfig):
     verbose_name = 'Mollie payment integration for pretix'
 
     class PretixPluginMeta:
-        name = ugettext_lazy('Mollie payment integration for pretix')
+        name = ugettext_lazy('Mollie')
         author = 'Raphael Michel'
         description = ugettext_lazy('Integration for the Mollie payment provider.')
+        category = 'PAYMENT'
         visible = True
         version = '1.2.3'
 
