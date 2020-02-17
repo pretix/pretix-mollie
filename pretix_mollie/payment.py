@@ -1,6 +1,7 @@
 import hashlib
 import json
 import logging
+import textwrap
 import urllib.parse
 from collections import OrderedDict
 from datetime import timedelta
@@ -15,10 +16,11 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
+from i18nfield.strings import LazyI18nString
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
 
-from pretix.base.models import Event, OrderPayment, OrderRefund
+from pretix.base.models import Event, OrderPayment, OrderRefund, Order
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
@@ -490,6 +492,56 @@ class MollieBanktransfer(MollieMethod):
         body = super()._get_payment_body(payment)
         body['dueDate'] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
         return body
+
+    def order_pending_mail_render(self, order, payment) -> str:
+        if payment.info:
+            payment_info = json.loads(payment.info)
+        else:
+            return ""
+        if 'details' not in payment_info:
+            return ""
+
+        template = get_template('pretix_mollie/order_pending.txt')
+        bankdetails = [
+            _("Account holder"), ": ", payment_info['details'].get('bankName', '?'), "\n",
+            _("IBAN"), ": ", payment_info['details'].get('bankAccount', '?'), "\n",
+            _("BIC"), ": ", payment_info['details'].get('bankBic', '?'),
+        ]
+        ctx = {
+            'event': self.event,
+            'code': payment_info['details'].get('transferReference', '?'),
+            'amount': payment.amount,
+            'details': textwrap.indent(''.join(str(i) for i in bankdetails), '    '),
+        }
+        return template.render(ctx)
+
+    def render_invoice_text(self, order: Order, payment: OrderPayment) -> str:
+        if order.status == Order.STATUS_PAID:
+            return super().render_invoice_text(order, payment)
+
+        t = self.settings.get('_invoice_text', as_type=LazyI18nString, default='')
+
+        if payment.info:
+            payment_info = json.loads(payment.info)
+        else:
+            return t
+        if 'details' not in payment_info:
+            return t
+
+        bankdetails = [
+            _("Please transfer the invoice amount to the bank account of our payment service provider "
+              "using the specified reference:"),
+            "\n",
+            _("Account holder"), ": ", payment_info['details'].get('bankName', '?'), "\n",
+            _("IBAN"), ": ", payment_info['details'].get('bankAccount', ''), "\n",
+            _("BIC"), ": ", payment_info['details'].get('bankBic', '?'), "\n",
+            _("Reference"), ": ", payment_info['details'].get('transferReference', '?'),
+            "\n",
+            _("Please only use the given reference. Otherwise, your payment can not be processed."),
+        ]
+        if t:
+            bankdetails += ['\n', t]
+        return ''.join(str(i) for i in bankdetails)
 
 
 class MollieBelfius(MollieMethod):
