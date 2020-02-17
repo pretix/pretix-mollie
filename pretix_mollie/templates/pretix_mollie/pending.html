@@ -1,6 +1,68 @@
 {% load i18n %}
+{% load l10n %}
+{% load commadecimal %}
+{% load dotdecimal %}
+{% load ibanformat %}
+{% load money %}
 
-{% if payment.status == "pending" %}
+{% if payment.state == "created" %}
+    {% if payment_info.method == "banktransfer" %}
+        <p>{% blocktrans trimmed %}
+            Please transfer the full amount to the following bank account:
+        {% endblocktrans %}</p>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <p>
+                    <strong>{% trans "Account holder" %}:</strong> {{ payment_info.details.bankName }}<br>
+                    <strong>{% trans "IBAN" %}:</strong> {{ payment_info.details.bankAccount|ibanformat }}<br>
+                    <strong>{% trans "BIC" %}:</strong> {{ payment_info.details.bankBic }}<br>
+                    <strong>{% trans "Amount:" %}</strong> {{ payment.amount|money:event.currency }}<br/>
+                    <strong>{% trans "Reference code (important):" %} {{ payment_info.details.transferReference }}</strong>
+                </p>
+                <p>
+                    {% trans "After you sent the bank transfer, you can close this window. We will send you an email as soon as we received your payment." %}
+                </p>
+            </div>
+            <div class="col-md-3 col-sm-6 hidden-xs text-center">
+                BezahlCode<br>
+                <a href="bank://singlepaymentsepa?name={{ payment_info.details.bankName|urlencode }}&iban={{ payment_info.details.bankAccount }}&bic={{ payment_info.details.bankBic }}&amount={{ payment.amount|commadecimal }}&reason={{ payment_info.details.transferReference }}&currency={{ event.currency }}">
+                    <script type="text/plain" data-size="150" data-replace-with-qr>bank://singlepaymentsepa?name={{ payment_info.details.bankName|urlencode }}&iban={{ payment_info.details.bankAccount }}&bic={{ payment_info.details.bankBic }}&amount={{ payment.amount|commadecimal }}&reason={{ payment_info.details.transferReference }}&currency={{ event.currency }}</script>
+                </a>
+                <p>&nbsp;</p>
+            </div>
+            <div class="col-md-3 col-sm-6 hidden-xs text-center">
+                GiroCode / EPC-QR<br>
+                <script type="text/plain" data-size="150" data-replace-with-qr>BCD
+002
+2
+SCT
+{{ payment_info.details.bankBic }}
+{{ payment_info.details.bankName }}
+{{ payment_info.details.bankAccount }}
+{{ event.currency }}{{ payment.amount|dotdecimal }}
+
+
+{{ payment_info.details.transferReference }}
+
+                </script>
+            </div>
+            <div class="visible-xs-block text-center">
+                <p>
+                    <a href="bank://singlepaymentsepa?name={{ payment_info.details.bankName|urlencode }}&iban={{ payment_info.details.bankAccount }}&bic={{ payment_info.details.bankBic }}&amount={{ payment.amount|commadecimal }}&reason={{ payment_info.details.transferReference }}&currency={{ event.currency }}" class="btn btn-default">
+                        {% trans "Open banking app" %}
+                    </a><br>
+                    <small>{% trans "Requires that the app supports BezahlCode" %}</small>
+                </p>
+            </div>
+        </div>
+    {% else %}
+        <p>{% blocktrans trimmed %}
+            We're waiting for an answer from the payment provider regarding your payment. Please contact us if this
+            takes more than a few days.
+        {% endblocktrans %}</p>
+    {% endif %}
+{% elif payment.state == "pending" %}
     <p>{% blocktrans trimmed %}
         We're waiting for an answer from the payment provider regarding your payment. Please contact us if this
         takes more than a few days.

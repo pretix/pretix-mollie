@@ -1,6 +1,7 @@
 import hashlib
 import json
 import logging
+import textwrap
 import urllib.parse
 from collections import OrderedDict
 from datetime import timedelta
@@ -8,6 +9,7 @@ from datetime import timedelta
 import requests
 from django import forms
 from django.core import signing
+from django.db import transaction
 from django.forms.widgets import TextInput
 from django.http import HttpRequest
 from django.template.loader import get_template
@@ -15,10 +17,11 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
 from django.utils.translation import pgettext, ugettext_lazy as _
+from i18nfield.strings import LazyI18nString
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
 
-from pretix.base.models import Event, OrderPayment, OrderRefund
+from pretix.base.models import Event, OrderPayment, OrderRefund, Order
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
@@ -407,6 +410,14 @@ class MollieMethod(BasePaymentProvider):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         try:
+            if '_links' in payment.info_data:
+                if request:
+                    return self.redirect(request, payment.info_data.get('_links').get('checkout').get('href'))
+                else:
+                    return
+        except:
+            pass
+        try:
             req = requests.post(
                 'https://api.mollie.com/v2/payments',
                 json=self._get_payment_body(payment),
@@ -416,24 +427,18 @@ class MollieMethod(BasePaymentProvider):
         except HTTPError:
             logger.exception('Mollie error: %s' % req.text)
             try:
-                payment.info_data = req.json()
+                d = req.json()
 
-                if payment.info_data.get('status') == 401 and retry:
+                if d.get('status') == 401 and retry:
                     # Token might be expired, let's retry!
                     if refresh_mollie_token(self.event, False):
                         return self.execute_payment(request, payment, retry=False)
             except:
-                payment.info_data = {
+                d = {
                     'error': True,
                     'detail': req.text
                 }
-            payment.state = OrderPayment.PAYMENT_STATE_FAILED
-            payment.save()
-            payment.order.log_action('pretix.event.order.payment.failed', {
-                'local_id': payment.local_id,
-                'provider': payment.provider,
-                'data': payment.info_data
-            })
+            payment.fail(info=d)
             raise PaymentException(_('We had trouble communicating with Mollie. Please try again and get in touch '
                                      'with us if this problem persists.'))
 
@@ -441,8 +446,11 @@ class MollieMethod(BasePaymentProvider):
         payment.info = json.dumps(data)
         payment.state = OrderPayment.PAYMENT_STATE_CREATED
         payment.save()
-        request.session['payment_mollie_order_secret'] = payment.order.secret
-        return self.redirect(request, data.get('_links').get('checkout').get('href'))
+        if request:
+            request.session['payment_mollie_order_secret'] = payment.order.secret
+            return self.redirect(request, data.get('_links').get('checkout').get('href'))
+        else:
+            return
 
     def redirect(self, request, url):
         if request.session.get('iframe_session', False):
@@ -486,10 +494,86 @@ class MollieBanktransfer(MollieMethod):
     verbose_name = _('Bank transfer via Mollie')
     public_name = _('Bank transfer')
 
+    @transaction.atomic()
+    def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
+        p_orig = payment
+        if retry:
+            payment = OrderPayment.objects.select_for_update().get(pk=payment.pk)
+        super().execute_payment(request, payment, retry)
+        p_orig.refresh_from_db()
+        return  # no redirect necessary for this method
+
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
         body['dueDate'] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
         return body
+
+    def order_pending_mail_render(self, order, payment) -> str:
+        if payment.state == OrderPayment.PAYMENT_STATE_CREATED and not payment.info:
+            try:
+                self.execute_payment(None, payment)
+            except:
+                logger.exception('Could not execute payment')
+
+        if payment.info:
+            payment_info = json.loads(payment.info)
+        else:
+            return ""
+        if 'details' not in payment_info:
+            return ""
+
+        template = get_template('pretix_mollie/order_pending.txt')
+        bankdetails = [
+            _("Account holder"), ": ", payment_info['details'].get('bankName', '?'), "\n",
+            _("IBAN"), ": ", payment_info['details'].get('bankAccount', '?'), "\n",
+            _("BIC"), ": ", payment_info['details'].get('bankBic', '?'),
+        ]
+        ctx = {
+            'event': self.event,
+            'code': payment_info['details'].get('transferReference', '?'),
+            'amount': payment.amount,
+            'details': textwrap.indent(''.join(str(i) for i in bankdetails), '    '),
+        }
+        return template.render(ctx)
+
+    def render_invoice_text(self, order: Order, payment: OrderPayment) -> str:
+        if order.status == Order.STATUS_PAID:
+            return super().render_invoice_text(order, payment)
+
+        if payment.state == OrderPayment.PAYMENT_STATE_CREATED and not payment.info:
+            try:
+                self.execute_payment(None, payment)
+            except:
+                logger.exception('Could not execute payment')
+
+        t = self.settings.get('_invoice_text', as_type=LazyI18nString, default='')
+
+        if payment.info:
+            payment_info = json.loads(payment.info)
+        else:
+            return t
+        if 'details' not in payment_info:
+            return t
+
+        bankdetails = [
+            _("Please transfer the invoice amount to the bank account of our payment service provider "
+              "using the specified reference:"),
+            "\n",
+            _("Account holder"), ": ", payment_info['details'].get('bankName', '?'), "\n",
+            _("IBAN"), ": ", payment_info['details'].get('bankAccount', ''), "\n",
+            _("BIC"), ": ", payment_info['details'].get('bankBic', '?'), "\n",
+            _("Reference"), ": ", payment_info['details'].get('transferReference', '?'),
+            "\n",
+            _("Please only use the given reference. Otherwise, your payment can not be processed."),
+        ]
+        if t:
+            bankdetails += ['\n', t]
+        return ''.join(str(i) for i in bankdetails)
+
+    def payment_form_render(self, request) -> str:
+        template = get_template('pretix_mollie/checkout_payment_form_banktransfer.html')
+        ctx = {'request': request, 'event': self.event, 'settings': self.settings}
+        return template.render(ctx)
 
 
 class MollieBelfius(MollieMethod):
