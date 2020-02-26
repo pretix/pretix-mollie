@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2019-01-02 13:48+0000\n"
+"PO-Revision-Date: 2020-02-25 18:00+0000\n"
 "Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
 "Language-Team: Dutch (informal) <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/nl_Informal/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.10.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -59,6 +59,8 @@ msgid ""
 "The Mollie plugin is operating in test mode. No money will actually be "
 "transferred."
 msgstr ""
+"De Mollie-plug-in staat in de testmodus. Er zal geen echt geld worden "
+"overgemaakt."
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
@@ -161,12 +163,12 @@ msgstr "Bankoverschrijving via Mollie"
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Rekeninghouder"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
@@ -179,10 +181,12 @@ msgid ""
 "Please transfer the invoice amount to the bank account of our payment "
 "service provider using the specified reference:"
 msgstr ""
+"Maak het factuurbedrag over naar de bankrekening van onze betalingsaanbieder "
+"met dit kenmerk in de omschrijving van de betaling:"
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Kenmerk"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -190,6 +194,9 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
+"Gebruik alleen het kenmerk dat hier staat. Als u dit niet doet kan uw "
+"betaling niet worden verwerkt en zal het bedrag na een aantal dagen "
+"automatisch worden teruggestort."
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
@@ -294,6 +301,9 @@ msgid ""
 "After completing your purchase, we will ask you to transfer the money to a "
 "bank account, using a personal reference code."
 msgstr ""
+"Na het afronden van de betaling zullen we je vragen om het geld over te "
+"maken naar een bankrekening, met in de omschrijving van je betaling een "
+"persoonlijke code."
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
@@ -349,32 +359,40 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Maak het volledige bedrag over naar de volgende bankrekening:\n"
+"\n"
+"    Kenmerk (plaats in omschrijving): %(code)s\n"
+"    Bedrag: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Maak het volledige bedrag over naar de volgende bankrekening:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Bedrag:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Kenmerk (belangrijk, plaats in omschrijving):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Nadat je de bankoverschrijving hebt verstuurd kan je dit venster sluiten. We "
+"zullen je een email sturen zodra we je betaling hebben ontvangen."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Open bankieren-app"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "Vereist dat de app BezahlCode ondersteunt"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
