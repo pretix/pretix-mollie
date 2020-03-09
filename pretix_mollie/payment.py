@@ -16,7 +16,7 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
-from django.utils.translation import pgettext, ugettext_lazy as _
+from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
