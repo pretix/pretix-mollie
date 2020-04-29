@@ -8,6 +8,7 @@ from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django_scopes import scopes_disabled
 
+from pretix.base.forms import SecretKeySettingsField
 from pretix.base.models import Event_SettingsStore
 from pretix.base.settings import GlobalSettingsObject, settings_hierarkey
 from pretix.base.signals import (
@@ -79,7 +80,7 @@ def register_global_settings(sender, **kwargs):
                 MollieKeyValidator('app_'),
             ),
         )),
-        ('payment_mollie_connect_client_secret', forms.CharField(
+        ('payment_mollie_connect_client_secret', SecretKeySettingsField(
             label=_('Mollie Connect: Client secret'),
             required=False,
         )),
