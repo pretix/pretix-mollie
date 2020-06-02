@@ -12,7 +12,7 @@ class PluginApp(AppConfig):
         description = gettext_lazy('Integration for the Mollie payment provider.')
         category = 'PAYMENT'
         visible = True
-        version = '1.3.1'
+        version = '1.3.2'
 
     def ready(self):
         from . import signals  # NOQA
