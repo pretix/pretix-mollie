@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2018-12-06 09:15+0000\n"
-"Last-Translator: Raphael Michel <michel@rami.io>\n"
-"Language-Team: German <https://translate.pretix.eu/projects/pretix/pretix-"
-"plugin-mollie/de/>\n"
+"PO-Revision-Date: 2020-06-30 01:00+0000\n"
+"Last-Translator: Dennis Lichtenthäler <lichtenthaeler@rami.io>\n"
+"Language-Team: German <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.10.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -156,12 +156,12 @@ msgstr "Banküberweisung über Mollie"
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Kontoinhaber"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
@@ -177,7 +177,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Verwendungszweck"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -344,32 +344,41 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Bitte überweisen Sie den vollen Betrag auf das folgende Bankkonto:\n"
+"\n"
+"    Verwendungszweck: %(code)s\n"
+"    Betrag: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Bitte überweisen Sie den vollen Betrag auf das folgende Bankkonto:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Betrag:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Verwendungszweck (wichtig):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Nachdem Sie die Banküberweisung ausgeführt haben, können Sie dieses Fenster "
+"schließen. Wir schicken Ihnen eine E-Mail, sobald wir Ihre Zahlung erhalten "
+"haben."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Banking-App öffnen"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "Erfordert, dass die App BezahlCode unterstützt"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
@@ -439,6 +448,7 @@ msgid "Your Mollie account has been disconnected."
 msgstr "Ihr Mollie-Konto wurde getrennt."
 
 #: pretix_mollie/views.py:267
+#, fuzzy
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check beck in a couple of minutes."
