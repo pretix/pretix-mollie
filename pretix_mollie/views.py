@@ -265,7 +265,7 @@ class ReturnView(MollieOrderView, View):
                 handle_payment(self.payment, self.payment.info_data.get('id'))
             except LockTimeoutException:
                 messages.error(self.request, _('We received your payment but were unable to mark your ticket as '
-                                               'the server was too busy. Please check beck in a couple of '
+                                               'the server was too busy. Please check back in a couple of '
                                                'minutes.'))
             except Quota.QuotaExceededException:
                 messages.error(self.request, _('We received your payment but were unable to mark your ticket as '
