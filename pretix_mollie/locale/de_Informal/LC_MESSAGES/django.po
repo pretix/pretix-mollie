@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2020-07-17 00:00+0000\n"
+"PO-Revision-Date: 2020-08-25 01:00+0000\n"
 "Last-Translator: Dennis Lichtenthäler <lichtenthaeler@rami.io>\n"
 "Language-Team: German (informal) <https://translate.pretix.eu/projects/"
 "pretix/pretix-plugin-mollie/de_Informal/>\n"
@@ -156,12 +156,12 @@ msgstr "Banküberweisung über Mollie"
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Kontoinhaber"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
@@ -177,7 +177,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Verwendungszweck"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -344,32 +344,41 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Bitte überweise den vollen Betrag auf das folgende Bankkonto:\n"
+"\n"
+"    Verwendungszweck: %(code)s\n"
+"    Betrag: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Bitte überweise den vollen Betrag auf das folgende Bankkonto:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Betrag:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Verwendungszweck (wichtig):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Nachdem du die Banküberweisung ausgeführt hast, kannst du dieses Fenster "
+"schließen. Wir schicken dir eine E-Mail, sobald wir deine Zahlung erhalten "
+"haben."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Banking-App öffnen"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "Erfordert, dass die App BezahlCode unterstützt"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
