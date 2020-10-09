@@ -19,6 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django_scopes import scopes_disabled
 from pretix_mollie.utils import refresh_mollie_token
+from requests import HTTPError
 
 from pretix.base.models import Event, Order, OrderPayment, Quota
 from pretix.base.payment import PaymentException
@@ -27,7 +28,6 @@ from pretix.base.settings import GlobalSettingsObject
 from pretix.control.permissions import event_permission_required
 from pretix.helpers.urls import build_absolute_uri
 from pretix.multidomain.urlreverse import eventreverse
-from requests import HTTPError
 
 logger = logging.getLogger(__name__)
 
@@ -174,21 +174,23 @@ def handle_payment(payment, mollie_id, retry=True):
         payment.info = json.dumps(data)
         payment.save()
 
-        if payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
-            if data.get('status') == 'canceled':
-                payment.state = OrderPayment.PAYMENT_STATE_CANCELED
-                payment.save()
-                payment.order.log_action('pretix_mollie.event.canceled')
-            elif data.get('status') == 'pending' and payment.state == OrderPayment.PAYMENT_STATE_CREATED:
-                payment.state = OrderPayment.PAYMENT_STATE_PENDING
-                payment.save()
-            elif data.get('status') in ('expired', 'failed'):
-                payment.state = OrderPayment.PAYMENT_STATE_CANCELED
-                payment.save()
-                payment.order.log_action('pretix_mollie.event.' + data.get('status'))
-            elif data.get('status') == 'paid':
-                payment.order.log_action('pretix_mollie.event.paid')
-                payment.confirm()
+        if data.get('status') == 'paid' and payment.state in (OrderPayment.PAYMENT_STATE_PENDING,
+                                                              OrderPayment.PAYMENT_STATE_CREATED,
+                                                              OrderPayment.PAYMENT_STATE_CANCELED,
+                                                              OrderPayment.PAYMENT_STATE_FAILED):
+            payment.order.log_action('pretix_mollie.event.paid')
+            payment.confirm()
+        elif data.get('status') == 'canceled' and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
+            payment.state = OrderPayment.PAYMENT_STATE_CANCELED
+            payment.save()
+            payment.order.log_action('pretix_mollie.event.canceled')
+        elif data.get('status') == 'pending' and payment.state == OrderPayment.PAYMENT_STATE_CREATED:
+            payment.state = OrderPayment.PAYMENT_STATE_PENDING
+            payment.save()
+        elif data.get('status') in ('expired', 'failed') and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
+            payment.state = OrderPayment.PAYMENT_STATE_CANCELED
+            payment.save()
+            payment.order.log_action('pretix_mollie.event.' + data.get('status'))
         elif payment.state == OrderPayment.PAYMENT_STATE_CONFIRMED:
             known_refunds = [r.info_data.get('id') for r in payment.refunds.all()]
             for r in refunds:
@@ -203,6 +205,8 @@ def handle_payment(payment, mollie_id, retry=True):
                         amount=Decimal(r['amount']['value']),
                         info=json.dumps(r)
                     )
+        else:
+            payment.order.log_action('pretix_mollie.event.unknown', data)
     except HTTPError:
         if resp.status_code == 401 and retry:
             # Token might be expired, let's retry!
