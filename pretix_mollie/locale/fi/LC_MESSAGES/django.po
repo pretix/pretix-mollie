@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-11-06 00:00+0000\n"
+"Last-Translator: Jaakko Rinta-Filppula <jaakko@r-f.fi>\n"
+"Language-Team: Finnish <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -272,7 +275,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr ""
+msgstr "Maksutapa"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
@@ -286,7 +289,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
