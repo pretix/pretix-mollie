@@ -137,6 +137,7 @@ msgid "Mollie reported an error: {}"
 msgstr ""
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
+#: pretix_mollie/views.py:211
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
@@ -235,37 +236,37 @@ msgstr ""
 msgid "Sofort via Mollie"
 msgstr ""
 
-#: pretix_mollie/signals.py:58
+#: pretix_mollie/signals.py:58 pretix_mollie/signals.py:57
 msgid "Payment canceled."
 msgstr ""
 
-#: pretix_mollie/signals.py:59
+#: pretix_mollie/signals.py:59 pretix_mollie/signals.py:58
 msgid "Payment failed."
 msgstr ""
 
-#: pretix_mollie/signals.py:60
+#: pretix_mollie/signals.py:60 pretix_mollie/signals.py:59
 msgid "Payment succeeded."
 msgstr ""
 
-#: pretix_mollie/signals.py:61
+#: pretix_mollie/signals.py:61 pretix_mollie/signals.py:60
 msgid "Payment expired."
 msgstr ""
 
-#: pretix_mollie/signals.py:62
+#: pretix_mollie/signals.py:62 pretix_mollie/signals.py:61
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
 
-#: pretix_mollie/signals.py:67
+#: pretix_mollie/signals.py:67 pretix_mollie/signals.py:66
 msgid "Mollie reported an event: {}"
 msgstr ""
 
-#: pretix_mollie/signals.py:77
+#: pretix_mollie/signals.py:77 pretix_mollie/signals.py:76
 msgid "Mollie Connect: Client ID"
 msgstr ""
 
-#: pretix_mollie/signals.py:84
+#: pretix_mollie/signals.py:84 pretix_mollie/signals.py:83
 msgid "Mollie Connect: Client secret"
 msgstr ""
 
@@ -428,7 +429,7 @@ msgid ""
 "in detail below."
 msgstr ""
 
-#: pretix_mollie/views.py:229
+#: pretix_mollie/views.py:229 pretix_mollie/views.py:225
 msgid "Your Mollie account has been disconnected."
 msgstr ""
 
@@ -438,15 +439,25 @@ msgid ""
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
 
-#: pretix_mollie/views.py:275
+#: pretix_mollie/views.py:275 pretix_mollie/views.py:271
 msgid ""
 "We received your payment but were unable to mark your ticket as paid as one "
 "of your ordered products is sold out. Please contact the event organizer for "
 "further steps."
 msgstr ""
 
-#: pretix_mollie/views.py:282
+#: pretix_mollie/views.py:282 pretix_mollie/views.py:278
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
+msgstr ""
+
+#: pretix_mollie/__init__.py:12
+msgid "Integration for the Mollie payment provider."
+msgstr ""
+
+#: pretix_mollie/views.py:267
+msgid ""
+"We received your payment but were unable to mark your ticket as the server "
+"was too busy. Please check beck in a couple of minutes."
 msgstr ""
