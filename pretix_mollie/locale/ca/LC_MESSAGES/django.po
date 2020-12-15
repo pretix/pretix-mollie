@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2020-12-15 06:00+0000\n"
+"PO-Revision-Date: 2020-12-15 22:00+0000\n"
 "Last-Translator: albert <albert.serra.monner@gmail.com>\n"
 "Language-Team: Catalan <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/ca/>\n"
@@ -159,13 +159,13 @@ msgstr "Titular del compte"
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 #: pretix_mollie/templates/pretix_mollie/pending.html:19
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/payment.py:559
 msgid ""
@@ -175,7 +175,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Referència"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -357,7 +357,7 @@ msgstr "Import:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Codi de refèrencia (important):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
@@ -383,11 +383,11 @@ msgstr ""
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
-msgstr ""
+msgstr "La transacció de pagament no s'ha pogut fer per la raó següent:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "Motiu desconegut"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
