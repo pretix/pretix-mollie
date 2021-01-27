@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2020-07-17 00:00+0000\n"
-"Last-Translator: Dennis Lichtenthäler <lichtenthaeler@rami.io>\n"
+"PO-Revision-Date: 2021-01-28 02:00+0000\n"
+"Last-Translator: Raphael Michel <michel@rami.io>\n"
 "Language-Team: German <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/de/>\n"
 "Language: de\n"
@@ -456,7 +456,6 @@ msgid "Your Mollie account has been disconnected."
 msgstr "Ihr Mollie-Konto wurde getrennt."
 
 #: pretix_mollie/views.py:267
-#, fuzzy
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check beck in a couple of minutes."
