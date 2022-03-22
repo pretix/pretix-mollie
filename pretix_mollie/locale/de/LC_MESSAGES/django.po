@@ -2,25 +2,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 12:10+0100\n"
-"PO-Revision-Date: 2021-01-28 02:00+0000\n"
+"POT-Creation-Date: 2022-03-22 22:27+0100\n"
+"PO-Revision-Date: 2022-03-22 22:28+0100\n"
 "Last-Translator: Raphael Michel <michel@rami.io>\n"
-"Language-Team: German <https://translate.pretix.eu/projects/pretix/"
-"pretix-plugin-mollie/de/>\n"
+"Language-Team: German <https://translate.pretix.eu/projects/pretix/pretix-"
+"plugin-mollie/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
 msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
-msgid "Integration for the Mollie payment provider."
-msgstr "Integration von Mollie als Zahlungsmethode."
+msgid ""
+"Accept payments through Mollie, a European payment provider supporting "
+"credit cards as well as many local payment methods such as giropay, direct "
+"debit, iDEAL, wire transfers, and many more."
+msgstr ""
+"Akzeptieren Sie Zahlungen mit Mollie, einem europäischen "
+"Zahlungsdienstleister, der Kreditkarten sowie viele lokale Zahlungsarten wie "
+"z.B. giropay, Lastschrift, iDEAL, Banküberweisung und weitere unterstützt."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -135,7 +141,7 @@ msgstr "Sofortüberweisung"
 msgid "Mollie reported an error: {}"
 msgstr "Mollie hat einen Fehler zurückgegeben: {}"
 
-#: pretix_mollie/payment.py:442 pretix_mollie/views.py:211
+#: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
@@ -240,23 +246,23 @@ msgstr "paysafecard über Mollie"
 msgid "Sofort via Mollie"
 msgstr "Sofort über Mollie"
 
-#: pretix_mollie/signals.py:57
+#: pretix_mollie/signals.py:58
 msgid "Payment canceled."
 msgstr "Zahlung abgebrochen."
 
-#: pretix_mollie/signals.py:58
+#: pretix_mollie/signals.py:59
 msgid "Payment failed."
 msgstr "Zahlung fehlgeschlagen."
 
-#: pretix_mollie/signals.py:59
+#: pretix_mollie/signals.py:60
 msgid "Payment succeeded."
 msgstr "Zahlung erfolgreich."
 
-#: pretix_mollie/signals.py:60
+#: pretix_mollie/signals.py:61
 msgid "Payment expired."
 msgstr "Zahlung abgelaufen."
 
-#: pretix_mollie/signals.py:61
+#: pretix_mollie/signals.py:62
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
@@ -264,15 +270,15 @@ msgstr ""
 "Zahlungsmethode deaktiviert, da wir keinen neuen Access-Token erhalten "
 "haben. Bitte wenden Sie sich an den Support."
 
-#: pretix_mollie/signals.py:66
+#: pretix_mollie/signals.py:67
 msgid "Mollie reported an event: {}"
 msgstr "Mollie hat ein Ereignis gemeldet: {}"
 
-#: pretix_mollie/signals.py:76
+#: pretix_mollie/signals.py:77
 msgid "Mollie Connect: Client ID"
 msgstr "Mollie Connect: Client-ID"
 
-#: pretix_mollie/signals.py:83
+#: pretix_mollie/signals.py:84
 msgid "Mollie Connect: Client secret"
 msgstr "Mollie Connect: Client-Secret"
 
@@ -451,20 +457,24 @@ msgstr ""
 "Ihr Mollie-Konto ist nun mit pretix verbunden. Weiter unten können Sie die "
 "Einstellungen im Detail bearbeiten."
 
-#: pretix_mollie/views.py:225
+#: pretix_mollie/views.py:229
 msgid "Your Mollie account has been disconnected."
 msgstr "Ihr Mollie-Konto wurde getrennt."
 
-#: pretix_mollie/views.py:267
+#: pretix_mollie/views.py:271
+#, fuzzy
+#| msgid ""
+#| "We received your payment but were unable to mark your ticket as the "
+#| "server was too busy. Please check beck in a couple of minutes."
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
-"was too busy. Please check beck in a couple of minutes."
+"was too busy. Please check back in a couple of minutes."
 msgstr ""
 "Wir haben die Zahlung erhalten, konnten die Bestellung aber nicht als "
 "bezahlt markieren, da der Server zu beschäftigt war. Wir versuchen es in ein "
-"paar Minuten erneut!"
+"paar Minuten erneut."
 
-#: pretix_mollie/views.py:271
+#: pretix_mollie/views.py:275
 msgid ""
 "We received your payment but were unable to mark your ticket as paid as one "
 "of your ordered products is sold out. Please contact the event organizer for "
@@ -474,7 +484,7 @@ msgstr ""
 "bezahlt markieren, da eines der Produkte ausverkauft ist. Kontaktieren Sie "
 "bitte den Veranstalter für weitere Schritte."
 
-#: pretix_mollie/views.py:278
+#: pretix_mollie/views.py:282
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
@@ -482,6 +492,9 @@ msgstr ""
 "Entschuldigen Sie bitte, es gab einen Fehler im Bezahlvorgang. Bitte klicken "
 "Sie auf den Link in der E-Mail, die wir Ihnen geschickt haben, um "
 "fortzufahren."
+
+#~ msgid "Integration for the Mollie payment provider."
+#~ msgstr "Integration von Mollie als Zahlungsmethode."
 
 #~ msgid "Mollie payment integration for pretix"
 #~ msgstr "Mollie-Zahlungsintegration für pretix"

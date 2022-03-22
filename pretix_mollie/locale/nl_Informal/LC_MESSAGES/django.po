@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 12:10+0100\n"
+"POT-Creation-Date: 2022-03-22 22:27+0100\n"
 "PO-Revision-Date: 2020-12-22 05:00+0000\n"
 "Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
 "Language-Team: Dutch (informal) <https://translate.pretix.eu/projects/pretix/"
@@ -24,8 +24,11 @@ msgid "Mollie"
 msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
-msgid "Integration for the Mollie payment provider."
-msgstr "Integratie voor de betalingsprovider Mollie."
+msgid ""
+"Accept payments through Mollie, a European payment provider supporting "
+"credit cards as well as many local payment methods such as giropay, direct "
+"debit, iDEAL, wire transfers, and many more."
+msgstr ""
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -140,7 +143,7 @@ msgstr "Sofort-betaling"
 msgid "Mollie reported an error: {}"
 msgstr "Mollie meldde een fout: {}"
 
-#: pretix_mollie/payment.py:442 pretix_mollie/views.py:211
+#: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
@@ -246,23 +249,23 @@ msgstr "paysafecard via Mollie"
 msgid "Sofort via Mollie"
 msgstr "SOFORT via Mollie"
 
-#: pretix_mollie/signals.py:57
+#: pretix_mollie/signals.py:58
 msgid "Payment canceled."
 msgstr "Betaling geannuleerd."
 
-#: pretix_mollie/signals.py:58
+#: pretix_mollie/signals.py:59
 msgid "Payment failed."
 msgstr "Betaling mislukt."
 
-#: pretix_mollie/signals.py:59
+#: pretix_mollie/signals.py:60
 msgid "Payment succeeded."
 msgstr "Betaling geslaagd."
 
-#: pretix_mollie/signals.py:60
+#: pretix_mollie/signals.py:61
 msgid "Payment expired."
 msgstr "Betaling verlopen."
 
-#: pretix_mollie/signals.py:61
+#: pretix_mollie/signals.py:62
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
@@ -270,15 +273,15 @@ msgstr ""
 "Betalingsmethode uitgeschakeld, omdat we het access token niet konden "
 "vernieuwen. Neem contact op met ondersteuning."
 
-#: pretix_mollie/signals.py:66
+#: pretix_mollie/signals.py:67
 msgid "Mollie reported an event: {}"
 msgstr "Mollie meldde een gebeurtenis: {}"
 
-#: pretix_mollie/signals.py:76
+#: pretix_mollie/signals.py:77
 msgid "Mollie Connect: Client ID"
 msgstr "Mollie Connect: Client ID"
 
-#: pretix_mollie/signals.py:83
+#: pretix_mollie/signals.py:84
 msgid "Mollie Connect: Client secret"
 msgstr "Mollie Connect: Clientgeheim"
 
@@ -454,20 +457,24 @@ msgstr ""
 "Je Mollie-account is nu verbonden met pretix. Je kan hieronder de "
 "instellingen in detail aanpassen."
 
-#: pretix_mollie/views.py:225
+#: pretix_mollie/views.py:229
 msgid "Your Mollie account has been disconnected."
 msgstr "De verbinding met je Mollie-account is verbroken."
 
-#: pretix_mollie/views.py:267
+#: pretix_mollie/views.py:271
+#, fuzzy
+#| msgid ""
+#| "We received your payment but were unable to mark your ticket as the "
+#| "server was too busy. Please check beck in a couple of minutes."
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
-"was too busy. Please check beck in a couple of minutes."
+"was too busy. Please check back in a couple of minutes."
 msgstr ""
 "We hebben je betaling ontvangen, maar konden je kaartje niet als betaald "
 "markeren, omdat de server overbelast was. Kijk alsjeblieft over een paar "
 "minuten opnieuw op deze pagina."
 
-#: pretix_mollie/views.py:271
+#: pretix_mollie/views.py:275
 msgid ""
 "We received your payment but were unable to mark your ticket as paid as one "
 "of your ordered products is sold out. Please contact the event organizer for "
@@ -477,13 +484,16 @@ msgstr ""
 "markeren, omdat een van de producten die je bestelde is uitverkocht. Neem "
 "contact op met de organisator voor verdere instructies."
 
-#: pretix_mollie/views.py:278
+#: pretix_mollie/views.py:282
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
 "Sorry, er is iets misgegaan in het betalingsproces. Klik op de link in je "
 "email om door te gaan."
+
+#~ msgid "Integration for the Mollie payment provider."
+#~ msgstr "Integratie voor de betalingsprovider Mollie."
 
 #~ msgid "Mollie payment integration for pretix"
 #~ msgstr "Mollie-betalingsintegratie voor pretix"
