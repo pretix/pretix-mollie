@@ -29,7 +29,7 @@ def register_payment_provider(sender, **kwargs):
         MollieSettingsHolder, MollieCC, MollieBancontact, MollieBelfius,
         MollieBanktransfer, MollieBitcoin, MollieEPS,
         MollieGiropay, MollieIdeal, MollieINGHomePay, MollieKBC,
-        MolliePaysafecard, MollieSofort
+        MolliePaysafecard, MollieSofort, MollieSEPADirectDebit
     )
 
     return [
@@ -45,7 +45,8 @@ def register_payment_provider(sender, **kwargs):
         MollieINGHomePay,
         MollieKBC,
         MolliePaysafecard,
-        MollieSofort
+        MollieSofort,
+        MollieSEPADirectDebit,
     ]
 
 

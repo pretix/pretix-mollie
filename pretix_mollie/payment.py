@@ -209,6 +209,11 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('Sofort'),
                      required=False,
                  )),
+                ('method_directdebit',
+                 forms.BooleanField(
+                     label=_('SEPA Direct Debit'),
+                     required=False,
+                 )),
             ] + list(super().settings_form_fields.items())
         )
         d.move_to_end('_enabled', last=False)
@@ -630,3 +635,9 @@ class MollieSofort(MollieMethod):
     method = 'sofort'
     verbose_name = _('Sofort via Mollie')
     public_name = _('Sofort')
+
+
+class MollieSEPADirectDebit(MollieMethod):
+    method = 'directdebit'
+    verbose_name = _('SEPA Direct Debit via Mollie')
+    public_name = _('SEPA Direct Debit')
