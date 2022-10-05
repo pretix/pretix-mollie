@@ -209,6 +209,11 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('Sofort'),
                      required=False,
                  )),
+                ('method_paypal',
+                 forms.BooleanField(
+                     label=_('PayPal'),
+                     required=False,
+                 )),
             ] + list(super().settings_form_fields.items())
         )
         d.move_to_end('_enabled', last=False)
@@ -630,3 +635,9 @@ class MollieSofort(MollieMethod):
     method = 'sofort'
     verbose_name = _('Sofort via Mollie')
     public_name = _('Sofort')
+
+
+class MolliePayPal(MollieMethod):
+    method = 'paypal'
+    verbose_name = _('PayPal via Mollie')
+    public_name = _('PayPal')
