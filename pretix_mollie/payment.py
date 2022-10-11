@@ -459,10 +459,14 @@ class MollieMethod(BasePaymentProvider):
 
     def redirect(self, request, url):
         if request.session.get('iframe_session', False):
-            signer = signing.Signer(salt='safe-redirect')
             return (
-                    build_absolute_uri(request.event, 'plugins:pretix_mollie:redirect') + '?url=' +
-                    urllib.parse.quote(signer.sign(url))
+                build_absolute_uri(request.event, 'plugins:pretix_mollie:redirect') +
+                '?data=' + signing.dumps({
+                    'url': url,
+                    'session': {
+                        'payment_mollie_order_secret': request.session['payment_mollie_order_secret'],
+                    },
+                }, salt='safe-redirect')
             )
         else:
             return str(url)

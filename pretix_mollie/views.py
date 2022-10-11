@@ -2,6 +2,7 @@ import hashlib
 import json
 import logging
 import time
+import urllib.parse
 from decimal import Decimal
 
 import requests
@@ -26,25 +27,33 @@ from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
 from pretix.control.permissions import event_permission_required
-from pretix.helpers.urls import build_absolute_uri
-from pretix.multidomain.urlreverse import eventreverse
+from pretix.multidomain.urlreverse import eventreverse, build_absolute_uri
 
 logger = logging.getLogger(__name__)
 
 
 @xframe_options_exempt
 def redirect_view(request, *args, **kwargs):
-    signer = signing.Signer(salt='safe-redirect')
     try:
-        url = signer.unsign(request.GET.get('url', ''))
+        data = signing.loads(request.GET.get('data', ''), salt='safe-redirect')
     except signing.BadSignature:
         return HttpResponseBadRequest('Invalid parameter')
 
-    r = render(request, 'pretix_mollie/redirect.html', {
-        'url': url,
-    })
-    r._csp_ignore = True
-    return r
+    if 'go' in request.GET:
+        if 'session' in data:
+            for k, v in data['session'].items():
+                request.session[k] = v
+        if 'payment_mollie_order_secret' in request.GET:
+            request.session['payment_mollie_order_secret'] = request.GET['payment_mollie_order_secret']
+        return redirect(data['url'])
+    else:
+        params = request.GET.copy()
+        params['go'] = '1'
+        r = render(request, 'pretix_mollie/redirect.html', {
+            'url': build_absolute_uri(request.event, 'plugins:pretix_mollie:redirect') + '?' + urllib.parse.urlencode(params),
+        })
+        r._csp_ignore = True
+        return r
 
 
 @scopes_disabled()
