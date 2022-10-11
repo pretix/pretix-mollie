@@ -43,8 +43,6 @@ def redirect_view(request, *args, **kwargs):
         if 'session' in data:
             for k, v in data['session'].items():
                 request.session[k] = v
-        if 'payment_mollie_order_secret' in request.GET:
-            request.session['payment_mollie_order_secret'] = request.GET['payment_mollie_order_secret']
         return redirect(data['url'])
     else:
         params = request.GET.copy()
