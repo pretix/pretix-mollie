@@ -1,11 +1,10 @@
 import hashlib
 import json
 import logging
+import requests
 import time
 import urllib.parse
 from decimal import Decimal
-
-import requests
 from django.contrib import messages
 from django.core import signing
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
@@ -19,15 +18,16 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django_scopes import scopes_disabled
-from pretix_mollie.utils import refresh_mollie_token
-from requests import HTTPError
-
 from pretix.base.models import Event, Order, OrderPayment, Quota
 from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
 from pretix.control.permissions import event_permission_required
-from pretix.multidomain.urlreverse import eventreverse, build_absolute_uri
+from pretix.helpers.urls import build_absolute_uri as build_global_uri
+from pretix.multidomain.urlreverse import build_absolute_uri, eventreverse
+from requests import HTTPError
+
+from pretix_mollie.utils import refresh_mollie_token
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ def oauth_return(request, *args, **kwargs):
         ), data={
             'grant_type': 'authorization_code',
             'code': request.GET.get('code'),
-            'redirect_uri': build_absolute_uri('plugins:pretix_mollie:oauth.return'),
+            'redirect_uri': build_global_uri('plugins:pretix_mollie:oauth.return'),
         })
         resp.raise_for_status()
         data = resp.json()
