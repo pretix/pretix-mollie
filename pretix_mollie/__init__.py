@@ -15,7 +15,7 @@ class PluginApp(AppConfig):
         picture = "pretix_mollie/logo.svg"
         category = 'PAYMENT'
         visible = True
-        version = '1.3.2'
+        version = '1.4.0'
 
     def ready(self):
         from . import signals  # NOQA

@@ -25,7 +25,7 @@ cmdclass = {
 
 setup(
     name='pretix-mollie',
-    version='1.3.2',
+    version='1.4.0',
     description='Integration for the Mollie payment provider.',
     long_description=long_description,
     url='https://github.com/pretix/pretix-mollie',
