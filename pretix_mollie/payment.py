@@ -6,6 +6,7 @@ import urllib.parse
 from collections import OrderedDict
 from datetime import timedelta
 
+import pytz
 import requests
 from django import forms
 from django.core import signing
@@ -16,12 +17,15 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.http import urlquote
+from django.utils.timezone import now
 from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
+
+from pretix.base.reldate import RelativeDateField, RelativeDateWrapper
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
 
-from pretix.base.models import Event, OrderPayment, OrderRefund, Order
+from pretix.base.models import Event, OrderPayment, OrderRefund, Order, CartPosition
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
@@ -159,11 +163,6 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('Bancontact'),
                      required=False,
                  )),
-                ('method_banktransfer',
-                 forms.BooleanField(
-                     label=_('Bank transfer'),
-                     required=False,
-                 )),
                 ('method_belfius',
                  forms.BooleanField(
                      label=_('Belfius Pay Button'),
@@ -214,8 +213,20 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('PayPal'),
                      required=False,
                  )),
+                ('method_banktransfer',
+                 forms.BooleanField(
+                     label=_('Bank transfer'),
+                     required=False,
+                 )),
+                ('method_banktransfer_availability_date',
+                 RelativeDateField(
+                     label=_('Bank transfer available until'),
+                     help_text=_('Users will not be able to choose this payment provider after the given date.'),
+                     required=False,
+                 )),
             ] + list(super().settings_form_fields.items())
         )
+        d['_availability_date'].label = _('All payment methods available until')
         d.move_to_end('_enabled', last=False)
         return d
 
@@ -234,6 +245,44 @@ class MollieMethod(BasePaymentProvider):
     def __init__(self, event: Event):
         super().__init__(event)
         self.settings = SettingsSandbox('payment', 'mollie', event)
+
+    def _is_still_available(self, now_dt=None, cart_id=None, order=None):
+        now_dt = now_dt or now()
+        tz = pytz.timezone(self.event.settings.timezone)
+
+        if not super()._is_still_available(now_dt, cart_id, order):
+            return False
+
+        availability_date = self.settings.get(f'method_{self.method}_availability_date', as_type=RelativeDateWrapper)
+        if availability_date:
+            if self.event.has_subevents and cart_id:
+                dates = [
+                    availability_date.datetime(se).date()
+                    for se in self.event.subevents.filter(
+                        id__in=CartPosition.objects.filter(
+                            cart_id=cart_id, event=self.event
+                        ).values_list('subevent', flat=True)
+                    )
+                ]
+                availability_date = min(dates) if dates else None
+            elif self.event.has_subevents and order:
+                dates = [
+                    availability_date.datetime(se).date()
+                    for se in self.event.subevents.filter(
+                        id__in=order.positions.values_list('subevent', flat=True)
+                    )
+                ]
+                availability_date = min(dates) if dates else None
+            elif self.event.has_subevents:
+                logger.error('Payment provider is not subevent-ready.')
+                return False
+            else:
+                availability_date = availability_date.datetime(self.event).date()
+
+            if availability_date:
+                return availability_date >= now_dt.astimezone(tz).date()
+
+        return True
 
     @property
     def settings_form_fields(self):
