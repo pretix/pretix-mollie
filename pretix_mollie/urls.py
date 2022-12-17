@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 from pretix.multidomain import event_url
 
 from .views import (
@@ -6,15 +6,15 @@ from .views import (
 )
 
 event_patterns = [
-    url(r'^mollie/', include([
+    path('mollie/', include([
         event_url(r'^webhook/(?P<payment>[0-9]+)/$', WebhookView.as_view(), name='webhook', require_live=False),
-        url(r'^redirect/$', redirect_view, name='redirect'),
-        url(r'^return/(?P<order>[^/]+)/(?P<hash>[^/]+)/(?P<payment>[0-9]+)/$', ReturnView.as_view(), name='return'),
+        path('redirect/', redirect_view, name='redirect'),
+        path('return/<str:order>/<str:hash>/<int:payment>/', ReturnView.as_view(), name='return'),
     ])),
 ]
 
 urlpatterns = [
-    url(r'^control/event/(?P<organizer>[^/]+)/(?P<event>[^/]+)/mollie/disconnect/',
+    re_path(r'^control/event/(?P<organizer>[^/]+)/(?P<event>[^/]+)/mollie/disconnect/',
         oauth_disconnect, name='oauth.disconnect'),
-    url(r'^_mollie/oauth_return/$', oauth_return, name='oauth.return'),
+    path('_mollie/oauth_return/', oauth_return, name='oauth.return'),
 ]
