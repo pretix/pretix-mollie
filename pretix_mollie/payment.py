@@ -16,7 +16,7 @@ from django.http import HttpRequest
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
-from django.utils.http import urlquote
+from urllib.parse import quote
 from django.utils.timezone import now
 from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
@@ -72,7 +72,7 @@ class MollieSettingsHolder(BasePaymentProvider):
             "&response_type=code&approval_prompt=auto"
         ).format(
             self.settings.connect_client_id,
-            urlquote(build_global_uri('plugins:pretix_mollie:oauth.return')),
+            quote(build_global_uri('plugins:pretix_mollie:oauth.return')),
             request.session['payment_mollie_oauth_token'],
         )
 
