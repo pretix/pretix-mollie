@@ -3,6 +3,7 @@ from distutils.command.build import build
 
 from django.core import management
 from setuptools import setup, find_packages
+from pretix_mollie import __version__
 
 
 try:
@@ -25,7 +26,7 @@ cmdclass = {
 
 setup(
     name='pretix-mollie',
-    version='1.4.0',
+    version=__version__,
     description='Integration for the Mollie payment provider.',
     long_description=long_description,
     url='https://github.com/pretix/pretix-mollie',
