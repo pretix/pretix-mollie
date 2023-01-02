@@ -285,7 +285,9 @@ class ReturnView(MollieOrderView, View):
         return self._redirect_to_order()
 
     def _redirect_to_order(self):
-        if self.request.session.get('payment_mollie_order_secret') != self.order.secret:
+        if self.request.session.get('payment_mollie_order_secret') != self.order.secret and self.payment.provider not in ('mollie_ideal', 'mollie_eps', 'mollie_giropay'):
+            # We need to lift this requirement for payment methods that are known to open the redirect url in a browser
+            # context of the banking app where our session does not exist. :(
             messages.error(self.request, _('Sorry, there was an error in the payment process. Please check the link '
                                            'in your emails to continue.'))
             return redirect(eventreverse(self.request.event, 'presale:event.index'))
