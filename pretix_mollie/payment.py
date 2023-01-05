@@ -158,6 +158,11 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('Credit card'),
                      required=False,
                  )),
+                ('method_applepay',
+                 forms.BooleanField(
+                     label=_('Apple Pay'),
+                     required=False,
+                 )),
                 ('method_bancontact',
                  forms.BooleanField(
                      label=_('Bancontact'),
@@ -205,12 +210,17 @@ class MollieSettingsHolder(BasePaymentProvider):
                  )),
                 ('method_sofort',
                  forms.BooleanField(
-                     label=_('Sofort'),
+                     label=_('SOFORT (instant bank transfer)'),
                      required=False,
                  )),
                 ('method_paypal',
                  forms.BooleanField(
                      label=_('PayPal'),
+                     required=False,
+                 )),
+                ('method_przelewy24',
+                 forms.BooleanField(
+                     label=_('Przelewy24'),
                      required=False,
                  )),
                 ('method_banktransfer',
@@ -686,11 +696,23 @@ class MolliePaysafecard(MollieMethod):
 
 class MollieSofort(MollieMethod):
     method = 'sofort'
-    verbose_name = _('Sofort via Mollie')
-    public_name = _('Sofort')
+    verbose_name = _('SOFORT via Mollie')
+    public_name = _('SOFORT (instant bank transfer)')
 
 
 class MolliePayPal(MollieMethod):
     method = 'paypal'
     verbose_name = _('PayPal via Mollie')
     public_name = _('PayPal')
+
+
+class MolliePrzelewy24(MollieMethod):
+    method = 'przelewy24'
+    verbose_name = _('Przelewy24 via Mollie')
+    public_name = _('Przelewy24')
+
+
+class MollieApplePay(MollieMethod):
+    method = 'applepay'
+    verbose_name = _('Apple Pay via Mollie')
+    public_name = _('Apple Pay')
