@@ -1,7 +1,6 @@
 from django.apps import AppConfig
 from django.utils.translation import gettext_lazy
 from . import __version__
-        compatibility = "pretix>=4.16.0"
 
 
 class PluginApp(AppConfig):
