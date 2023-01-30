@@ -22,6 +22,7 @@ from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
 
 from pretix.base.reldate import RelativeDateField, RelativeDateWrapper
+from pretix.helpers import OF_SELF
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
 
@@ -566,7 +567,7 @@ class MollieBanktransfer(MollieMethod):
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         p_orig = payment
         if retry:
-            payment = OrderPayment.objects.select_for_update().get(pk=payment.pk)
+            payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
         super().execute_payment(request, payment, retry)
         p_orig.refresh_from_db()
         return  # no redirect necessary for this method
