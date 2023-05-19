@@ -1,0 +1,43 @@
+[project]
+name = "pretix-mollie"
+dynamic = ["version"]
+description = "Integration for the Mollie payment provider."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+keywords = ["pretix"]
+authors = [
+    {name = "pretix team", email = "support@pretix.eu"},
+]
+maintainers = [
+    {name = "pretix team", email = "support@pretix.eu"},
+]
+
+dependencies = [
+
+]
+
+[project.entry-points."pretix.plugin"]
+pretix_mollie = "pretix_mollie:PretixPluginMeta"
+
+[project.entry-points."distutils.commands"]
+build = "pretix_plugin_build.build:CustomBuild"
+
+[build-system]
+requires = [
+    "setuptools",
+    "pretix-plugin-build",
+]
+
+[project.urls]
+homepage = "https://github.com/pretix/pretix-mollie"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pretix_mollie.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["pretix*"]
+namespaces = false
