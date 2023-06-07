@@ -21,7 +21,7 @@ from django.utils.timezone import now
 from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
 
-from pretix.base.reldate import RelativeDateField, RelativeDateWrapper
+from pretix.base.reldate import RelativeDateField, RelativeDateWrapper, RelativeDateWidget, BASE_CHOICES
 from pretix.helpers import OF_SELF
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
@@ -234,6 +234,28 @@ class MollieSettingsHolder(BasePaymentProvider):
                      label=_('Bank transfer available until'),
                      help_text=_('Users will not be able to choose this payment provider after the given date.'),
                      required=False,
+                     widget=RelativeDateWidget(
+                         status_choices=[
+                             ('unset', _('Not set')),
+                             ('absolute', _('Fixed date:')),
+                             ('relative', _('Relative date:')),
+                         ],
+                         base_choices=BASE_CHOICES,
+                         attrs={
+                             "data-display-dependency": "#id_payment_mollie_method_banktransfer",
+                         }
+                     )
+                 )),
+                ('method_banktransfer_invoice_immediately',
+                 forms.BooleanField(
+                     label=_('Create an invoice for orders using bank transfer immediately if the event is otherwise '
+                             'configured to create invoices after payment is completed.'),
+                     required=False,
+                     widget=forms.CheckboxInput(
+                         attrs={
+                             "data-display-dependency": "#id_payment_mollie_method_banktransfer",
+                         }
+                     ),
                  )),
             ] + list(super().settings_form_fields.items())
         )
@@ -562,6 +584,10 @@ class MollieBanktransfer(MollieMethod):
     method = 'banktransfer'
     verbose_name = _('Bank transfer via Mollie')
     public_name = _('Bank transfer')
+
+    @property
+    def requires_invoice_immediately(self):
+        return self.settings.get('method_banktransfer_invoice_immediately', False, as_type=bool)
 
     @transaction.atomic()
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
