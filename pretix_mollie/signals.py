@@ -2,23 +2,22 @@ import logging
 import time
 from collections import OrderedDict
 
-import requests
 from django import forms
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django_scopes import scopes_disabled
 
 from pretix.base.forms import SecretKeySettingsField
-from pretix.base.models import Event_SettingsStore
-from pretix.base.settings import GlobalSettingsObject, settings_hierarkey
+from pretix.base.models import Event_SettingsStore, Order, OrderPayment
+from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
     logentry_display, periodic_task, register_global_settings,
-    register_payment_providers,
+    register_payment_providers, order_modified,
 )
-from pretix.helpers.urls import build_absolute_uri
 
 from .forms import MollieKeyValidator
 from .utils import refresh_mollie_token
+from .tasks import extend_payment_deadline
 
 logger = logging.getLogger(__name__)
 
@@ -101,3 +100,14 @@ def refresh_mollie_tokens(sender, **kwargs):
             if rt not in seen:
                 refresh_mollie_token(es.object, True)
                 seen.add(rt)
+
+
+@receiver(order_modified, dispatch_uid='mollie_order_modified')
+def order_placed(order, **kwargs):
+    payment = order.payments.last()
+    if (
+        order.status == Order.STATUS_PENDING
+        and payment.provider == 'mollie_banktransfer'
+        and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING)
+    ):
+        extend_payment_deadline.apply_async(args=(payment.pk,))

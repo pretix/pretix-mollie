@@ -2,7 +2,6 @@ import hashlib
 import json
 import logging
 import textwrap
-import urllib.parse
 from collections import OrderedDict
 from datetime import timedelta
 
@@ -600,7 +599,7 @@ class MollieBanktransfer(MollieMethod):
 
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
-        body['dueDate'] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
+        body['dueDate'] = self.get_due_date(payment)
         return body
 
     def order_pending_mail_render(self, order, payment) -> str:
@@ -669,6 +668,44 @@ class MollieBanktransfer(MollieMethod):
         template = get_template('pretix_mollie/checkout_payment_form_banktransfer.html')
         ctx = {'request': request, 'event': self.event, 'settings': self.settings}
         return template.render(ctx)
+
+    def get_due_date(self, payment):
+        # The due date is a little bit fuzzy, since we can (according to the Mollie API) only transmit YYYY-MM-DD,
+        # but internally they will convert it to UTC.
+        # An order.expiry of 05.07.2023 23:59 (GMT+02) would normally be communicated to Mollie as 2023-07-06. Upon
+        # an API-request, Mollie would however return "expiresAt": "2023-07-08T04:00:00+00:00"
+        # Takin into consideration GMT+2/UTC, this still gives an extra 2 hours - but we can't do anything about it.
+        return (payment.order.expires.date() + timedelta(days=1)).isoformat()
+
+    def update_payment_due(self, payment, retry=True):
+        payment_id = payment.info_data.get('id')
+        body = {
+            'dueDate': self.get_due_date(payment),
+        }
+
+        try:
+            req = requests.patch(
+                'https://api.mollie.com/v2/payments/{}'.format(payment_id),
+                json=body,
+                headers=self.request_headers
+            )
+            req.raise_for_status()
+            payment.info_data = req.json()
+        except HTTPError:
+            logger.exception('Mollie error: %s' % req.text)
+            try:
+                payment.info_data = req.json()
+
+                if payment.info_data.get('status') == 401 and retry:
+                    # Token might be expired, let's retry!
+                    if refresh_mollie_token(self.event, False):
+                        return self.update_payment_due(payment, retry=False)
+            except:
+                payment.info_data = {
+                    'error': True,
+                    'detail': req.text
+                }
+            raise PaymentException(_('Mollie reported an error: {}').format(payment.info_data.get('detail')))
 
 
 class MollieBelfius(MollieMethod):
