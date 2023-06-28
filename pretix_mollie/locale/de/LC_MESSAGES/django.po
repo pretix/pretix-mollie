@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2023-05-16 20:00+0000\n"
+"PO-Revision-Date: 2023-06-29 05:00+0000\n"
 "Last-Translator: Moritz Lerch <dev@moritz-lerch.de>\n"
 "Language-Team: German <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/de/>\n"
@@ -327,7 +327,7 @@ msgstr "Abrechnungsbetrag"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
-msgstr "Karteninhaber"
+msgstr "Karteninhaber*in"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
