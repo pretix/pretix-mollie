@@ -1,0 +1,10 @@
+{% load i18n %}{% blocktrans with event=event %}Hello,
+
+pretix was unable to automatically refresh your mollie token for {{ event }}.
+Mollie has been disabled for this event. To continue to use mollie for your event,
+please check your settings in both mollie and pretix.
+
+Best regards,
+
+Your pretix team
+{% endblocktrans %}

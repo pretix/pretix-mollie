@@ -6,6 +6,7 @@ import requests
 from django.core.cache import cache
 
 from pretix.base.models import Event_SettingsStore
+from pretix.base.services.mail import mail, SendMailException
 from pretix.base.settings import GlobalSettingsObject
 from pretix.helpers.urls import build_absolute_uri
 
@@ -40,6 +41,19 @@ def refresh_mollie_token(event, disable=True):
             event.log_action('pretix_mollie.event.disabled', {
                 'reason': str(e)
             })
+            if event.settings.contact_mail:
+                try:
+                    mail(
+                        email=event.settings.contact_mail,
+                        subject='pretix mollie disabled',
+                        template='templates/pretix_mollie/mail_info_disabled.txt',
+                        context={
+                            event: event,
+                        },
+                        event=event,
+                    )
+                except SendMailException:
+                    pass  # Already logged
         return False
     else:
         if resp.status_code == 200:
