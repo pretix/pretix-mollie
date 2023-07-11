@@ -1,24 +1,17 @@
 import logging
-import time
 from collections import OrderedDict
 
-import requests
 from django import forms
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
-from django_scopes import scopes_disabled
 
 from pretix.base.forms import SecretKeySettingsField
-from pretix.base.models import Event_SettingsStore
-from pretix.base.settings import GlobalSettingsObject, settings_hierarkey
+from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
-    logentry_display, periodic_task, register_global_settings,
-    register_payment_providers,
+    logentry_display, register_global_settings, register_payment_providers,
 )
-from pretix.helpers.urls import build_absolute_uri
 
 from .forms import MollieKeyValidator
-from .utils import refresh_mollie_token
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +57,7 @@ def pretixcontrol_logentry_display(sender, logentry, **kwargs):
         'paid': _('Payment succeeded.'),
         'expired': _('Payment expired.'),
         'disabled': _('Payment method disabled since we were unable to refresh the access token. Please '
-                      'contact support.'),
+                      'contact support.'),  # for historical reasons, no longer occurs
     }
     text = plains.get(logentry.action_type[20:], None)
     if text:
@@ -89,15 +82,3 @@ def register_global_settings(sender, **kwargs):
             required=False,
         )),
     ])
-
-
-@receiver(periodic_task, dispatch_uid='mollie_refresh_tokens')
-@scopes_disabled()
-def refresh_mollie_tokens(sender, **kwargs):
-    seen = set()
-    for es in Event_SettingsStore.objects.filter(key='payment_mollie_expires'):
-        if float(es.object.settings.payment_mollie_expires) - time.time() < 600:
-            rt = es.object.settings.payment_mollie_refresh_token
-            if rt not in seen:
-                refresh_mollie_token(es.object, True)
-                seen.add(rt)

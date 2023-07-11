@@ -409,6 +409,7 @@ class MollieMethod(BasePaymentProvider):
         if self.settings.connect_client_id and self.settings.access_token:
             body['testmode'] = refund.payment.info_data.get('mode', 'live') == 'test'
         try:
+            refresh_mollie_token(self.event, True)
             req = requests.post(
                 'https://api.mollie.com/v2/payments/{}/refunds'.format(payment),
                 json=body,
@@ -505,6 +506,7 @@ class MollieMethod(BasePaymentProvider):
         except:
             pass
         try:
+            refresh_mollie_token(self.event, True)
             req = requests.post(
                 'https://api.mollie.com/v2/payments',
                 json=self._get_payment_body(payment),
