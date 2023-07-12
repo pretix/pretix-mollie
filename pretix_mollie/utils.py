@@ -12,11 +12,17 @@ from pretix.helpers.urls import build_absolute_uri
 logger = logging.getLogger(__name__)
 
 
-def refresh_mollie_token(event, disable=True):
-    # Rate limit
+def refresh_mollie_token(event, conditional=False):
     rt = event.settings.payment_mollie_refresh_token
     if not rt:
         return False
+
+    if conditional:
+        # Only execute if refresh is near
+        if event.settings.payment_mollie_expires and float(event.settings.payment_mollie_expires) - time.time() < 60:
+            return False  # no refresh necessary
+
+    # Prevent concurrent execution
     h = hashlib.sha1(rt.encode()).hexdigest()
     if cache.get('mollie_refresh_{}'.format(h)):
         return False
@@ -34,12 +40,6 @@ def refresh_mollie_token(event, disable=True):
         })
     except Exception as e:
         logger.exception('Unable to refresh mollie token')
-        if float(event.settings.payment_mollie_expires) > time.time() and not \
-                event.settings.payment_mollie_api_key and disable:
-            event.settings.payment_mollie__enabled = False
-            event.log_action('pretix_mollie.event.disabled', {
-                'reason': str(e)
-            })
         return False
     else:
         if resp.status_code == 200:
