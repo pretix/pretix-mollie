@@ -151,6 +151,7 @@ def handle_payment(payment, mollie_id, retry=True):
     else:
         qp = ''
     try:
+        refresh_mollie_token(payment.order.event, True)
         resp = requests.get(
             'https://api.mollie.com/v2/payments/' + mollie_id + '?' + qp,
             headers=pprov.request_headers
