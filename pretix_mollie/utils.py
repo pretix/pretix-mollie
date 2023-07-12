@@ -19,7 +19,7 @@ def refresh_mollie_token(event, conditional=False):
 
     if conditional:
         # Only execute if refresh is near
-        if event.settings.payment_mollie_expires and float(event.settings.payment_mollie_expires) - time.time() < 60:
+        if event.settings.payment_mollie_expires and float(event.settings.payment_mollie_expires) - time.time() > 60:
             return False  # no refresh necessary
 
     # Prevent concurrent execution
