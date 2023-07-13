@@ -48,5 +48,8 @@ def refresh_mollie_token(event, conditional=False):
                 ev.object.settings.payment_mollie_access_token = data['access_token']
                 ev.object.settings.payment_mollie_refresh_token = data['refresh_token']
                 ev.object.settings.payment_mollie_expires = time.time() + data['expires_in']
+            event.settings.flush()
             return True
+    finally:
+        cache.delete('mollie_refresh_{}'.format(h))
     return False
