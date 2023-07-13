@@ -3,7 +3,6 @@ import logging
 import time
 
 import requests
-from django.core.cache import cache
 
 from pretix.base.models import Event_SettingsStore
 from pretix.base.settings import GlobalSettingsObject
@@ -21,12 +20,6 @@ def refresh_mollie_token(event, conditional=False):
         # Only execute if refresh is near
         if event.settings.payment_mollie_expires and float(event.settings.payment_mollie_expires) - time.time() > 60:
             return False  # no refresh necessary
-
-    # Prevent concurrent execution
-    h = hashlib.sha1(rt.encode()).hexdigest()
-    if cache.get('mollie_refresh_{}'.format(h)):
-        return False
-    cache.set('mollie_refresh_{}'.format(h), 'started', 30)
 
     gs = GlobalSettingsObject()
     try:
@@ -50,6 +43,4 @@ def refresh_mollie_token(event, conditional=False):
                 ev.object.settings.payment_mollie_expires = time.time() + data['expires_in']
             event.settings.flush()
             return True
-    finally:
-        cache.delete('mollie_refresh_{}'.format(h))
     return False
