@@ -591,12 +591,19 @@ class MollieBanktransfer(MollieMethod):
     def requires_invoice_immediately(self):
         return self.settings.get('method_banktransfer_invoice_immediately', False, as_type=bool)
 
-    @transaction.atomic()
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
-        p_orig = payment
-        if retry:
-            payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
-        super().execute_payment(request, payment, retry)
+        err = None
+        with transaction.atomic():
+            p_orig = payment
+            if retry:
+                payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
+            try:
+                super().execute_payment(request, payment, retry)
+            except PaymentException as e:
+                err = e
+        if err:
+            raise err
+
         p_orig.refresh_from_db()
         return  # no redirect necessary for this method
 
