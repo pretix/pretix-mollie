@@ -279,41 +279,21 @@ class MollieMethod(BasePaymentProvider):
         super().__init__(event)
         self.settings = SettingsSandbox('payment', 'mollie', event)
 
-    def _is_still_available(self, now_dt=None, cart_id=None, order=None):
+    def _is_available_by_time(self, now_dt=None, cart_id=None, order=None):
         now_dt = now_dt or now()
         tz = pytz.timezone(self.event.settings.timezone)
 
-        if not super()._is_still_available(now_dt, cart_id, order):
+        if not super()._is_available_by_time(now_dt, cart_id, order):
             return False
 
-        availability_date = self.settings.get(f'method_{self.method}_availability_date', as_type=RelativeDateWrapper)
-        if availability_date:
-            if self.event.has_subevents and cart_id:
-                dates = [
-                    availability_date.datetime(se).date()
-                    for se in self.event.subevents.filter(
-                        id__in=CartPosition.objects.filter(
-                            cart_id=cart_id, event=self.event
-                        ).values_list('subevent', flat=True)
-                    )
-                ]
-                availability_date = min(dates) if dates else None
-            elif self.event.has_subevents and order:
-                dates = [
-                    availability_date.datetime(se).date()
-                    for se in self.event.subevents.filter(
-                        id__in=order.positions.values_list('subevent', flat=True)
-                    )
-                ]
-                availability_date = min(dates) if dates else None
-            elif self.event.has_subevents:
-                logger.error('Payment provider is not subevent-ready.')
-                return False
-            else:
-                availability_date = availability_date.datetime(self.event).date()
-
-            if availability_date:
-                return availability_date >= now_dt.astimezone(tz).date()
+        availability_end = self._absolute_availability_date(
+            self.settings.get(f'method_{self.method}_availability_date', as_type=RelativeDateWrapper),
+            cart_id,
+            order,
+            aggregate_fn=min
+        )
+        if availability_end and availability_end < now_dt.astimezone(tz).date():
+            return False
 
         return True
 
