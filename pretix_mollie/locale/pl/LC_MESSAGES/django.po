@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2023-11-09 03:00+0000\n"
+"PO-Revision-Date: 2023-11-20 06:00+0000\n"
 "Last-Translator: c0de-bender <code-bender@mailbox.org>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "Nieznany powód"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
