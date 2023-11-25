@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2023-11-23 05:00+0000\n"
+"PO-Revision-Date: 2023-11-25 10:00+0000\n"
 "Last-Translator: c0de-bender <code-bender@mailbox.org>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
-msgstr ""
+msgstr "Przelew"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
