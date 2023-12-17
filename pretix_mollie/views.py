@@ -224,6 +224,72 @@ def handle_payment(payment, mollie_id, retry=True):
                                  'with us if this problem persists.'))
 
 
+def handle_order(payment, mollie_id, retry=True):
+    pprov = payment.payment_provider
+    if pprov.settings.connect_client_id and payment.info_data and payment.info_data.get('mode', 'live') == 'test':
+        qp = 'testmode=true'
+    elif pprov.settings.connect_client_id and pprov.settings.access_token and pprov.settings.endpoint == "test":
+        qp = 'testmode=true'
+    else:
+        qp = ''
+    try:
+        refresh_mollie_token(payment.order.event, True)
+        resp = requests.get(
+            'https://api.mollie.com/v2/orders/' + mollie_id + '?' + qp,
+            headers=pprov.request_headers
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        if data.get('amountRefunded') and data.get('status') == 'paid':
+            refundsresp = requests.get(
+                'https://api.mollie.com/v2/orders/' + mollie_id + '/refunds?' + qp,
+                headers=pprov.request_headers
+            )
+            refundsresp.raise_for_status()
+            refunds = refundsresp.json()['_embedded']['refunds']
+        else:
+            refunds = []
+
+        payment.info = json.dumps(data)
+        payment.save()
+
+        if data.get('status') == 'paid' and payment.state in (OrderPayment.PAYMENT_STATE_PENDING,
+                                                              OrderPayment.PAYMENT_STATE_CREATED,
+                                                              OrderPayment.PAYMENT_STATE_CANCELED,
+                                                              OrderPayment.PAYMENT_STATE_FAILED):
+            payment.order.log_action('pretix_mollie.event.paid')
+            payment.confirm()
+        elif data.get('status') == 'canceled' and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
+            payment.state = OrderPayment.PAYMENT_STATE_CANCELED
+            payment.save()
+            payment.order.log_action('pretix_mollie.event.canceled')
+        elif data.get('status') == 'pending' and payment.state == OrderPayment.PAYMENT_STATE_CREATED:
+            payment.state = OrderPayment.PAYMENT_STATE_PENDING
+            payment.save()
+        elif data.get('status') in ('expired', 'failed') and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
+            payment.state = OrderPayment.PAYMENT_STATE_CANCELED
+            payment.save()
+            payment.order.log_action('pretix_mollie.event.' + data.get('status'))
+        elif payment.state == OrderPayment.PAYMENT_STATE_CONFIRMED:
+            known_refunds = [r.info_data.get('id') for r in payment.refunds.all()]
+            for r in refunds:
+                if r.get('status') != 'failed' and r.get('id') not in known_refunds:
+                    payment.create_external_refund(
+                        amount=Decimal(r['amount']['value']),
+                        info=json.dumps(r)
+                    )
+        else:
+            payment.order.log_action('pretix_mollie.event.unknown', data)
+    except HTTPError:
+        if resp.status_code == 401 and retry:
+            # Token might be expired, let's retry!
+            if refresh_mollie_token(payment.order.event, False):
+                return handle_payment(payment, mollie_id, retry=False)
+        raise PaymentException(_('We had trouble communicating with Mollie. Please try again and get in touch '
+                                 'with us if this problem persists.'))
+
+
 @event_permission_required('can_change_event_settings')
 @require_POST
 def oauth_disconnect(request, **kwargs):
@@ -274,7 +340,10 @@ class ReturnView(MollieOrderView, View):
         if self.payment.state not in (OrderPayment.PAYMENT_STATE_CONFIRMED, OrderPayment.PAYMENT_STATE_FAILED,
                                       OrderPayment.PAYMENT_STATE_CANCELED):
             try:
-                handle_payment(self.payment, self.payment.info_data.get('id'))
+                if self.payment.info_data.get('resource') == 'order':
+                    handle_order(self.payment, self.payment.info_data.get('id'))
+                else:
+                    handle_payment(self.payment, self.payment.info_data.get('id'))
             except LockTimeoutException:
                 messages.error(self.request, _('We received your payment but were unable to mark your ticket as '
                                                'the server was too busy. Please check back in a couple of '
@@ -303,7 +372,10 @@ class ReturnView(MollieOrderView, View):
 class WebhookView(View):
     def post(self, request, *args, **kwargs):
         try:
-            handle_payment(self.payment, request.POST.get('id'))
+            if request.POST.get('resource') == 'order':
+                handle_order(self.payment, request.POST.get('id'))
+            else:
+                handle_payment(self.payment, request.POST.get('id'))
         except LockTimeoutException:
             return HttpResponse(status=503)
         except Quota.QuotaExceededException:
