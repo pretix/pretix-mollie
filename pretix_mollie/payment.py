@@ -3,6 +3,7 @@ import json
 import logging
 import textwrap
 from collections import OrderedDict
+from decimal import Decimal
 from datetime import timedelta
 
 import pytz
@@ -16,6 +17,8 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from urllib.parse import quote
+
+from django.utils.html import format_html
 from django.utils.timezone import now
 from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
@@ -152,12 +155,27 @@ class MollieSettingsHolder(BasePaymentProvider):
                      required=not bool(self.settings.api_key),
                  )),
             ]
-        help_text_order = _(
-            'This payment method requires pretix to submit additional data to Mollie, including the full invoice '
-            'address and the purchased products. The payment method will be unavailable if no invoice address has been '
-            'entered, so consider making this required. Note that you might need to add this additional data transfer '
-            'to your privacy policy.'
+
+        help_text_order_based = format_html(
+            '<span class="fa fa-info-circle"></span> {}',
+            _('This payment method requires pretix to submit additional data to Mollie, including the full invoice '
+              'address and the purchased products. Note that you might need to add this additional data transfer '
+              'to your privacy policy.')
         )
+        if not self.event.settings.invoice_address_required:
+            help_text_order_based = format_html(
+                help_text_order_based + '<br><span class="fa fa-warning"></span> {}',
+                _('This payment method will be unavailable if no invoice address has been entered, so consider making '
+                  'this required.'),
+            )
+        help_text_order_based_financing = format_html(
+            help_text_order_based + '<br><span class="fa fa-warning"></span> {}',
+            _('This payment method includes a financing component, i.e. the user has to pay after the services have '
+              'been delivered. pretix will mark the order as "delivered" right after the payment is received since '
+              'pretix is built for digital ticketing. Depending on the type of service you sell, this might not be '
+              'in line with the payment provider\'s terms, so please carefully review the legal situation around this.')
+        )
+
         d = OrderedDict(
             fields + [
                 ('method_creditcard',
@@ -266,25 +284,25 @@ class MollieSettingsHolder(BasePaymentProvider):
                 ('method_klarnapaynow',
                  forms.BooleanField(
                      label=_('Klarna Pay now'),
-                     help_text=help_text_order,
+                     help_text=help_text_order_based,
                      required=False,
                  )),
                 ('method_klarnapaylater',
                  forms.BooleanField(
                      label=_('Klarna Pay later'),
-                     help_text=help_text_order,
+                     help_text=help_text_order_based_financing,
                      required=False,
                  )),
                 ('method_klarnasliceit',
                  forms.BooleanField(
                      label=_('Klarna Slice it'),
-                     help_text=help_text_order,
+                     help_text=help_text_order_based_financing,
                      required=False,
                  )),
                 ('method_in3',
                  forms.BooleanField(
                      label=_('in3'),
-                     help_text=help_text_order,
+                     help_text=help_text_order_based_financing,
                      required=False,
                  )),
                 ('product_type',
@@ -796,8 +814,43 @@ class MollieOrderMethod(MollieMethod):
         else:
             return
 
+    def payment_partial_refund_supported(self, payment: OrderPayment) -> bool:
+        return False
+
     def execute_refund(self, refund: OrderRefund, retry=True):
-        raise NotImplemented()
+        order = refund.payment.info_data.get('id')
+        body = {
+            'lines': [],  # " If you send an empty array, the entire order will be refunded."
+        }
+        if self.settings.connect_client_id and self.settings.access_token:
+            body['testmode'] = refund.payment.info_data.get('mode', 'live') == 'test'
+        try:
+            refresh_mollie_token(self.event, True)
+            req = requests.post(
+                'https://api.mollie.com/v2/orders/{}/refunds'.format(order),
+                json=body,
+                headers=self.request_headers
+            )
+            req.raise_for_status()
+            refund.info_data = req.json()
+        except HTTPError:
+            logger.exception('Mollie error: %s' % req.text)
+            try:
+                refund.info_data = req.json()
+
+                if refund.info_data.get('status') == 401 and retry:
+                    # Token might be expired, let's retry!
+                    if refresh_mollie_token(self.event, False):
+                        return self.execute_refund(refund, retry=False)
+            except:
+                refund.info_data = {
+                    'error': True,
+                    'detail': req.text
+                }
+            raise PaymentException(_('Mollie reported an error: {}').format(refund.info_data.get('detail')))
+        else:
+            refund.amount = Decimal(refund.info_data["amount"]["value"])
+            refund.done()
 
 
 class MollieCC(MolliePaymentMethod):

@@ -7,6 +7,7 @@ import urllib.parse
 from decimal import Decimal
 from django.contrib import messages
 from django.core import signing
+from django.db import transaction
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -241,7 +242,7 @@ def handle_order(payment, mollie_id, retry=True):
         resp.raise_for_status()
         data = resp.json()
 
-        if data.get('amountRefunded') and data.get('status') == 'paid':
+        if data.get('status') in ('paid', 'shipping', 'completed') and any(l['amountRefunded'].get('value', '0.00') != '0.00' for l in data['lines']):
             refundsresp = requests.get(
                 'https://api.mollie.com/v2/orders/' + mollie_id + '/refunds?' + qp,
                 headers=pprov.request_headers
@@ -254,10 +255,31 @@ def handle_order(payment, mollie_id, retry=True):
         payment.info = json.dumps(data)
         payment.save()
 
-        if data.get('status') == 'paid' and payment.state in (OrderPayment.PAYMENT_STATE_PENDING,
-                                                              OrderPayment.PAYMENT_STATE_CREATED,
-                                                              OrderPayment.PAYMENT_STATE_CANCELED,
-                                                              OrderPayment.PAYMENT_STATE_FAILED):
+        if data.get('status') in ('authorized', 'paid', 'shipping') and payment.state == OrderPayment.PAYMENT_STATE_CREATED: # todo: remove paid
+            payment.order.log_action('pretix_mollie.event.' + data['status'])
+            with transaction.atomic():
+                # Mark order as shipped
+                payment = OrderPayment.objects.select_for_update().get(pk=payment.pk)
+                if payment.state != OrderPayment.PAYMENT_STATE_CREATED:
+                    return  # race condition between return view and webhook
+
+                resp = requests.post(
+                    'https://api.mollie.com/v2/orders/' + mollie_id + '/shipments',
+                    headers=pprov.request_headers,
+                    json={
+                        # "If you leave out this parameter [lines], the entire order will be shipped."
+                    }
+                )
+                resp.raise_for_status()
+                payment.state = OrderPayment.PAYMENT_STATE_PENDING
+                payment.save(update_fields=["state"])
+            handle_order(payment, mollie_id)
+        elif data.get('status') in ('paid', 'completed') and payment.state in (OrderPayment.PAYMENT_STATE_PENDING,
+                                                                               OrderPayment.PAYMENT_STATE_CREATED,
+                                                                               OrderPayment.PAYMENT_STATE_CANCELED,
+                                                                               OrderPayment.PAYMENT_STATE_FAILED):
+            if Decimal(data['amountCaptured']['value']) != payment.amount:
+                payment.amount = Decimal(data['amountCaptured']['value'])
             payment.order.log_action('pretix_mollie.event.paid')
             payment.confirm()
         elif data.get('status') == 'canceled' and payment.state in (OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING):
@@ -372,7 +394,7 @@ class ReturnView(MollieOrderView, View):
 class WebhookView(View):
     def post(self, request, *args, **kwargs):
         try:
-            if request.POST.get('resource') == 'order':
+            if request.POST.get('id') and request.POST["id"].startswith("ord_"):
                 handle_order(self.payment, request.POST.get('id'))
             else:
                 handle_payment(self.payment, request.POST.get('id'))
