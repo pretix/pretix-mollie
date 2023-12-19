@@ -23,7 +23,8 @@ def register_payment_provider(sender, **kwargs):
         MollieBanktransfer, MollieBitcoin, MollieEPS,
         MollieGiropay, MollieIdeal, MollieINGHomePay, MollieKBC,
         MolliePaysafecard, MollieSofort, MolliePayPal, MollieApplePay,
-        MolliePrzelewy24
+        MolliePrzelewy24, MollieIn3, MollieKlarnaPaynow, MollieKlarnaPaylater,
+        MollieKlarnaSliceit,
     )
 
     return [
@@ -43,6 +44,10 @@ def register_payment_provider(sender, **kwargs):
         MolliePayPal,
         MollieApplePay,
         MolliePrzelewy24,
+        MollieKlarnaPaynow,
+        MollieKlarnaPaylater,
+        MollieKlarnaSliceit,
+        MollieIn3,
     ]
 
 
@@ -65,6 +70,7 @@ def pretixcontrol_logentry_display(sender, logentry, **kwargs):
 
 
 settings_hierarkey.add_default('payment_mollie_method_cc', True, bool)
+settings_hierarkey.add_default('payment_mollie_product_type', 'digital', str)
 
 
 @receiver(register_global_settings, dispatch_uid='mollie_global_settings')

@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<p>{% blocktrans trimmed %}
+    After you submitted your order, we will redirect you to Mollie to complete your payment.
+    You will then be redirected back here to get your tickets.
+{% endblocktrans %}</p>
+<p class="text-muted">
+    <span class="fa fa-info-circle"></span>
+    {% blocktrans trimmed %}
+        This payment requires us to transmit your invoice address as well as your purchased items to the payment provider.
+    {% endblocktrans %}
+</p>
