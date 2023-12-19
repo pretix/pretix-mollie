@@ -171,7 +171,7 @@ class MollieSettingsHolder(BasePaymentProvider):
         help_text_order_based_financing = format_html(
             help_text_order_based + '<br><span class="fa fa-warning"></span> {}',
             _('This payment method includes a financing component, i.e. the user has to pay after the services have '
-              'been delivered. pretix will mark the order as "delivered" right after the payment is received since '
+              'been delivered. pretix will mark the order as "delivered" right after the payment has been started since '
               'pretix is built for digital ticketing. Depending on the type of service you sell, this might not be '
               'in line with the payment provider\'s terms, so please carefully review the legal situation around this.')
         )
