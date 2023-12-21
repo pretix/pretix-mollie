@@ -699,7 +699,7 @@ class MollieOrderMethod(MollieMethod):
                 'givenName': first_name,
                 'familyName': last_name,
                 'email': payment.order.email,
-                'phone': payment.order.phone,
+                'phone': str(payment.order.phone) of payment.order.phone else None,
                 'streetAndNumber': ia.street,
                 'postalCode': ia.zipcode,
                 'city': ia.city,
