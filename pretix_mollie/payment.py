@@ -72,7 +72,7 @@ class MollieSettingsHolder(BasePaymentProvider):
             request.session['payment_mollie_oauth_token'] = get_random_string(32)
         return (
             "https://www.mollie.com/oauth2/authorize?client_id={}&redirect_uri={}"
-            "&state={}&scope=payments.read+payments.write+refunds.read+refunds.write+profiles.read+organizations.read"
+            "&state={}&scope=payments.read+payments.write+refunds.read+refunds.write+profiles.read+organizations.read+orders.read+orders.write"
             "&response_type=code&approval_prompt=auto"
         ).format(
             self.settings.connect_client_id,
