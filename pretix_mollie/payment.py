@@ -95,7 +95,16 @@ class MollieSettingsHolder(BasePaymentProvider):
                     _('Connect with Mollie')
                 )
             else:
-                return (
+                h = ""
+                if 'orders.write' not in (self.settings.connect_scope or ''):
+                    h += (
+                        "<button formaction='{}' class='btn btn-default'>{}</button> "
+                    ).format(
+                        self.get_connect_url(request),
+                        _('Reconnect to Mollie (update permissions)')
+                    )
+
+                h += (
                     "<button formaction='{}' class='btn btn-danger'>{}</button>"
                 ).format(
                     reverse('plugins:pretix_mollie:oauth.disconnect', kwargs={
@@ -104,6 +113,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                     }),
                     _('Disconnect from Mollie')
                 )
+                return h
 
     @property
     def test_mode_message(self):
@@ -162,6 +172,13 @@ class MollieSettingsHolder(BasePaymentProvider):
               'address and the purchased products. Note that you might need to add this additional data transfer '
               'to your privacy policy.')
         )
+        if 'orders.write' not in (self.settings.connect_scope or ''):
+            help_text_order_based = format_html(
+                '<span class="text-danger"><span class="fa fa-warning"></span> {}</span><br>' +  help_text_order_based,
+                _('This payment method requires additional permissions on your Mollie account. Please reconnect this '
+                  'event with Mollie using the button below.')
+            )
+
         if not self.event.settings.invoice_address_required:
             help_text_order_based = format_html(
                 help_text_order_based + '<br><span class="fa fa-warning"></span> {}',

@@ -19,7 +19,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django_scopes import scopes_disabled
-from pretix.base.models import Event, Order, OrderPayment, Quota
+from pretix.base.models import Event, Event_SettingsStore, Order, OrderPayment, Quota
 from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
@@ -119,18 +119,34 @@ def oauth_return(request, *args, **kwargs):
             messages.success(request,
                              _('Your Mollie account is now connected to pretix. You can change the settings in '
                                'detail below.'))
-            event.settings.payment_mollie_access_token = data['access_token']
-            event.settings.payment_mollie_refresh_token = data['refresh_token']
-            event.settings.payment_mollie_expires = time.time() + data['expires_in']
-            event.settings.payment_mollie_connect_org_id = orgadata.get('id')
-            event.settings.payment_mollie_connect_org_name = orgadata.get('name', '')
-            event.settings.payment_mollie_connect_profiles = [
-                [
-                    p.get('id'),
-                    p.get('name') + ' - ' + p.get('website', '')
-                ] for p in profiles
-            ]
-            event.settings.payment_mollie_connect_profile = profiles[0].get('id')
+
+            old_org_id = event.settings.payment_mollie_connect_org_id
+            old_refresh_token = event.settings.payment_mollie_refresh_token
+
+            def _set_settings(ev):
+                ev.settings.payment_mollie_access_token = data['access_token']
+                ev.settings.payment_mollie_refresh_token = data['refresh_token']
+                ev.settings.payment_mollie_expires = time.time() + data['expires_in']
+                ev.settings.payment_mollie_connect_scope = data['scope']
+                ev.settings.payment_mollie_connect_org_id = orgadata.get('id')
+                ev.settings.payment_mollie_connect_org_name = orgadata.get('name', '')
+                ev.settings.payment_mollie_connect_profiles = [
+                    [
+                        p.get('id'),
+                        p.get('name') + ' - ' + p.get('website', '')
+                    ] for p in profiles
+                ]
+                valid_ids = [p.get('id') for p in profiles]
+                if ev.settings.payment_mollie_connect_profile not in valid_ids:
+                    ev.settings.payment_mollie_connect_profile = valid_ids[0]
+
+            _set_settings(event)
+
+            # This is the same account as previously connected, let's also update all other events connected with the
+            # same mollie org.
+            if old_refresh_token and old_org_id == orgadata.get('id'):
+                for ev in Event_SettingsStore.objects.filter(key='payment_mollie_refresh_token', value=old_refresh_token):
+                    _set_settings(ev.object)
 
             if request.session.get('payment_mollie_oauth_enable', False):
                 event.settings.payment_mollie__enabled = True
