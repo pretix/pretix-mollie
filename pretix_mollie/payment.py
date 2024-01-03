@@ -982,7 +982,7 @@ class MollieEPS(MolliePaymentMethod):
     public_name = _('eps')
 
 
-class MollieGiropay(MollieOrderMethod):  # todo: revert
+class MollieGiropay(MolliePaymentMethod):
     method = 'giropay'
     verbose_name = _('giropay via Mollie')
     public_name = _('giropay')
