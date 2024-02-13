@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2021-11-15 00:00+0000\n"
-"Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
-"Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
-"plugin-mollie/nl/>\n"
+"PO-Revision-Date: 2024-02-13 16:00+0000\n"
+"Last-Translator: Wessel Stam <info@wesselstam.nl>\n"
+"Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8\n"
+"X-Generator: Weblate 5.3.1\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -29,6 +29,9 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"Accepteer betalingen via Mollie, een Europese betalingsprovider met "
+"ondersteuning voor creditcards en lokale betalingsmethoden als giropay, "
+"automatische incasso, iDEAL, overboekingen en vele anderen."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -463,14 +466,13 @@ msgid "Your Mollie account has been disconnected."
 msgstr "De verbinding met uw Mollie-account is verbroken."
 
 #: pretix_mollie/views.py:271
-#, fuzzy
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
 "We hebben uw betaling ontvangen, maar konden uw ticket niet als betaald "
-"markeren, omdat de server overbelast was. Kijk alstublieft over een paar "
-"minuten opnieuw op deze pagina."
+"markeren, omdat de server overbelast was. Controleer deze pagina over een "
+"paar minuten opnieuw."
 
 #: pretix_mollie/views.py:275 pretix_mollie/views.py:271
 msgid ""
