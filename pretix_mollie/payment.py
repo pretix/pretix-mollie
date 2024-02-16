@@ -24,6 +24,7 @@ from django.utils.translation import pgettext, gettext_lazy as _
 from i18nfield.strings import LazyI18nString
 
 from pretix.base.reldate import RelativeDateField, RelativeDateWrapper, RelativeDateWidget, BASE_CHOICES
+from pretix.base.services.invoices import generate_cancellation, generate_invoice, invoice_qualified
 from pretix.helpers import OF_SELF
 from pretix_mollie.utils import refresh_mollie_token
 from requests import HTTPError
@@ -887,9 +888,6 @@ class MollieBanktransfer(MolliePaymentMethod):
     verbose_name = _('Bank transfer via Mollie')
     public_name = _('Bank transfer')
 
-    @property
-    def requires_invoice_immediately(self):
-        return self.settings.get('method_banktransfer_invoice_immediately', False, as_type=bool)
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         err = None
@@ -905,6 +903,18 @@ class MollieBanktransfer(MolliePaymentMethod):
             raise err
 
         p_orig.refresh_from_db()
+
+        if payment.order.event.settings.get('invoice_generate') == 'paid' and self.settings.get('method_banktransfer_invoice_immediately', False, as_type=bool):
+            i = payment.order.invoices.filter(is_cancellation=False).last()
+            has_active_invoice = i and not i.canceled
+            if (not has_active_invoice or payment.order.invoice_dirty) and invoice_qualified(payment.order):
+                if has_active_invoice:
+                    generate_cancellation(i)
+                i = generate_invoice(payment.order)
+                payment.order.log_action('pretix.event.order.invoice.generated', data={
+                    'invoice': i.pk
+                })
+
         return  # no redirect necessary for this method
 
     def _get_payment_body(self, payment):
