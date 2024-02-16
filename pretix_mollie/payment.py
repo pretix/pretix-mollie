@@ -288,6 +288,17 @@ class MollieSettingsHolder(BasePaymentProvider):
                          }
                      )
                  )),
+                ('method_banktransfer_invoice_immediately',
+                 forms.BooleanField(
+                     label=_('Create an invoice for orders using bank transfer immediately if the event is otherwise '
+                             'configured to create invoices after payment is completed.'),
+                     required=False,
+                     widget=forms.CheckboxInput(
+                         attrs={
+                             "data-display-dependency": "#id_payment_mollie_method_banktransfer",
+                         }
+                     ),
+                 )),
                 ('method_klarnapaynow',
                  forms.BooleanField(
                      label=_('Klarna Pay now'),
@@ -893,7 +904,7 @@ class MollieBanktransfer(MolliePaymentMethod):
 
         p_orig.refresh_from_db()
 
-        if payment.order.event.settings.get('invoice_generate') == 'paid':
+        if payment.order.event.settings.get('invoice_generate') == 'paid' and self.settings.get('method_banktransfer_invoice_immediately', False, as_type=bool):
             i = payment.order.invoices.filter(is_cancellation=False).last()
             has_active_invoice = i and not i.canceled
             if (not has_active_invoice or payment.order.invoice_dirty) and invoice_qualified(payment.order):
