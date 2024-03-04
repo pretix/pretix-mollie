@@ -1096,5 +1096,5 @@ class MollieIn3(MollieOrderMethod):
 
 class MollieTwint(MolliePaymentMethod):
     method = 'twint'
-    verbose_name = _('TWINT it via Mollie')
+    verbose_name = _('TWINT via Mollie')
     public_name = _('TWINT')
