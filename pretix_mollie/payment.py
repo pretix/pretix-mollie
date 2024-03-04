@@ -299,6 +299,12 @@ class MollieSettingsHolder(BasePaymentProvider):
                          }
                      ),
                  )),
+                ('method_twint',
+                 forms.BooleanField(
+                     label=_('Twint'),
+                     required=False,
+                     disabled=self.event.currency != 'CHF',
+                 )),
                 ('method_klarnapaynow',
                  forms.BooleanField(
                      label=_('Klarna Pay now'),
@@ -1086,3 +1092,9 @@ class MollieIn3(MollieOrderMethod):
     method = 'in3'
     verbose_name = _('in3 it via Mollie')
     public_name = _('in3')
+
+
+class MollieTwint(MolliePaymentMethod):
+    method = 'twint'
+    verbose_name = _('TWINT it via Mollie')
+    public_name = _('TWINT')
