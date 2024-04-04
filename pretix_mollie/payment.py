@@ -423,9 +423,6 @@ class MollieMethod(BasePaymentProvider):
         ctx = {'request': request, 'event': self.event, 'settings': self.settings, 'provider': self}
         return template.render(ctx)
 
-    def payment_can_retry(self, payment):
-        return self._is_still_available(order=payment.order)
-
     def payment_pending_render(self, request, payment) -> str:
         if payment.info:
             payment_info = json.loads(payment.info)
