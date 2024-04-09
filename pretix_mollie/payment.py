@@ -73,7 +73,7 @@ class MollieSettingsHolder(BasePaymentProvider):
             request.session['payment_mollie_oauth_token'] = get_random_string(32)
         return (
             "https://www.mollie.com/oauth2/authorize?client_id={}&redirect_uri={}"
-            "&state={}&scope=payments.read+payments.write+refunds.read+refunds.write+profiles.read+organizations.read+orders.read+orders.write"
+            "&state={}&scope=payments.read+payments.write+refunds.read+refunds.write+profiles.read+organizations.read+orders.read+orders.write+shipments.read+shipments.write"
             "&response_type=code&approval_prompt=auto"
         ).format(
             self.settings.connect_client_id,
@@ -97,7 +97,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                 )
             else:
                 h = ""
-                if 'orders.write' not in (self.settings.connect_scope or ''):
+                if 'shipments.write' not in (self.settings.connect_scope or ''):
                     h += (
                         "<button formaction='{}' class='btn btn-default'>{}</button> "
                     ).format(
@@ -173,7 +173,7 @@ class MollieSettingsHolder(BasePaymentProvider):
               'address and the purchased products. Note that you might need to add this additional data transfer '
               'to your privacy policy.')
         )
-        if 'orders.write' not in (self.settings.connect_scope or ''):
+        if 'shipments.write' not in (self.settings.connect_scope or ''):
             help_text_order_based = format_html(
                 '<span class="text-danger"><span class="fa fa-warning"></span> {}</span><br>' +  help_text_order_based,
                 _('This payment method requires additional permissions on your Mollie account. Please reconnect this '
