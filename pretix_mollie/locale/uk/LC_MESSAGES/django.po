@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-05-15 21:00+0000\n"
+"PO-Revision-Date: 2024-05-21 21:00+0000\n"
 "Last-Translator: Serhii Horichenko <m@sgg.im>\n"
 "Language-Team: Ukrainian <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.3\n"
+"X-Generator: Weblate 5.5.5\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -58,6 +58,8 @@ msgid ""
 "The Mollie plugin is operating in test mode. No money will actually be "
 "transferred."
 msgstr ""
+"Плагін Mollie працює у тестовому режимі. Фактично гроші не будуть "
+"перераховані."
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
@@ -163,7 +165,7 @@ msgstr ""
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
@@ -276,6 +278,8 @@ msgid ""
 "After you submitted your order, we will redirect you to Mollie to complete "
 "your payment. You will then be redirected back here to get your tickets."
 msgstr ""
+"Після завершення замовлення ми перенаправимо Вас до Mollie для здійснення "
+"оплати. Потім, для отримання квитків, Ви будете перенаправлені назад сюди."
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
@@ -321,7 +325,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "Ім'я платника"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
@@ -388,7 +392,7 @@ msgstr "Невідома причина"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr "Процес оплати розпочався в новому вікні."
+msgstr "Процес оплати розпочався у новому вікні."
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
@@ -448,5 +452,5 @@ msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
-"На жаль, під час оплати сталася помилка. Для продовження, перевірте, будь "
+"На жаль, під час оплати виникла помилка. Для продовження, перевірте, будь "
 "ласка, посилання у своїх електронних листах."
