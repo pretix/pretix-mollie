@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-05-21 21:00+0000\n"
+"PO-Revision-Date: 2024-05-23 17:00+0000\n"
 "Last-Translator: Serhii Horichenko <m@sgg.im>\n"
 "Language-Team: Ukrainian <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/uk/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
-msgstr ""
+msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
 msgid ""
@@ -30,6 +30,9 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"Приймайте платежі через Mollie, європейського постачальника платіжних "
+"послуг, який підтримує як кредитні картки, так й інші місцеві способи "
+"оплати, серед яких giropay, direct debit, iDEAL, банківські перекази та ін."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -37,6 +40,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
+"Наданий ключ \"%(value)s\" виглядає недійсним. Він повинен починатися з \""
+"%(prefix)s\"."
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -44,14 +49,17 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
+"Для того, щоби приймати платежі через Mollie, Вам потрібен обліковий запис "
+"Mollie. Натиснувши на наведену нижче кнопку, можете створити обліковий запис "
+"Mollie або під'єднати його до свого облікового запису pretix."
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
-msgstr ""
+msgstr "З'єднатися з Mollie"
 
 #: pretix_mollie/payment.py:97
 msgid "Disconnect from Mollie"
-msgstr ""
+msgstr "Від'єднатися від Mollie"
 
 #: pretix_mollie/payment.py:107
 msgid ""
@@ -63,11 +71,11 @@ msgstr ""
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
-msgstr ""
+msgstr "Обліковий запис Mollie"
 
 #: pretix_mollie/payment.py:123
 msgid "Website profile"
-msgstr ""
+msgstr "Профіль сайту"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
@@ -85,7 +93,7 @@ msgstr "Тестування"
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
-msgstr ""
+msgstr "Секретний ключ"
 
 #: pretix_mollie/payment.py:154 pretix_mollie/payment.py:483
 msgid "Credit card"
@@ -97,15 +105,15 @@ msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
-msgstr ""
+msgstr "Банківський переказ"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr ""
+msgstr "Кнопка оплати Belfius"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
-msgstr ""
+msgstr "Bitcoin"
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
@@ -121,15 +129,15 @@ msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
-msgstr ""
+msgstr "ING Home’Pay"
 
 #: pretix_mollie/payment.py:199
 msgid "KBC/CBC Payment Button"
-msgstr ""
+msgstr "Кнопка оплати KBC/CBC"
 
 #: pretix_mollie/payment.py:204 pretix_mollie/payment.py:625
 msgid "paysafecard"
-msgstr ""
+msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
@@ -137,30 +145,32 @@ msgstr "Sofort"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
-msgstr ""
+msgstr "Mollie повідомляє про помилку: {}"
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
+"У нас виникли проблеми під час обміну даними з Mollie. Спробуйте, будь "
+"ласка, ще раз та зв’яжіться з нами, якщо проблема не зникне."
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
-msgstr ""
+msgstr "Кредитна картка через Mollie"
 
 #: pretix_mollie/payment.py:488
 msgid "Bancontact via Mollie"
-msgstr ""
+msgstr "Bancontact через Mollie"
 
 #: pretix_mollie/payment.py:494
 msgid "Bank transfer via Mollie"
-msgstr ""
+msgstr "Банківський переказ через Mollie"
 
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Власник рахунку"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
@@ -171,17 +181,19 @@ msgstr "IBAN"
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 #: pretix_mollie/templates/pretix_mollie/pending.html:19
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/payment.py:559
 msgid ""
 "Please transfer the invoice amount to the bank account of our payment "
 "service provider using the specified reference:"
 msgstr ""
+"Будь ласка, перерахуйте суму з рахунку-фактури на банківський рахунок нашого "
+"постачальника платіжних послуг, використовуючи вказане призначення:"
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Призначення"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -189,22 +201,24 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
+"Використовуйте, будь ласка, лише надане призначення. В іншому випадку Ваш "
+"платіж не може бути оброблено."
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr ""
+msgstr "Кнопка оплати Belfius через Mollie"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
-msgstr ""
+msgstr "Belfius"
 
 #: pretix_mollie/payment.py:587
 msgid "Bitcoin via Mollie"
-msgstr ""
+msgstr "Bitcoin через Mollie"
 
 #: pretix_mollie/payment.py:594
 msgid "EPS via Mollie"
-msgstr ""
+msgstr "EPS через Mollie"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
@@ -212,65 +226,67 @@ msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
-msgstr ""
+msgstr "giropay через Mollie"
 
 #: pretix_mollie/payment.py:606
 msgid "iDEAL via Mollie"
-msgstr ""
+msgstr "iDEAL через Mollie"
 
 #: pretix_mollie/payment.py:612
 msgid "ING Home’Pay via Mollie"
-msgstr ""
+msgstr "ING Home’Pay через Mollie"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr ""
+msgstr "Кнопка оплати KBC/CBC через Mollie"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
-msgstr ""
+msgstr "KBC/CBC"
 
 #: pretix_mollie/payment.py:624
 msgid "paysafecard via Mollie"
-msgstr ""
+msgstr "paysafecard через Mollie"
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
-msgstr ""
+msgstr "Sofort через Mollie"
 
 #: pretix_mollie/signals.py:58
 msgid "Payment canceled."
-msgstr ""
+msgstr "Платіж скасовано."
 
 #: pretix_mollie/signals.py:59
 msgid "Payment failed."
-msgstr ""
+msgstr "Помилка оплати."
 
 #: pretix_mollie/signals.py:60
 msgid "Payment succeeded."
-msgstr ""
+msgstr "Платіж успішний."
 
 #: pretix_mollie/signals.py:61
 msgid "Payment expired."
-msgstr ""
+msgstr "Термін оплати минув."
 
 #: pretix_mollie/signals.py:62
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
+"Спосіб оплати вимкнено, оскільки у нас не вийшло оновити токен доступу. "
+"Зверніться, будь ласка, з підтримкою."
 
 #: pretix_mollie/signals.py:67
 msgid "Mollie reported an event: {}"
-msgstr ""
+msgstr "Mollie повідомляє про подію: {}"
 
 #: pretix_mollie/signals.py:77
 msgid "Mollie Connect: Client ID"
-msgstr ""
+msgstr "З'єднання Mollie: ID клієнта"
 
 #: pretix_mollie/signals.py:84
 msgid "Mollie Connect: Client secret"
-msgstr ""
+msgstr "З'єднання Mollie: Пароль клієнта"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:3
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form.html:3
@@ -290,6 +306,8 @@ msgid ""
 "After completing your purchase, we will ask you to transfer the money to a "
 "bank account, using a personal reference code."
 msgstr ""
+"Після завершення покупки ми попросимо Вас переказати кошти на банківський "
+"рахунок, використовуючи особистий код призначення."
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
@@ -301,27 +319,27 @@ msgstr "Статус"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
-msgstr ""
+msgstr "Сплачено о"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:15
 msgid "Expires at"
-msgstr ""
+msgstr "Термін дії до"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:18
 msgid "Settlement amount"
-msgstr ""
+msgstr "Сума виставлення рахунка"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
-msgstr ""
+msgstr "Власник картки"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "Номер картки"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "Тип картки"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
@@ -329,7 +347,7 @@ msgstr "Ім'я платника"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
-msgstr ""
+msgstr "Сума Bitcoin"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
@@ -345,32 +363,40 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Перекажіть, будь ласка, повну суму на вказаний банківський рахунок.\n"
+"\n"
+"    Призначення: %(code)s\n"
+"    Сума: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Перекажіть, будь ласка, повну суму на вказаний банківський рахунок:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Сума:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Код призначення (важливо):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Після здійснення банківського переказу Ви можете закрити це вікно. Одразу "
+"після отримання Вашого платежу ми надішлемо Вам повідомлення на ел.пошту."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Відкрити банківську програму"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "Потрібно, щоб програма підтримувала BezahlCode"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
@@ -407,35 +433,44 @@ msgstr "Натисніть тут, щоб відкрити вікно."
 #: pretix_mollie/views.py:102
 msgid "An error occurred during connecting with Mollie, please try again."
 msgstr ""
+"Під час з'єднання з Mollie виникла помилка. Спробуйте, будь ласка, ще раз."
 
 #: pretix_mollie/views.py:105
 msgid "Mollie returned an error: {}"
-msgstr ""
+msgstr "Mollie повернув помилку: {}"
 
 #: pretix_mollie/views.py:107
 msgid "Please create a website profile in your Mollie account and try again."
 msgstr ""
+"Створіть, будь ласка, у своєму профілі Mollie профіль сайту та спробуйте ще "
+"раз."
 
 #: pretix_mollie/views.py:109
 msgid ""
 "Please fill in your company details in your Mollie account and try again."
 msgstr ""
+"Внесіть, будь ласка, у своєму обліковому записі Mollie дані про свою "
+"компанію та спробуйте ще раз."
 
 #: pretix_mollie/views.py:112
 msgid ""
 "Your Mollie account is now connected to pretix. You can change the settings "
 "in detail below."
 msgstr ""
+"Ваш обліковий запис Mollie зараз під'єднаний до pretix. Ці налаштування Ви "
+"можете змінити нижче."
 
 #: pretix_mollie/views.py:229
 msgid "Your Mollie account has been disconnected."
-msgstr ""
+msgstr "Ваш обліковий запис Mollie був від'єднаний."
 
 #: pretix_mollie/views.py:271
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
+"Ми отримали Ваш платіж, але не змогли позначити Ваш квиток через зайнятість "
+"сервера. Перевірте це, будь ласка, через кілька хвилин."
 
 #: pretix_mollie/views.py:275
 msgid ""
