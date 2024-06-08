@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-06-08 23:00+0000\n"
+"Last-Translator: alemairebe <adrien@alemaire.be>\n"
+"Language-Team: French <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.5.5\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
-msgstr ""
+msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
 msgid ""
@@ -26,6 +29,9 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"Acceptez les payements via Mollie, un fournisseur de payement européen "
+"gérant les cartes de crédit ainsi que de nombreux moyen de payement locaux "
+"comme giropay, direct debit, iDEAL, virements, et beaucoup d'autres."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -33,6 +39,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
+"La clé fournie « %(value)s » ne semble pas valide. Elle doit commencer par « "
+"%(prefix)s »."
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -40,14 +48,17 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
+"Pour accepter des payements avec Mollie, vous avez besoin d'un compte "
+"Mollie. En cliquant sur le bouton suivant, vous pouvez soit créer un nouveau "
+"compte Mollie, soit connecter un compte existant à pretix."
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
-msgstr ""
+msgstr "Connecter Mollie"
 
 #: pretix_mollie/payment.py:97
 msgid "Disconnect from Mollie"
-msgstr ""
+msgstr "Déconnecter Mollie"
 
 #: pretix_mollie/payment.py:107
 msgid ""
@@ -70,12 +81,12 @@ msgstr ""
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
 msgid "Live"
-msgstr ""
+msgstr "En ligne"
 
 #: pretix_mollie/payment.py:132
 msgctxt "mollie"
 msgid "Testing"
-msgstr ""
+msgstr "En test"
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
@@ -370,27 +381,32 @@ msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
 msgstr ""
+"Nous attendons une réponse du fournisseur de paiement concernant votre "
+"paiement. Veuillez nous contacter si cela prend plus de quelques jours."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
 msgstr ""
+"L’opération de paiement n’a pas pu être effectuée pour la raison suivante :"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "Raison inconnue"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr ""
+msgstr "Le processus de paiement a commencé dans une nouvelle fenêtre."
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
 msgstr ""
+"La fenêtre de saisie de vos données de paiement a-t-elle été fermée ou ne "
+"s'est pas ouverte ?"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
-msgstr ""
+msgstr "Cliquez ici pour ouvrir la fenêtre."
 
 #: pretix_mollie/views.py:53 pretix_mollie/views.py:59
 #: pretix_mollie/views.py:102
@@ -438,3 +454,5 @@ msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
+"Désolé, une erreur s'est produite lors du traitement du paiement. SVP "
+"vérifiez le lien dans vos courriels pour continuer."
