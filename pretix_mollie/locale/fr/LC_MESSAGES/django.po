@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-06-08 23:00+0000\n"
+"PO-Revision-Date: 2024-06-10 21:00+0000\n"
 "Last-Translator: alemairebe <adrien@alemaire.be>\n"
 "Language-Team: French <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/fr/>\n"
@@ -65,18 +65,20 @@ msgid ""
 "The Mollie plugin is operating in test mode. No money will actually be "
 "transferred."
 msgstr ""
+"Le plugin Mollie est actuellement en mode test. Il n'y aura pas réellement "
+"de transfert d'argent."
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
-msgstr ""
+msgstr "Compte Mollie"
 
 #: pretix_mollie/payment.py:123
 msgid "Website profile"
-msgstr ""
+msgstr "Site web du profile"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr ""
+msgstr "Point de terminaison"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
@@ -90,103 +92,107 @@ msgstr "En test"
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
-msgstr ""
+msgstr "Clé secrète"
 
 #: pretix_mollie/payment.py:154 pretix_mollie/payment.py:483
 msgid "Credit card"
-msgstr ""
+msgstr "Carte de crédit"
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
-msgstr ""
+msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
-msgstr ""
+msgstr "Virement bancaire"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr ""
+msgstr "bouton Belfius Pay"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
-msgstr ""
+msgstr "Bitcoin"
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:184 pretix_mollie/payment.py:601
 msgid "giropay"
-msgstr ""
+msgstr "giropay"
 
 #: pretix_mollie/payment.py:189 pretix_mollie/payment.py:607
 msgid "iDEAL"
-msgstr ""
+msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
-msgstr ""
+msgstr "ING Home’Pay"
 
 #: pretix_mollie/payment.py:199
 msgid "KBC/CBC Payment Button"
-msgstr ""
+msgstr "Bouton de payement KBC/CBC"
 
 #: pretix_mollie/payment.py:204 pretix_mollie/payment.py:625
 msgid "paysafecard"
-msgstr ""
+msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
-msgstr ""
+msgstr "SOFORT"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
-msgstr ""
+msgstr "Erreur venant de Mollie : {}"
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
+"On a eu un problème de communication avec Mollie. Merci de réessayer et de "
+"nous contacter si le problème persiste."
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
-msgstr ""
+msgstr "Carte de crédit via Mollie"
 
 #: pretix_mollie/payment.py:488
 msgid "Bancontact via Mollie"
-msgstr ""
+msgstr "Bancontact via Mollie"
 
 #: pretix_mollie/payment.py:494
 msgid "Bank transfer via Mollie"
-msgstr ""
+msgstr "Virement bancaire via Mollie"
 
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Titulaire du compte"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 #: pretix_mollie/templates/pretix_mollie/pending.html:19
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/payment.py:559
 msgid ""
 "Please transfer the invoice amount to the bank account of our payment "
 "service provider using the specified reference:"
 msgstr ""
+"Merci de transférer le montant facturé au compte bancaire de votre "
+"fournisseur de payment en utilisant les références suivantes :"
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Référence"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -194,88 +200,92 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
+"Merci de n'utiliser que les références fournies. Sinon, votre payement ne "
+"pourra être traité."
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr ""
+msgstr "Bouton Belfius Pay via Mollie"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
-msgstr ""
+msgstr "Belfius"
 
 #: pretix_mollie/payment.py:587
 msgid "Bitcoin via Mollie"
-msgstr ""
+msgstr "Bitcoin via Mollie"
 
 #: pretix_mollie/payment.py:594
 msgid "EPS via Mollie"
-msgstr ""
+msgstr "EPS via Mollie"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
-msgstr ""
+msgstr "giropay via Mollie"
 
 #: pretix_mollie/payment.py:606
 msgid "iDEAL via Mollie"
-msgstr ""
+msgstr "iDEAL via Mollie"
 
 #: pretix_mollie/payment.py:612
 msgid "ING Home’Pay via Mollie"
-msgstr ""
+msgstr "ING Home’Pay via Mollie"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr ""
+msgstr "Bouton de payement KBC/CBC via Mollie"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
-msgstr ""
+msgstr "KBC/CBC"
 
 #: pretix_mollie/payment.py:624
 msgid "paysafecard via Mollie"
-msgstr ""
+msgstr "paysafecard via Mollie"
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
-msgstr ""
+msgstr "Sofort via Mollie"
 
 #: pretix_mollie/signals.py:58
 msgid "Payment canceled."
-msgstr ""
+msgstr "Payement annulé."
 
 #: pretix_mollie/signals.py:59
 msgid "Payment failed."
-msgstr ""
+msgstr "Payement raté."
 
 #: pretix_mollie/signals.py:60
 msgid "Payment succeeded."
-msgstr ""
+msgstr "Le payement a réussi."
 
 #: pretix_mollie/signals.py:61
 msgid "Payment expired."
-msgstr ""
+msgstr "Le payement a expiré."
 
 #: pretix_mollie/signals.py:62
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
+"La méthode de payement est désactivé étant donné que l'on est incapable de "
+"rafraichir le jeton d'accès. Merci de contacter le support."
 
 #: pretix_mollie/signals.py:67
 msgid "Mollie reported an event: {}"
-msgstr ""
+msgstr "Mollie a retourné un message: {}"
 
 #: pretix_mollie/signals.py:77
 msgid "Mollie Connect: Client ID"
-msgstr ""
+msgstr "Mollie Connect: Client ID"
 
 #: pretix_mollie/signals.py:84
 msgid "Mollie Connect: Client secret"
-msgstr ""
+msgstr "Mollie Connect: Client secret"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:3
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form.html:3
