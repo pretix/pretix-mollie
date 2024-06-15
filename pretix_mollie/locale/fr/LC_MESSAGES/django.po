@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-06-10 21:00+0000\n"
+"PO-Revision-Date: 2024-06-16 03:00+0000\n"
 "Last-Translator: alemairebe <adrien@alemaire.be>\n"
 "Language-Team: French <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/fr/>\n"
@@ -293,60 +293,65 @@ msgid ""
 "After you submitted your order, we will redirect you to Mollie to complete "
 "your payment. You will then be redirected back here to get your tickets."
 msgstr ""
+"Après avoir compléter votre commande, nous vous redirigerons vers Mollie "
+"pour effectuer votre paiement. Vous serez ensuite redirigé ici pour obtenir "
+"vos billets."
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr ""
+msgstr "Mode de paiement"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
 "After completing your purchase, we will ask you to transfer the money to a "
 "bank account, using a personal reference code."
 msgstr ""
+"Après avoir effectué votre achat, nous vous demanderons de transférer "
+"l'argent sur un compte bancaire, à l'aide d'un code de référence personnel."
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
-msgstr ""
+msgstr "Payé à"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:15
 msgid "Expires at"
-msgstr ""
+msgstr "Expire à"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:18
 msgid "Settlement amount"
-msgstr ""
+msgstr "Montant du règlement"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
-msgstr ""
+msgstr "Titulaire de la carte"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "Numéro de carte"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "Type de carte"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "Nom du payeur"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
-msgstr ""
+msgstr "montant en Bitcoin"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
-msgstr ""
+msgstr "Message d'erreur"
 
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:1
 #, python-format
@@ -358,32 +363,40 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Veuillez virer le montant total sur le compte bancaire suivant.\n"
+"\n"
+"    Référence: %(code)s\n"
+"    Montant: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Veuillez virer le montant total sur le compte bancaire suivant :"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Montant :"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Code de référence (important) :"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Après avoir envoyé le virement bancaire, vous pouvez fermer cette fenêtre. "
+"Nous vous enverrons un courriel dès que nous aurons reçu votre paiement."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Ouvrez l'application bancaire"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "L'application doit prendre en charge BezahlCode"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
@@ -422,35 +435,44 @@ msgstr "Cliquez ici pour ouvrir la fenêtre."
 #: pretix_mollie/views.py:102
 msgid "An error occurred during connecting with Mollie, please try again."
 msgstr ""
+"Une erreur s'est produite lors de la connexion avec Mollie, veuillez "
+"réessayer."
 
 #: pretix_mollie/views.py:105
 msgid "Mollie returned an error: {}"
-msgstr ""
+msgstr "Mollie a renvoyé une erreur : {}"
 
 #: pretix_mollie/views.py:107
 msgid "Please create a website profile in your Mollie account and try again."
 msgstr ""
+"Veuillez créer un profil de site web dans votre compte Mollie et réessayer."
 
 #: pretix_mollie/views.py:109
 msgid ""
 "Please fill in your company details in your Mollie account and try again."
 msgstr ""
+"Veuillez compléter les détails de votre entreprise dans votre compte Mollie "
+"et réessayer."
 
 #: pretix_mollie/views.py:112
 msgid ""
 "Your Mollie account is now connected to pretix. You can change the settings "
 "in detail below."
 msgstr ""
+"Votre compte Mollie est maintenant connecté à pretix. Vous pouvez modifier "
+"les paramètres en détail ci-dessous."
 
 #: pretix_mollie/views.py:229
 msgid "Your Mollie account has been disconnected."
-msgstr ""
+msgstr "Votre compte Mollie a été déconnecté."
 
 #: pretix_mollie/views.py:271
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
+"Nous avons reçu votre paiement mais nous n'avons pas pu marquer votre ticket "
+"car le serveur était trop occupé. Veuillez revenir dans quelques minutes."
 
 #: pretix_mollie/views.py:275
 msgid ""
@@ -458,6 +480,10 @@ msgid ""
 "of your ordered products is sold out. Please contact the event organizer for "
 "further steps."
 msgstr ""
+"Nous avons reçu votre paiement mais nous n'avons pas pu marquer votre billet "
+"comme payé car l'un des produits que vous avez commandés est épuisé. "
+"Veuillez contacter l'organisateur de l'événement pour la suite des "
+"opérations."
 
 #: pretix_mollie/views.py:282
 msgid ""
