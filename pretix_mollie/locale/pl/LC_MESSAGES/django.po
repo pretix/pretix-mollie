@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2023-12-09 00:00+0000\n"
-"Last-Translator: c0de-bender <code-bender@mailbox.org>\n"
+"PO-Revision-Date: 2024-06-21 18:00+0000\n"
+"Last-Translator: Anarion Dunedain <anarion@go2.pl>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.2.1\n"
+"X-Generator: Weblate 5.5.5\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -179,7 +179,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Odnośnik"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -289,7 +289,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
@@ -314,7 +314,7 @@ msgstr "Liczba"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "Numer karty"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
