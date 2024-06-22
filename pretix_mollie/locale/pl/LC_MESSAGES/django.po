@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-06-21 18:00+0000\n"
-"Last-Translator: Anarion Dunedain <anarion@go2.pl>\n"
+"PO-Revision-Date: 2024-06-22 19:00+0000\n"
+"Last-Translator: Anarion Dunedain <anarion80@gmail.com>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
 "Language: pl\n"
@@ -91,7 +91,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
-msgstr ""
+msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
@@ -111,11 +111,11 @@ msgstr ""
 
 #: pretix_mollie/payment.py:184 pretix_mollie/payment.py:601
 msgid "giropay"
-msgstr ""
+msgstr "giropay"
 
 #: pretix_mollie/payment.py:189 pretix_mollie/payment.py:607
 msgid "iDEAL"
-msgstr ""
+msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
