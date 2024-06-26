@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-06-22 19:00+0000\n"
+"PO-Revision-Date: 2024-06-26 19:00+0000\n"
 "Last-Translator: Anarion Dunedain <anarion80@gmail.com>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.1\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -37,6 +37,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
+"Podany klucz \"%(value)s\" nie wygląda na prawidłowy. Powinien zaczynać się "
+"od \"%(prefix)s\"."
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -83,11 +85,11 @@ msgstr ""
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
-msgstr ""
+msgstr "Tajny klucz"
 
 #: pretix_mollie/payment.py:154 pretix_mollie/payment.py:483
 msgid "Credit card"
-msgstr ""
+msgstr "Karta kredytowa"
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
@@ -107,7 +109,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:184 pretix_mollie/payment.py:601
 msgid "giropay"
@@ -308,9 +310,8 @@ msgid "Settlement amount"
 msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
-#, fuzzy
 msgid "Card holder"
-msgstr "Liczba"
+msgstr "Posiadacz karty"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
@@ -318,11 +319,11 @@ msgstr "Numer karty"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "Typ karty"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "Nazwa płatnika"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
@@ -377,11 +378,14 @@ msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
 msgstr ""
+"Czekamy na odpowiedź od dostawcy usług płatniczych w sprawie płatności. "
+"Prosimy o kontakt, jeśli potrwa to dłużej niż kilka dni."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
 msgstr ""
+"Transakcja płatnicza nie mogła zostać zakończona z następującego powodu:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
@@ -447,3 +451,5 @@ msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
+"Przepraszamy, wystąpił błąd w procesie płatności. Prosimy o sprawdzenie "
+"linku w wiadomościach e-mail, aby kontynuować."
