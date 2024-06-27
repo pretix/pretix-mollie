@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-06-26 19:00+0000\n"
+"PO-Revision-Date: 2024-06-27 16:00+0000\n"
 "Last-Translator: Anarion Dunedain <anarion80@gmail.com>\n"
 "Language-Team: Polish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/pl/>\n"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr ""
+msgstr "Punkt końcowy"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
@@ -208,7 +208,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr ""
+msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
@@ -295,7 +295,7 @@ msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
-msgstr ""
+msgstr "Stan"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
@@ -331,7 +331,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
-msgstr ""
+msgstr "Komunikat o błędzie"
 
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:1
 #, python-format
@@ -393,7 +393,7 @@ msgstr "Nieznany powód"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr ""
+msgstr "Proces płatności rozpoczął się w nowym oknie."
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
-msgstr ""
+msgstr "Kliknij tutaj, aby otworzyć okno."
 
 #: pretix_mollie/views.py:53 pretix_mollie/views.py:59
 #: pretix_mollie/views.py:102
