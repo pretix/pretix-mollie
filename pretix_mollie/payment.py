@@ -4,8 +4,9 @@ import logging
 import pytz
 import requests
 import textwrap
+import zoneinfo
 from collections import OrderedDict
-from datetime import timedelta
+from datetime import datetime, timedelta
 from decimal import Decimal
 from django import forms
 from django.core import signing
@@ -262,13 +263,6 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_eps",
                     forms.BooleanField(
                         label=_("EPS"),
-                        required=False,
-                    ),
-                ),
-                (
-                    "method_giropay",
-                    forms.BooleanField(
-                        label=_("giropay"),
                         required=False,
                     ),
                 ),
@@ -1210,6 +1204,15 @@ class MollieGiropay(MolliePaymentMethod):
     method = "giropay"
     verbose_name = _("giropay via Mollie")
     public_name = _("giropay")
+
+    def is_allowed(self, request: HttpRequest, total: Decimal=None) -> bool:
+        # Mollie<>giropay is shut down July 1st
+        return super().is_allowed(request, total) and now() < datetime(2024, 7, 1, 0, 0, 0, tzinfo=zoneinfo.ZoneInfo("Europe/Berlin"))
+
+    def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
+        return super().order_change_allowed(order, request) and now() < datetime(
+            2024, 7, 1, 0, 0, 0, tzinfo=zoneinfo.ZoneInfo("Europe/Berlin")
+        )
 
 
 class MollieIdeal(MolliePaymentMethod):
