@@ -239,9 +239,18 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
+                    "method_bancomat_pay",
+                    forms.BooleanField(
+                        label=_("BANCOMAT Pay"),
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    ),
+                ),
+                (
                     "method_bancontact",
                     forms.BooleanField(
                         label=_("Bancontact"),
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -249,6 +258,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_belfius",
                     forms.BooleanField(
                         label=_("Belfius Pay Button"),
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -260,9 +270,18 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
+                    "method_blik",
+                    forms.BooleanField(
+                        label=_("BLIK"),
+                        disabled=self.event.currency != 'PLN',
+                        required=False,
+                    ),
+                ),
+                (
                     "method_eps",
                     forms.BooleanField(
                         label=_("EPS"),
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -270,6 +289,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_ideal",
                     forms.BooleanField(
                         label=_("iDEAL"),
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -284,6 +304,15 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_kbc",
                     forms.BooleanField(
                         label=_("KBC/CBC Payment Button"),
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    ),
+                ),
+                (
+                    "method_mybank",
+                    forms.BooleanField(
+                        label=_("MyBank"),
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -312,7 +341,32 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_przelewy24",
                     forms.BooleanField(
                         label=_("Przelewy24"),
+                        disabled=self.event.currency not in ('PLN', 'EUR'),
                         required=False,
+                    ),
+                ),
+                (
+                    "method_satispay",
+                    forms.BooleanField(
+                        label=_("Satispay"),
+                        disabled=self.event.currency not in ('PLN', 'EUR'),
+                        required=False,
+                    ),
+                ),
+                (
+                    "method_trustly",
+                    forms.BooleanField(
+                        label=_("Trustly"),
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    ),
+                ),
+                (
+                    "method_twint",
+                    forms.BooleanField(
+                        label=_("Twint"),
+                        required=False,
+                        disabled=self.event.currency != "CHF",
                     ),
                 ),
                 (
@@ -359,14 +413,6 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
-                    "method_twint",
-                    forms.BooleanField(
-                        label=_("Twint"),
-                        required=False,
-                        disabled=self.event.currency != "CHF",
-                    ),
-                ),
-                (
                     "method_klarnapaynow",
                     forms.BooleanField(
                         label=_("Klarna Pay now"),
@@ -393,8 +439,9 @@ class MollieSettingsHolder(BasePaymentProvider):
                 (
                     "method_in3",
                     forms.BooleanField(
-                        label=_("in3"),
+                        label=_("iDEAL in3"),
                         help_text=help_text_order_based_financing,
+                        disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
                 ),
@@ -434,6 +481,10 @@ class MollieMethod(BasePaymentProvider):
     def __init__(self, event: Event):
         super().__init__(event)
         self.settings = SettingsSandbox("payment", "mollie", event)
+
+    @property
+    def verbose_name(self) -> str:
+        return _("{method} via Mollie").format(method=self.public_name)
 
     def _is_available_by_time(self, now_dt=None, cart_id=None, order=None):
         now_dt = now_dt or now()
@@ -1034,19 +1085,16 @@ class MollieOrderMethod(MollieMethod):
 
 class MollieCC(MolliePaymentMethod):
     method = "creditcard"
-    verbose_name = _("Credit card via Mollie")
     public_name = _("Credit card")
 
 
 class MollieBancontact(MolliePaymentMethod):
     method = "bancontact"
-    verbose_name = _("Bancontact via Mollie")
     public_name = _("Bancontact")
 
 
 class MollieBanktransfer(MolliePaymentMethod):
     method = "banktransfer"
-    verbose_name = _("Bank transfer via Mollie")
     public_name = _("Bank transfer")
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
@@ -1183,26 +1231,22 @@ class MollieBanktransfer(MolliePaymentMethod):
 
 class MollieBelfius(MolliePaymentMethod):
     method = "belfius"
-    verbose_name = _("Belfius Pay Button via Mollie")
     public_name = _("Belfius")
 
 
 class MollieBitcoin(MolliePaymentMethod):
     method = "bitcoin"
-    verbose_name = _("Bitcoin via Mollie")
     public_name = _("Bitcoin")
     refunds_allowed = False
 
 
 class MollieEPS(MolliePaymentMethod):
     method = "eps"
-    verbose_name = _("EPS via Mollie")
     public_name = _("eps")
 
 
 class MollieGiropay(MolliePaymentMethod):
     method = "giropay"
-    verbose_name = _("giropay via Mollie")
     public_name = _("giropay")
 
     def is_allowed(self, request: HttpRequest, total: Decimal=None) -> bool:
@@ -1217,25 +1261,21 @@ class MollieGiropay(MolliePaymentMethod):
 
 class MollieIdeal(MolliePaymentMethod):
     method = "ideal"
-    verbose_name = _("iDEAL via Mollie")
     public_name = _("iDEAL")
 
 
 class MollieINGHomePay(MolliePaymentMethod):
     method = "inghomepay"
-    verbose_name = _("ING Home’Pay via Mollie")
     public_name = _("ING Home’Pay")
 
 
 class MollieKBC(MolliePaymentMethod):
     method = "kbc"
-    verbose_name = _("KBC/CBC Payment Button via Mollie")
     public_name = _("KBC/CBC")
 
 
 class MolliePaysafecard(MolliePaymentMethod):
     method = "paysafecard"
-    verbose_name = _("paysafecard via Mollie")
     public_name = _("paysafecard")
     refunds_allowed = False
 
@@ -1248,47 +1288,64 @@ class MollieSofort(MolliePaymentMethod):
 
 class MolliePayPal(MolliePaymentMethod):
     method = "paypal"
-    verbose_name = _("PayPal via Mollie")
     public_name = _("PayPal")
 
 
 class MolliePrzelewy24(MolliePaymentMethod):
     method = "przelewy24"
-    verbose_name = _("Przelewy24 via Mollie")
     public_name = _("Przelewy24")
 
 
 class MollieApplePay(MolliePaymentMethod):
     method = "applepay"
-    verbose_name = _("Apple Pay via Mollie")
     public_name = _("Apple Pay")
 
 
 class MollieKlarnaPaynow(MollieOrderMethod):
     method = "klarnapaynow"
-    verbose_name = _("Klarna Pay now via Mollie")
     public_name = _("Klarna Pay now")
 
 
 class MollieKlarnaPaylater(MollieOrderMethod):
     method = "klarnapaylater"
-    verbose_name = _("Klarna Pay later via Mollie")
     public_name = _("Klarna Pay later")
 
 
 class MollieKlarnaSliceit(MollieOrderMethod):
     method = "klarnasliceit"
-    verbose_name = _("Klarna Slice it via Mollie")
     public_name = _("Klarna Slice it")
 
 
 class MollieIn3(MollieOrderMethod):
     method = "in3"
-    verbose_name = _("in3 it via Mollie")
-    public_name = _("in3")
+    public_name = _("iDEAL in3")
 
 
 class MollieTwint(MolliePaymentMethod):
     method = "twint"
-    verbose_name = _("TWINT via Mollie")
     public_name = _("TWINT")
+
+
+class MollieTrustly(MolliePaymentMethod):
+    method = "trustly"
+    public_name = _("Trustly")
+
+
+class MollieBancomatPay(MolliePaymentMethod):
+    method = "bancomat_pay"
+    public_name = _("BANCOMAT Pay")
+
+
+class MollieMyBank(MolliePaymentMethod):
+    method = "mybank"
+    public_name = _("MyBank")
+
+
+class MollieBlik(MolliePaymentMethod):
+    method = "blik"
+    public_name = _("BLIK")
+
+
+class MollieSatispay(MolliePaymentMethod):
+    method = "satispay"
+    public_name = _("Satispay")
