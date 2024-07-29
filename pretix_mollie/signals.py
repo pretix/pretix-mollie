@@ -17,13 +17,13 @@ logger = logging.getLogger(__name__)
 @receiver(register_payment_providers, dispatch_uid="payment_mollie")
 def register_payment_provider(sender, **kwargs):
     from .payment import (
-        MollieApplePay, MollieBancontact, MollieBanktransfer, MollieBelfius,
-        MollieBitcoin, MollieCC, MollieEPS, MollieGiropay, MollieIdeal,
-        MollieIn3, MollieINGHomePay, MollieKBC, MollieKlarnaPaylater,
-        MollieKlarnaPaynow, MollieKlarnaSliceit, MolliePayPal,
-        MolliePaysafecard, MolliePrzelewy24, MollieSettingsHolder,
-        MollieSofort, MollieTwint, MollieTrustly, MollieBancomatPay,
-        MollieMyBank, MollieBlik, MollieSatispay,
+        MollieApplePay, MollieBancomatPay, MollieBancontact,
+        MollieBanktransfer, MollieBelfius, MollieBitcoin, MollieBlik, MollieCC,
+        MollieEPS, MollieGiropay, MollieIdeal, MollieIn3, MollieINGHomePay,
+        MollieKBC, MollieKlarna, MollieKlarnaPaylater, MollieKlarnaPaynow,
+        MollieKlarnaSliceit, MollieMyBank, MolliePayPal, MolliePaysafecard,
+        MolliePrzelewy24, MollieSatispay, MollieSettingsHolder, MollieSofort,
+        MollieTrustly, MollieTwint,
     )
 
     return [
@@ -43,6 +43,7 @@ def register_payment_provider(sender, **kwargs):
         MolliePayPal,
         MollieApplePay,
         MolliePrzelewy24,
+        MollieKlarna,
         MollieKlarnaPaynow,
         MollieKlarnaPaylater,
         MollieKlarnaSliceit,

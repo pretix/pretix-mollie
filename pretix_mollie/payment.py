@@ -221,6 +221,16 @@ class MollieSettingsHolder(BasePaymentProvider):
             ),
         )
 
+        help_text_unified_klarna = _('Merchants newly enrolling for Klarna, must chose this option which offers Klarna '
+                                     'Pay Now, Pay Later, Slice It and Pay in 3 as one unified option. Check the '
+                                     'website profile in the Mollie Dashboard to see if you can enable just a specific '
+                                     'Klarna payment method or only a generic Klarna payment method.')
+
+        help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
+                                    'control of dis- and enabling individual Klarna payment methods, may use this '
+                                    'option. Please note that you will have to switch to the unified Klarna method by '
+                                    'the end of 2024.')
+
         d = OrderedDict(
             fields
             + [
@@ -413,10 +423,24 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
+                    "method_klarna",
+                    forms.BooleanField(
+                        label=_("Klarna"),
+                        help_text='{}<br />{}'.format(
+                            help_text_unified_klarna,
+                            help_text_order_based
+                        ),
+                        required=False,
+                    ),
+                ),
+                (
                     "method_klarnapaynow",
                     forms.BooleanField(
                         label=_("Klarna Pay now"),
-                        help_text=help_text_order_based,
+                        help_text='{}<br />{}'.format(
+                            help_text_legacy_klarna,
+                            help_text_order_based
+                        ),
                         required=False,
                     ),
                 ),
@@ -424,7 +448,10 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_klarnapaylater",
                     forms.BooleanField(
                         label=_("Klarna Pay later"),
-                        help_text=help_text_order_based_financing,
+                        help_text='{}<br />{}'.format(
+                            help_text_legacy_klarna,
+                            help_text_order_based_financing
+                        ),
                         required=False,
                     ),
                 ),
@@ -432,7 +459,10 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_klarnasliceit",
                     forms.BooleanField(
                         label=_("Klarna Slice it"),
-                        help_text=help_text_order_based_financing,
+                        help_text='{}<br />{}'.format(
+                            help_text_legacy_klarna,
+                            help_text_order_based_financing
+                        ),
                         required=False,
                     ),
                 ),
@@ -1249,7 +1279,7 @@ class MollieGiropay(MolliePaymentMethod):
     method = "giropay"
     public_name = _("giropay")
 
-    def is_allowed(self, request: HttpRequest, total: Decimal=None) -> bool:
+    def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
         # Mollie<>giropay is shut down July 1st
         return super().is_allowed(request, total) and now() < datetime(2024, 7, 1, 0, 0, 0, tzinfo=zoneinfo.ZoneInfo("Europe/Berlin"))
 
@@ -1299,6 +1329,11 @@ class MolliePrzelewy24(MolliePaymentMethod):
 class MollieApplePay(MolliePaymentMethod):
     method = "applepay"
     public_name = _("Apple Pay")
+
+
+class MollieKlarna(MollieOrderMethod):
+    method = "klarna"
+    public_name = _("Klarna")
 
 
 class MollieKlarnaPaynow(MollieOrderMethod):
