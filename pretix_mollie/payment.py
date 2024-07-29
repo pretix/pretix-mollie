@@ -226,9 +226,10 @@ class MollieSettingsHolder(BasePaymentProvider):
                                      'website profile in the Mollie Dashboard to see if you can enable just a specific '
                                      'Klarna payment method or only a generic Klarna payment method.')
 
-        help_text_legacy_klarna = _('Merchants having enrolled in the first quarter of 2024 and whose Mollie Dashboard '
-                                    'offers control of dis- and enabling individual Klarna payment methods, may use '
-                                    'this option.')
+        help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
+                                    'control of dis- and enabling individual Klarna payment methods, may use this '
+                                    'option. Please note that you will have to switch to the unified Klarna method by '
+                                    'the end of 2024.')
 
         d = OrderedDict(
             fields
