@@ -645,7 +645,7 @@ class MollieMethod(BasePaymentProvider):
             language,
             pretix_to_mollie_locales.get(
                 language.split("-")[0],
-                pretix_to_mollie_locales.get(language.split("_")[0], "en"),
+                pretix_to_mollie_locales.get(language.split("_")[0], "en_US"),
             ),
         )
 
