@@ -20,6 +20,7 @@ class PluginApp(AppConfig):
         category = "PAYMENT"
         visible = True
         version = __version__
+        featured = True
         compatibility = "pretix>=4.20.0"
 
     def ready(self):
