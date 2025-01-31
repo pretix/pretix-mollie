@@ -23,7 +23,7 @@ from i18nfield.strings import LazyI18nString
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
-from pretix.base.payment import BasePaymentProvider, PaymentException
+from pretix.base.payment import BasePaymentProvider, PaymentException, WalletQueries
 from pretix.base.reldate import (
     BASE_CHOICES, RelativeDateField, RelativeDateWidget, RelativeDateWrapper,
 )
@@ -237,14 +237,30 @@ class MollieSettingsHolder(BasePaymentProvider):
                 (
                     "method_creditcard",
                     forms.BooleanField(
-                        label=_("Credit card"),
+                        label="{} {}".format(
+                            '<span class="fa fa-credit-card"></span>',
+                            _("Credit card"),
+                        ),
                         required=False,
                     ),
                 ),
                 (
                     "method_applepay",
                     forms.BooleanField(
-                        label=_("Apple Pay"),
+                        label="{} {}".format(
+                            '<span class="fa fa-credit-card"></span>',
+                            _("Apple Pay"),
+                        ),
+                        required=False,
+                    ),
+                ),
+                (
+                    "method_googlepay",
+                    forms.BooleanField(
+                        label="{} {}".format(
+                            '<span class="fa fa-credit-card"></span>',
+                            _("Google Pay"),
+                        ),
                         required=False,
                     ),
                 ),
@@ -516,6 +532,10 @@ class MollieMethod(BasePaymentProvider):
     def verbose_name(self) -> str:
         return _("{method} via Mollie").format(method=self.public_name)
 
+    @property
+    def payload_methods(self):
+        return self.method
+
     def _is_available_by_time(self, now_dt=None, cart_id=None, order=None):
         now_dt = now_dt or now()
         tz = pytz.timezone(self.event.settings.timezone)
@@ -710,7 +730,7 @@ class MolliePaymentMethod(MollieMethod):
                 kwargs={"payment": payment.pk},
             ),
             "locale": self.get_locale(payment.order.locale),
-            "method": self.method,
+            "method": self.payload_methods,
             "metadata": {
                 "organizer": self.event.organizer.slug,
                 "event": self.event.slug,
@@ -952,7 +972,7 @@ class MollieOrderMethod(MollieMethod):
                 kwargs={"payment": payment.pk},
             ),
             "locale": self.get_locale(payment.order.locale),
-            "method": self.method,
+            "method": self.payload_methods,
             "metadata": {
                 "organizer": self.event.organizer.slug,
                 "event": self.event.slug,
@@ -1116,6 +1136,21 @@ class MollieOrderMethod(MollieMethod):
 class MollieCC(MolliePaymentMethod):
     method = "creditcard"
     public_name = _("Credit card")
+
+    @property
+    def payload_methods(self):
+        return ["creditcard"] + self.walletqueries()
+
+    def walletqueries(self):
+        wallets = []
+
+        if self.settings.get("method_applepay", as_type=bool):
+            wallets.append(WalletQueries.APPLEPAY)
+
+        if self.settings.get("method_googlepay", as_type=bool):
+            wallets.append(WalletQueries.GOOGLEPAY)
+
+        return wallets
 
 
 class MollieBancontact(MolliePaymentMethod):
@@ -1324,11 +1359,6 @@ class MolliePayPal(MolliePaymentMethod):
 class MolliePrzelewy24(MolliePaymentMethod):
     method = "przelewy24"
     public_name = _("Przelewy24")
-
-
-class MollieApplePay(MolliePaymentMethod):
-    method = "applepay"
-    public_name = _("Apple Pay")
 
 
 class MollieKlarna(MollieOrderMethod):
