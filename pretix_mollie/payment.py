@@ -17,6 +17,7 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
@@ -244,26 +245,26 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     ),
                 ),
-                (
-                    "method_applepay",
-                    forms.BooleanField(
-                        label="{} {}".format(
-                            '<span class="fa fa-credit-card"></span>',
-                            _("Apple Pay"),
-                        ),
-                        required=False,
-                    ),
-                ),
-                (
-                    "method_googlepay",
-                    forms.BooleanField(
-                        label="{} {}".format(
-                            '<span class="fa fa-credit-card"></span>',
-                            _("Google Pay"),
-                        ),
-                        required=False,
-                    ),
-                ),
+                ('walletdetection',
+                 forms.BooleanField(
+                     label=mark_safe(
+                         _('Check for Apple Pay/Google Pay')
+                         + ' '
+                         + '<span class="label label-info">{}</span>'.format(_('experimental'))
+                     ),
+                     help_text=_(
+                         "pretix will attempt to check if the customer's web browser supports wallet-based payment "
+                         "methods like Apple Pay or Google Pay and display them prominently with the credit card "
+                         "payment method. This detection does not take into consideration if Google Pay/Apple Pay "
+                         "has been disabled in the Mollie Dashboard."),
+                     initial=True,
+                     required=False,
+                     widget=forms.CheckboxInput(
+                         attrs={
+                             "data-display-dependency": "#id_payment_mollie_method_creditcard",
+                         },
+                     ),
+                 )),
                 (
                     "method_bancomat_pay",
                     forms.BooleanField(
@@ -532,10 +533,6 @@ class MollieMethod(BasePaymentProvider):
     def verbose_name(self) -> str:
         return _("{method} via Mollie").format(method=self.public_name)
 
-    @property
-    def payload_methods(self):
-        return self.method
-
     def _is_available_by_time(self, now_dt=None, cart_id=None, order=None):
         now_dt = now_dt or now()
         tz = pytz.timezone(self.event.settings.timezone)
@@ -730,7 +727,7 @@ class MolliePaymentMethod(MollieMethod):
                 kwargs={"payment": payment.pk},
             ),
             "locale": self.get_locale(payment.order.locale),
-            "method": self.payload_methods,
+            "method": self.method,
             "metadata": {
                 "organizer": self.event.organizer.slug,
                 "event": self.event.slug,
@@ -972,7 +969,7 @@ class MollieOrderMethod(MollieMethod):
                 kwargs={"payment": payment.pk},
             ),
             "locale": self.get_locale(payment.order.locale),
-            "method": self.payload_methods,
+            "method": self.method,
             "metadata": {
                 "organizer": self.event.organizer.slug,
                 "event": self.event.slug,
@@ -1137,20 +1134,11 @@ class MollieCC(MolliePaymentMethod):
     method = "creditcard"
     public_name = _("Credit card")
 
-    @property
-    def payload_methods(self):
-        return ["creditcard"] + self.walletqueries()
-
     def walletqueries(self):
-        wallets = []
-
-        if self.settings.get("method_applepay", as_type=bool):
-            wallets.append(WalletQueries.APPLEPAY)
-
-        if self.settings.get("method_googlepay", as_type=bool):
-            wallets.append(WalletQueries.GOOGLEPAY)
-
-        return wallets
+        # ToDo: Check against Mollie API, if ApplePay and GooglePay are even activated/available
+        if self.settings.get("walletdetection", True, as_type=bool):
+            return [WalletQueries.APPLEPAY, WalletQueries.GOOGLEPAY]
+        return []
 
 
 class MollieBancontact(MolliePaymentMethod):
