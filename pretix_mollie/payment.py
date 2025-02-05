@@ -17,13 +17,14 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
-from pretix.base.payment import BasePaymentProvider, PaymentException
+from pretix.base.payment import BasePaymentProvider, PaymentException, WalletQueries
 from pretix.base.reldate import (
     BASE_CHOICES, RelativeDateField, RelativeDateWidget, RelativeDateWrapper,
 )
@@ -237,17 +238,33 @@ class MollieSettingsHolder(BasePaymentProvider):
                 (
                     "method_creditcard",
                     forms.BooleanField(
-                        label=_("Credit card"),
+                        label="{} {}".format(
+                            '<span class="fa fa-credit-card"></span>',
+                            _("Credit card"),
+                        ),
                         required=False,
                     ),
                 ),
-                (
-                    "method_applepay",
-                    forms.BooleanField(
-                        label=_("Apple Pay"),
-                        required=False,
-                    ),
-                ),
+                ('walletdetection',
+                 forms.BooleanField(
+                     label=mark_safe(
+                         _('Check for Apple Pay/Google Pay')
+                         + ' '
+                         + '<span class="label label-info">{}</span>'.format(_('experimental'))
+                     ),
+                     help_text=_(
+                         "pretix will attempt to check if the customer's web browser supports wallet-based payment "
+                         "methods like Apple Pay or Google Pay and display them prominently with the credit card "
+                         "payment method. This detection does not take into consideration if Google Pay/Apple Pay "
+                         "has been disabled in the Mollie Dashboard."),
+                     initial=True,
+                     required=False,
+                     widget=forms.CheckboxInput(
+                         attrs={
+                             "data-display-dependency": "#id_payment_mollie_method_creditcard",
+                         },
+                     ),
+                 )),
                 (
                     "method_bancomat_pay",
                     forms.BooleanField(
@@ -1117,6 +1134,12 @@ class MollieCC(MolliePaymentMethod):
     method = "creditcard"
     public_name = _("Credit card")
 
+    def walletqueries(self):
+        # ToDo: Check against Mollie API, if ApplePay and GooglePay are even activated/available
+        if self.settings.get("walletdetection", True, as_type=bool):
+            return [WalletQueries.APPLEPAY, WalletQueries.GOOGLEPAY]
+        return []
+
 
 class MollieBancontact(MolliePaymentMethod):
     method = "bancontact"
@@ -1324,11 +1347,6 @@ class MolliePayPal(MolliePaymentMethod):
 class MolliePrzelewy24(MolliePaymentMethod):
     method = "przelewy24"
     public_name = _("Przelewy24")
-
-
-class MollieApplePay(MolliePaymentMethod):
-    method = "applepay"
-    public_name = _("Apple Pay")
 
 
 class MollieKlarna(MollieOrderMethod):
