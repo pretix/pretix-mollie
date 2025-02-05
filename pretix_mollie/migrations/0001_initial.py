@@ -10,7 +10,6 @@ from pretix.base.models import OrderPayment, OrderRefund
 def migrate_applepay(apps, schema_editor):
     OrderPayment.objects.filter(provider="mollie_applepay").update(
         provider="mollie_creditcard",
-        migrated=True,
     )
 
     OrderRefund.objects.filter(provider="mollie_applepay").update(
