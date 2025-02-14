@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-02-14 20:00+0000\n"
+"Last-Translator: Andrias Magnussen <andrias.magnussen@om.org>\n"
+"Language-Team: Faroese <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/fo/>\n"
 "Language: fo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9.2\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
-msgstr ""
+msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
 msgid ""
@@ -26,6 +29,10 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"Góðtak gjald umvegis Mollie, ein europiskur gjaldsmóttakari, sum tekur ímóti "
+"gjaldi umvegis gjaldskort umframt nógvar ymiskar staðbundnar "
+"gjaldsmóttakarar sum giropay, direct debit, iDeal, bankaflyting og nógv "
+"annað."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -33,6 +40,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
+"Lykilin \"%(value)s\" sær ikki út til at vera galdandi. Hann eigur at byrja "
+"við \"%(prefix)s\"."
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -40,50 +49,53 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
+"Fyri at góðtaka gjald umvegis Mollie, so er neyðugt fyrst at stovna eina "
+"konto hjá Mollie. Við at trýsta á fylgjandi knøtt, so kanst tú antin stovna "
+"eina nýggja konto hjá Mollie ella knýta eina verandi konto afturat pretix."
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
-msgstr ""
+msgstr "Knýt samband við Mollie"
 
 #: pretix_mollie/payment.py:97
 msgid "Disconnect from Mollie"
-msgstr ""
+msgstr "Slít samband við Mollie"
 
 #: pretix_mollie/payment.py:107
 msgid ""
 "The Mollie plugin is operating in test mode. No money will actually be "
 "transferred."
-msgstr ""
+msgstr "Mollie er í royndarstøðu. Ongin pengar verða tiknir av gjaldskorti."
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
-msgstr ""
+msgstr "Mollie konta"
 
 #: pretix_mollie/payment.py:123
 msgid "Website profile"
-msgstr ""
+msgstr "Heimasíðu profilur"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr ""
+msgstr "Endastað"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
 msgid "Live"
-msgstr ""
+msgstr "Beinleiðis"
 
 #: pretix_mollie/payment.py:132
 msgctxt "mollie"
 msgid "Testing"
-msgstr ""
+msgstr "Test"
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
-msgstr ""
+msgstr "Loyniligur lykil"
 
 #: pretix_mollie/payment.py:154 pretix_mollie/payment.py:483
 msgid "Credit card"
-msgstr ""
+msgstr "Gjaldskort"
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
@@ -91,27 +103,27 @@ msgstr ""
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
-msgstr ""
+msgstr "Bankaflyting"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr ""
+msgstr "Belfius gjaldsknøttur"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
-msgstr ""
+msgstr "Bitcoin"
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:184 pretix_mollie/payment.py:601
 msgid "giropay"
-msgstr ""
+msgstr "giropay"
 
 #: pretix_mollie/payment.py:189 pretix_mollie/payment.py:607
 msgid "iDEAL"
-msgstr ""
+msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
@@ -202,69 +214,72 @@ msgstr ""
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr ""
+msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
-msgstr ""
+msgstr "giropay umvegis Mollie"
 
 #: pretix_mollie/payment.py:606
 msgid "iDEAL via Mollie"
-msgstr ""
+msgstr "iDeal umvegis Mollie"
 
 #: pretix_mollie/payment.py:612
 msgid "ING Home’Pay via Mollie"
-msgstr ""
+msgstr "ING Home'Pay umvegis Mollie"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr ""
+msgstr "KBC/CBC gjaldsknøttur umvegis Mollie"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
-msgstr ""
+msgstr "KBC/CBC"
 
 #: pretix_mollie/payment.py:624
 msgid "paysafecard via Mollie"
-msgstr ""
+msgstr "paysafecard umvegis Mollie"
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
-msgstr ""
+msgstr "Sofort umvegis Mollie"
 
 #: pretix_mollie/signals.py:58
+#, fuzzy
 msgid "Payment canceled."
-msgstr ""
+msgstr "Gjald avlýst"
 
 #: pretix_mollie/signals.py:59
 msgid "Payment failed."
-msgstr ""
+msgstr "Gjald misseydnað."
 
 #: pretix_mollie/signals.py:60
 msgid "Payment succeeded."
-msgstr ""
+msgstr "Gjald gjøgnumført."
 
 #: pretix_mollie/signals.py:61
 msgid "Payment expired."
-msgstr ""
+msgstr "Gjald útgingið."
 
 #: pretix_mollie/signals.py:62
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
+"Gjaldsháttur er óvirkin, tí tað ber ikki til at endurnýggja atgongu teknið. "
+"Vinarliga set teg í samband við veitaran."
 
 #: pretix_mollie/signals.py:67
 msgid "Mollie reported an event: {}"
-msgstr ""
+msgstr "Mollie hevur skrásett eitt tiltak: {}"
 
 #: pretix_mollie/signals.py:77
 msgid "Mollie Connect: Client ID"
-msgstr ""
+msgstr "Mollie Connect: Kunda ID"
 
 #: pretix_mollie/signals.py:84
 msgid "Mollie Connect: Client secret"
-msgstr ""
+msgstr "Mollie Connect: Kunda loynidómur"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:3
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form.html:3
@@ -272,60 +287,64 @@ msgid ""
 "After you submitted your order, we will redirect you to Mollie to complete "
 "your payment. You will then be redirected back here to get your tickets."
 msgstr ""
+"Eftir at tú hevur bílagt ordran, verður tú beindur víðari til Mollie til "
+"gjaldingar. Tú verður síðani beindur aftur higar fyri at fáa atgongumerki."
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr ""
+msgstr "Gjaldsháttur"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
 "After completing your purchase, we will ask you to transfer the money to a "
 "bank account, using a personal reference code."
 msgstr ""
+"Eftir at tú hevur fullført keypið, verður tú biðin um at flyta pengarnar "
+"umvegis bankaflyting við einum persónligari tilvísingar kotu."
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
-msgstr ""
+msgstr "Støða"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
-msgstr ""
+msgstr "Goldið tann"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:15
 msgid "Expires at"
-msgstr ""
+msgstr "Gongur út tann"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:18
 msgid "Settlement amount"
-msgstr ""
+msgstr "Samlað upphædd"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
-msgstr ""
+msgstr "Navn á persóni, sum eigur gjaldskortið"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "Kortnummar"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "Slag av gjaldskorti"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "Navn á gjaldara"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
-msgstr ""
+msgstr "Bitcoin upphædd"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
-msgstr ""
+msgstr "Fráboðan um feil"
 
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:1
 #, python-format
@@ -337,14 +356,20 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"Vinarliga flyt alla upphæddina á hesa bankakonto.\n"
+"\n"
+"    Tilvísing: %(code)s\n"
+"    Upphædd: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "Vinarliga flyt alla upphæddina á hesa bankakontu:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "Upphædd:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
