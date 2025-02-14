@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-02-14 20:00+0000\n"
+"PO-Revision-Date: 2025-02-15 08:00+0000\n"
 "Last-Translator: Andrias Magnussen <andrias.magnussen@om.org>\n"
 "Language-Team: Faroese <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/fo/>\n"
@@ -50,8 +50,8 @@ msgid ""
 "connect pretix to an existing one."
 msgstr ""
 "Fyri at góðtaka gjald umvegis Mollie, so er neyðugt fyrst at stovna eina "
-"konto hjá Mollie. Við at trýsta á fylgjandi knøtt, so kanst tú antin stovna "
-"eina nýggja konto hjá Mollie ella knýta eina verandi konto afturat pretix."
+"kontu hjá Mollie. Við at trýsta á fylgjandi knøtt, so kanst tú antin stovna "
+"eina nýggja kontu hjá Mollie ella knýta eina verandi kontu afturat pretix."
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
@@ -99,7 +99,7 @@ msgstr "Gjaldskort"
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
-msgstr ""
+msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
@@ -107,7 +107,7 @@ msgstr "Bankaflyting"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr "Belfius gjaldsknøttur"
+msgstr "Belfius Pay Button"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
@@ -127,67 +127,71 @@ msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
-msgstr ""
+msgstr "ING Home'Pay"
 
 #: pretix_mollie/payment.py:199
 msgid "KBC/CBC Payment Button"
-msgstr ""
+msgstr "KBC/CBC gjalds knøttur"
 
 #: pretix_mollie/payment.py:204 pretix_mollie/payment.py:625
 msgid "paysafecard"
-msgstr ""
+msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
-msgstr ""
+msgstr "Sofort"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
-msgstr ""
+msgstr "Mollie hevur skrásett ein feil: {}"
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
+"Vit hava trupulleikar við sambandinum til Mollie. Vinarliga royn aftur. Set "
+"teg í samband við okkurt, um trupulleikin heldur fram."
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
-msgstr ""
+msgstr "Gjaldskort umvegis Mollie"
 
 #: pretix_mollie/payment.py:488
 msgid "Bancontact via Mollie"
-msgstr ""
+msgstr "Bancontact umvegis Mollie"
 
 #: pretix_mollie/payment.py:494
 msgid "Bank transfer via Mollie"
-msgstr ""
+msgstr "Bankaflyting umvegis Mollie"
 
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "Eigarin av kontuni"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 #: pretix_mollie/templates/pretix_mollie/pending.html:19
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/payment.py:559
 msgid ""
 "Please transfer the invoice amount to the bank account of our payment "
 "service provider using the specified reference:"
 msgstr ""
+"Vinarliga flyt upphæddina á fakturanum á banka kontu hjá okkara "
+"gjaldsveitara við at nýta ásettu tilvísing:"
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "Tilvísing"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -195,22 +199,24 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
+"Vinarliga nýt einans nevndu tilvísing. Annars kann gjaldið ikki verða "
+"móttikið."
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr ""
+msgstr "Belfius Pay Button umvegis Mollie"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
-msgstr ""
+msgstr "Belfius"
 
 #: pretix_mollie/payment.py:587
 msgid "Bitcoin via Mollie"
-msgstr ""
+msgstr "Bitcoin umvegis Mollie"
 
 #: pretix_mollie/payment.py:594
 msgid "EPS via Mollie"
-msgstr ""
+msgstr "EPS umvegis Mollie"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
@@ -245,9 +251,8 @@ msgid "Sofort via Mollie"
 msgstr "Sofort umvegis Mollie"
 
 #: pretix_mollie/signals.py:58
-#, fuzzy
 msgid "Payment canceled."
-msgstr "Gjald avlýst"
+msgstr "Gjald avlýst."
 
 #: pretix_mollie/signals.py:59
 msgid "Payment failed."
@@ -357,7 +362,7 @@ msgid ""
 "%(bank)s\n"
 msgstr ""
 "\n"
-"Vinarliga flyt alla upphæddina á hesa bankakonto.\n"
+"Vinarliga flyt alla upphæddina á hesa bankakontu.\n"
 "\n"
 "    Tilvísing: %(code)s\n"
 "    Upphædd: %(total)s\n"
@@ -373,21 +378,24 @@ msgstr "Upphædd:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "Tilvísingar kota (umráðandi):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"Aftaná at tú hevur flutt pengarnar við bankaflyting, so kanst tú lata "
+"gluggan aftur. Vit senda tær ein teldupost so skjótt, sum vit hava móttikið "
+"gjaldið."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "Lat netbankan upp"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "Krevur, at appin kann taka ímóti BezahlCode"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
@@ -395,61 +403,72 @@ msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
 msgstr ""
+"Vit bíða eftir einum svari frá gjaldsveitaranum í mun til títt gjald. "
+"Vinarliga set teg í samband við okkum, um hetta tekur meira enn nakrar dagar."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
-msgstr ""
+msgstr "Gjaldsflytingin kundi ikki gjøgnumførast orsaka av:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "Ókend orsøk"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr ""
+msgstr "Gjaldsgongdin er byrjað í nýggjum glugga."
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
 msgstr ""
+"Gluggin, har tú skuldi tasta gjaldsupplýsingarnar inn var ikki latin upp "
+"ella latin aftur?"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
-msgstr ""
+msgstr "Trýst her, fyri at lata ein nýggjan glugga upp."
 
 #: pretix_mollie/views.py:53 pretix_mollie/views.py:59
 #: pretix_mollie/views.py:102
 msgid "An error occurred during connecting with Mollie, please try again."
 msgstr ""
+"Ein feilur hendi, tá ið roynt var at fáa samband við Mollie. Vinarliga royn "
+"aftur."
 
 #: pretix_mollie/views.py:105
 msgid "Mollie returned an error: {}"
-msgstr ""
+msgstr "Mollie vísti ein feil: {}"
 
 #: pretix_mollie/views.py:107
 msgid "Please create a website profile in your Mollie account and try again."
-msgstr ""
+msgstr "Vinarliga ger ein profil í tíni Mollie kontu og royn aftur."
 
 #: pretix_mollie/views.py:109
 msgid ""
 "Please fill in your company details in your Mollie account and try again."
 msgstr ""
+"Vinarliga fyll upplýsingarnar hjá tínum felagi út í Mollie og royn aftur."
 
 #: pretix_mollie/views.py:112
 msgid ""
 "Your Mollie account is now connected to pretix. You can change the settings "
 "in detail below."
 msgstr ""
+"Tín Mollie konta hevur nú samband við pretix. Tú kanst broyta stillingarnar "
+"niðanfyri."
 
 #: pretix_mollie/views.py:229
 msgid "Your Mollie account has been disconnected."
-msgstr ""
+msgstr "Tín Mollie konta hevur mist sambandið."
 
 #: pretix_mollie/views.py:271
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
+"Vit hava móttikið títt gjald, men kundu ikki eyðmerkja títt atgongumerki, tí "
+"servarin var upptikin. Vinarliga royn aftur um nakrar minuttir."
 
 #: pretix_mollie/views.py:275
 msgid ""
@@ -457,9 +476,14 @@ msgid ""
 "of your ordered products is sold out. Please contact the event organizer for "
 "further steps."
 msgstr ""
+"Vit hava móttikið títt gjald, men kundu ikki merkja títt atgongumerki sum "
+"goldið, tí eitt av tínum umbidnu produktum er útselt. Vinarliga set teg í "
+"samband við fyriskiparan, fyri at fáa nærri kunning."
 
 #: pretix_mollie/views.py:282
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
+"Orsaka, men ein feilur var í gjaldsgongdini. Vinarliga kanna leinkjuna í "
+"teldupostinum fyri at halda fram."
