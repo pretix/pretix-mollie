@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2024-12-27 03:00+0000\n"
+"PO-Revision-Date: 2025-02-17 14:00+0000\n"
 "Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/ja/>\n"
@@ -35,7 +35,8 @@ msgstr ""
 msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
-msgstr ""
+msgstr "与えられたキー \"%(value)s\"は、形式上有効ではありません。 \"%(prefix)s\""
+"から始まっている必要があります。"
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -68,7 +69,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr ""
+msgstr "エンドポイント"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
@@ -82,19 +83,19 @@ msgstr "テスト中"
 
 #: pretix_mollie/payment.py:142
 msgid "Secret key"
-msgstr ""
+msgstr "秘密鍵"
 
 #: pretix_mollie/payment.py:154 pretix_mollie/payment.py:483
 msgid "Credit card"
-msgstr ""
+msgstr "クレジットカード"
 
 #: pretix_mollie/payment.py:159 pretix_mollie/payment.py:489
 msgid "Bancontact"
-msgstr ""
+msgstr "Bancontact"
 
 #: pretix_mollie/payment.py:164 pretix_mollie/payment.py:495
 msgid "Bank transfer"
-msgstr ""
+msgstr "銀行振込"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
@@ -106,15 +107,15 @@ msgstr ""
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
-msgstr ""
+msgstr "EPS"
 
 #: pretix_mollie/payment.py:184 pretix_mollie/payment.py:601
 msgid "giropay"
-msgstr ""
+msgstr "giropay"
 
 #: pretix_mollie/payment.py:189 pretix_mollie/payment.py:607
 msgid "iDEAL"
-msgstr ""
+msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
@@ -158,18 +159,18 @@ msgstr ""
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
 msgid "Account holder"
-msgstr ""
+msgstr "口座名義人"
 
 #: pretix_mollie/payment.py:528 pretix_mollie/payment.py:563
 #: pretix_mollie/templates/pretix_mollie/pending.html:18
 msgid "IBAN"
-msgstr ""
+msgstr "IBAN"
 
 #: pretix_mollie/payment.py:529 pretix_mollie/payment.py:564
 #: pretix_mollie/templates/pretix_mollie/control.html:37
 #: pretix_mollie/templates/pretix_mollie/pending.html:19
 msgid "BIC"
-msgstr ""
+msgstr "BIC"
 
 #: pretix_mollie/payment.py:559
 msgid ""
@@ -179,7 +180,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr ""
+msgstr "参照"
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -206,7 +207,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr ""
+msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
@@ -279,21 +280,22 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr ""
+msgstr "支払い方法"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
 "After completing your purchase, we will ask you to transfer the money to a "
 "bank account, using a personal reference code."
-msgstr ""
+msgstr "個別の参照コードを使って指定の銀行口座へ振込をするよう、購入後にご案内をお送"
+"りします。"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:8
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
@@ -309,19 +311,19 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
-msgstr ""
+msgstr "カード保持者"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:25
 msgid "Card number"
-msgstr ""
+msgstr "カード番号"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:29
 msgid "Card type"
-msgstr ""
+msgstr "カードの種類"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:33
 msgid "Payer name"
-msgstr ""
+msgstr "支払人の名前"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
@@ -329,7 +331,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
-msgstr ""
+msgstr "エラーメッセージ"
 
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:1
 #, python-format
@@ -344,15 +346,15 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr ""
+msgstr "次の銀行口座に全額を送金してください:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
-msgstr ""
+msgstr "金額:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr ""
+msgstr "リファレンス・コード (重要):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
@@ -373,28 +375,29 @@ msgstr ""
 msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
-msgstr ""
+msgstr "あなたの支払いについて、決済業者からの回答を待機中です。数日かかっている場合"
+"は、私たちにご連絡ください。"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
-msgstr ""
+msgstr "支払いの処理は、次の理由で完了しません:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "不明な理由"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
-msgstr ""
+msgstr "新規ウィンドウで、支払いの処理が開始しました。"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
-msgstr ""
+msgstr "支払いデータを入力するためのウィンドウが開いていませんか、閉じましたか？"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
-msgstr ""
+msgstr "ウィンドウを開くには、ここをクリック。"
 
 #: pretix_mollie/views.py:53 pretix_mollie/views.py:59
 #: pretix_mollie/views.py:102
@@ -441,7 +444,8 @@ msgstr ""
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
-msgstr ""
+msgstr "申し訳ありません。支払いの処理でエラーが発生しました。電子メールのリンクを確"
+"認して、支払いを継続してください。"
 
 #: pretix_mollie/__init__.py:12
 msgid "Integration for the Mollie payment provider."
