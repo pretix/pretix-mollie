@@ -4,9 +4,12 @@ from django import forms
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from pretix.base.forms import SecretKeySettingsField
+from pretix.base.models import Event, Order
+from pretix.base.payment import PaymentException
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
-    logentry_display, register_global_settings, register_payment_providers,
+    logentry_display, order_expiry_changed, register_global_settings,
+    register_payment_providers,
 )
 
 from .forms import MollieKeyValidator
@@ -17,13 +20,13 @@ logger = logging.getLogger(__name__)
 @receiver(register_payment_providers, dispatch_uid="payment_mollie")
 def register_payment_provider(sender, **kwargs):
     from .payment import (
-        MollieBancomatPay, MollieBancontact,
-        MollieBanktransfer, MollieBelfius, MollieBitcoin, MollieBlik, MollieCC,
-        MollieEPS, MollieGiropay, MollieIdeal, MollieIn3, MollieINGHomePay,
-        MollieKBC, MollieKlarna, MollieKlarnaPaylater, MollieKlarnaPaynow,
-        MollieKlarnaSliceit, MollieMyBank, MolliePayPal, MolliePaysafecard,
-        MolliePrzelewy24, MollieSatispay, MollieSettingsHolder, MollieSofort,
-        MollieTrustly, MollieTwint,
+        MollieBancomatPay, MollieBancontact, MollieBanktransfer, MollieBelfius,
+        MollieBitcoin, MollieBlik, MollieCC, MollieEPS, MollieGiropay,
+        MollieIdeal, MollieIn3, MollieINGHomePay, MollieKBC, MollieKlarna,
+        MollieKlarnaPaylater, MollieKlarnaPaynow, MollieKlarnaSliceit,
+        MollieMyBank, MolliePayPal, MolliePaysafecard, MolliePrzelewy24,
+        MollieSatispay, MollieSettingsHolder, MollieSofort, MollieTrustly,
+        MollieTwint,
     )
 
     return [
@@ -66,6 +69,7 @@ def pretixcontrol_logentry_display(sender, logentry, **kwargs):
         "failed": _("Payment failed."),
         "paid": _("Payment succeeded."),
         "expired": _("Payment expired."),
+        "expiry_update_failed": _("Failed to update payment expiration date."),
         "disabled": _(
             "Payment method disabled since we were unable to refresh the access token. Please "
             "contact support."
@@ -101,3 +105,20 @@ def register_global_settings(sender, **kwargs):
             ),
         ]
     )
+
+
+@receiver(order_expiry_changed, dispatch_uid="mollie_order_expiry_changed")
+def order_modified(sender: Event, order: Order, **kwargs):
+    payment = order.payments.last()
+    if payment.provider == 'mollie_banktransfer':
+        pprov = payment.payment_provider
+        try:
+            pprov.update_payment_expiry(payment)
+        except PaymentException:
+            payment.order.log_action(
+                "pretix_mollie.event.expiry_update_failed",
+                {
+                    'local_id': payment.local_id,
+                    'provider': payment.provider,
+                }
+            )
