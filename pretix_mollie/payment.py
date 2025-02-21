@@ -493,6 +493,15 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
+                    "method_alma",
+                    forms.BooleanField(
+                        label=_("Alma"),
+                        help_text=help_text_order_based_financing,
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    )
+                ),
+                (
                     "product_type",
                     forms.ChoiceField(
                         label=_("Product type"),
@@ -1402,3 +1411,14 @@ class MollieBlik(MolliePaymentMethod):
 class MollieSatispay(MolliePaymentMethod):
     method = "satispay"
     public_name = _("Satispay")
+
+
+class MollieAlma(MollieOrderMethod):
+    method = "alma"
+    public_name = _("Alma")
+
+    def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
+        return Decimal(50.00) <= total <= Decimal(20000.00) and super().is_allowed(request, total)
+
+    def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
+        return Decimal(50.00) <= order.pending_sum <= Decimal(20000.00) and super().order_change_allowed(order, request)
