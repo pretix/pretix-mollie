@@ -4,7 +4,7 @@ from django import forms
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from pretix.base.forms import SecretKeySettingsField
-from pretix.base.models import Event, Order
+from pretix.base.models import Event, Order, OrderPayment
 from pretix.base.payment import PaymentException
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
@@ -112,13 +112,14 @@ def order_modified(sender: Event, order: Order, **kwargs):
     payment = order.payments.last()
     if payment.provider == 'mollie_banktransfer':
         pprov = payment.payment_provider
-        try:
-            pprov.update_payment_expiry(payment)
-        except PaymentException:
-            payment.order.log_action(
-                "pretix_mollie.event.expiry_update_failed",
-                {
-                    'local_id': payment.local_id,
-                    'provider': payment.provider,
-                }
-            )
+        if payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]:
+            try:
+                pprov.update_payment_expiry(payment)
+            except PaymentException:
+                payment.order.log_action(
+                    "pretix_mollie.event.expiry_update_failed",
+                    {
+                        'local_id': payment.local_id,
+                        'provider': payment.provider,
+                    }
+                )
