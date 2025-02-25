@@ -369,12 +369,17 @@ def handle_order(payment, mollie_id, retry=True):
                 if payment.state != OrderPayment.PAYMENT_STATE_CREATED:
                     return  # race condition between return view and webhook
 
+                body = {
+                    # "If you leave out this parameter [lines], the entire order will be shipped."
+                }
+
+                if pprov.settings.connect_client_id and pprov.settings.access_token:
+                    body["testmode"] = payment.info_data.get("mode", "live") == "test"
+
                 resp = requests.post(
                     "https://api.mollie.com/v2/orders/" + mollie_id + "/shipments",
                     headers=pprov.request_headers,
-                    json={
-                        # "If you leave out this parameter [lines], the entire order will be shipped."
-                    },
+                    json=body,
                 )
                 resp.raise_for_status()
                 payment.state = OrderPayment.PAYMENT_STATE_PENDING
