@@ -111,16 +111,15 @@ def register_global_settings(sender, **kwargs):
 @receiver(order_expiry_changed, dispatch_uid="mollie_order_expiry_changed")
 def order_modified(sender: Event, order: Order, **kwargs):
     payment = order.payments.last()
-    if payment.provider == 'mollie_banktransfer':
-        pprov = payment.payment_provider
-        if payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]:
-            try:
-                pprov.update_payment_expiry(payment)
-            except PaymentException:
-                payment.order.log_action(
-                    "pretix_mollie.event.expiry_update_failed",
-                    {
-                        'local_id': payment.local_id,
-                        'provider': payment.provider,
-                    }
-                )
+    if payment.provider == 'mollie_banktransfer' and payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]:
+        try:
+            pprov = payment.payment_provider
+            pprov.update_payment_expiry(payment)
+        except PaymentException:
+            payment.order.log_action(
+                "pretix_mollie.event.expiry_update_failed",
+                {
+                    'local_id': payment.local_id,
+                    'provider': payment.provider,
+                }
+            )
