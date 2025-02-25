@@ -24,7 +24,9 @@ from i18nfield.strings import LazyI18nString
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
-from pretix.base.payment import BasePaymentProvider, PaymentException, WalletQueries
+from pretix.base.payment import (
+    BasePaymentProvider, PaymentException, WalletQueries,
+)
 from pretix.base.reldate import (
     BASE_CHOICES, RelativeDateField, RelativeDateWidget, RelativeDateWrapper,
 )
@@ -491,6 +493,15 @@ class MollieSettingsHolder(BasePaymentProvider):
                         disabled=self.event.currency != 'EUR',
                         required=False,
                     ),
+                ),
+                (
+                    "method_alma",
+                    forms.BooleanField(
+                        label=_("Alma"),
+                        help_text=help_text_order_based_financing,
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    )
                 ),
                 (
                     "product_type",
@@ -1186,6 +1197,51 @@ class MollieBanktransfer(MolliePaymentMethod):
 
         return  # no redirect necessary for this method
 
+    def update_payment_expiry(self, payment: OrderPayment, retry=True):
+        if not (
+                payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]
+                and 'id' in payment.info_data
+        ):
+            raise PaymentException(_("This order's banktransfer payment cannot be extended into the future"))
+
+        try:
+            refresh_mollie_token(self.event, True)
+
+            body = {
+                "dueDate": (payment.order.expires.date() + timedelta(days=1)).isoformat(),
+            }
+            if self.settings.connect_client_id and self.settings.access_token:
+                body["testmode"] = payment.info_data.get("mode", "live") == "test"
+
+            req = requests.patch(
+                "https://api.mollie.com/v2/payments/{}".format(payment.info_data["id"]),
+                json=body,
+                headers=self.request_headers,
+            )
+            req.raise_for_status()
+        except HTTPError:
+            logger.exception("Mollie error: %s" % req.text)
+            try:
+                d = req.json()
+
+                if d.get("status") == 401 and retry:
+                    # Token might be expired, let's retry!
+                    if refresh_mollie_token(self.event, False):
+                        return self.update_payment_expiry(payment, retry=False)
+            except Exception:
+                d = {"error": True, "detail": req.text}
+
+            raise PaymentException(
+                _(
+                    "We had trouble communicating with Mollie. Please try again and get in touch "
+                    "with us if this problem persists."
+                )
+            )
+
+        data = req.json()
+        payment.info = json.dumps(data)
+        payment.save()
+
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
         body["dueDate"] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
@@ -1402,3 +1458,14 @@ class MollieBlik(MolliePaymentMethod):
 class MollieSatispay(MolliePaymentMethod):
     method = "satispay"
     public_name = _("Satispay")
+
+
+class MollieAlma(MollieOrderMethod):
+    method = "alma"
+    public_name = _("Alma")
+
+    def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
+        return Decimal(50.00) <= total <= Decimal(20000.00) and super().is_allowed(request, total)
+
+    def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
+        return Decimal(50.00) <= order.pending_sum <= Decimal(20000.00) and super().order_change_allowed(order, request)
