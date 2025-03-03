@@ -8,7 +8,9 @@ from pretix.base.models import Event, Order, OrderPayment
 from pretix.base.payment import PaymentException
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
-    logentry_display, order_expiry_changed, register_global_settings,
+    logentry_display,
+    order_expiry_changed,
+    register_global_settings,
     register_payment_providers,
 )
 
@@ -20,13 +22,33 @@ logger = logging.getLogger(__name__)
 @receiver(register_payment_providers, dispatch_uid="payment_mollie")
 def register_payment_provider(sender, **kwargs):
     from .payment import (
-        MollieAlma, MollieBancomatPay, MollieBancontact,
-        MollieBanktransfer, MollieBelfius, MollieBitcoin, MollieBlik, MollieCC,
-        MollieEPS, MollieGiropay, MollieIdeal, MollieIn3, MollieINGHomePay,
-        MollieKBC, MollieKlarna, MollieKlarnaPaylater, MollieKlarnaPaynow,
-        MollieKlarnaSliceit, MollieMyBank, MolliePayPal, MolliePaysafecard,
-        MolliePrzelewy24, MollieSatispay, MollieSettingsHolder, MollieSofort,
-        MollieTrustly, MollieTwint,
+        MollieAlma,
+        MollieBancomatPay,
+        MollieBancontact,
+        MollieBanktransfer,
+        MollieBelfius,
+        MollieBitcoin,
+        MollieBlik,
+        MollieCC,
+        MollieEPS,
+        MollieGiropay,
+        MollieIdeal,
+        MollieIn3,
+        MollieINGHomePay,
+        MollieKBC,
+        MollieKlarna,
+        MollieKlarnaPaylater,
+        MollieKlarnaPaynow,
+        MollieKlarnaSliceit,
+        MollieMyBank,
+        MolliePayPal,
+        MolliePaysafecard,
+        MolliePrzelewy24,
+        MollieSatispay,
+        MollieSettingsHolder,
+        MollieSofort,
+        MollieTrustly,
+        MollieTwint,
     )
 
     return [
@@ -111,7 +133,12 @@ def register_global_settings(sender, **kwargs):
 @receiver(order_expiry_changed, dispatch_uid="mollie_order_expiry_changed")
 def order_modified(sender: Event, order: Order, **kwargs):
     payment = order.payments.last()
-    if payment.provider == 'mollie_banktransfer' and payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]:
+    if (
+        payment
+        and payment.provider == "mollie_banktransfer"
+        and payment.state
+        in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]
+    ):
         try:
             pprov = payment.payment_provider
             pprov.update_payment_expiry(payment)
@@ -119,7 +146,7 @@ def order_modified(sender: Event, order: Order, **kwargs):
             payment.order.log_action(
                 "pretix_mollie.event.expiry_update_failed",
                 {
-                    'local_id': payment.local_id,
-                    'provider': payment.provider,
-                }
+                    "local_id": payment.local_id,
+                    "provider": payment.provider,
+                },
             )
