@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-03-01 23:00+0000\n"
+"PO-Revision-Date: 2025-03-16 05:00+0000\n"
 "Last-Translator: Kristian Feldsam <feldsam@gmail.com>\n"
 "Language-Team: Slovak <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/sk/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.10.1\n"
+"X-Generator: Weblate 5.10.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -351,7 +351,8 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr "Referencia platby (dôležité):"
+msgstr ""
+"Referencia platby<br><small>Poznámka alebo správa pre prijímateľa</small>:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
