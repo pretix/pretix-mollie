@@ -353,13 +353,6 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
-                    "method_sofort",
-                    forms.BooleanField(
-                        label=_("SOFORT (instant bank transfer)"),
-                        required=False,
-                    ),
-                ),
-                (
                     "method_paypal",
                     forms.BooleanField(
                         label=_("PayPal"),
@@ -1393,6 +1386,14 @@ class MollieSofort(MolliePaymentMethod):
     method = "sofort"
     verbose_name = _("SOFORT via Mollie")
     public_name = _("SOFORT (instant bank transfer)")
+
+    def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
+        # Mollie<>SOFORT is shut down since September 30th 2024
+        return False
+
+    def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
+        # Mollie<>SOFORT is shut down since September 30th 2024
+        return False
 
 
 class MolliePayPal(MolliePaymentMethod):
