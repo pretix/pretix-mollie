@@ -353,13 +353,6 @@ class MollieSettingsHolder(BasePaymentProvider):
                     ),
                 ),
                 (
-                    "method_sofort",
-                    forms.BooleanField(
-                        label=_("SOFORT (instant bank transfer)"),
-                        required=False,
-                    ),
-                ),
-                (
                     "method_paypal",
                     forms.BooleanField(
                         label=_("PayPal"),
@@ -1387,12 +1380,6 @@ class MolliePaysafecard(MolliePaymentMethod):
     method = "paysafecard"
     public_name = _("paysafecard")
     refunds_allowed = False
-
-
-class MollieSofort(MolliePaymentMethod):
-    method = "sofort"
-    verbose_name = _("SOFORT via Mollie")
-    public_name = _("SOFORT (instant bank transfer)")
 
 
 class MolliePayPal(MolliePaymentMethod):
