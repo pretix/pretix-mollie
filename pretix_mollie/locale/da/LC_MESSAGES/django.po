@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-03-16 05:00+0000\n"
-"Last-Translator: Kristian Feldsam <feldsam@gmail.com>\n"
-"Language-Team: Slovak <https://translate.pretix.eu/projects/pretix/"
-"pretix-plugin-mollie/sk/>\n"
-"Language: sk\n"
+"PO-Revision-Date: 2025-03-10 23:00+0000\n"
+"Last-Translator: deborahfoell <deborah.foell@om.org>\n"
+"Language-Team: Danish <https://translate.pretix.eu/projects/pretix/"
+"pretix-plugin-mollie/da/>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.10.3\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10.2\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
-msgstr ""
+msgstr "Mollie"
 
 #: pretix_mollie/__init__.py:12
 msgid ""
@@ -178,7 +178,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
-msgstr "Referencia platby"
+msgstr ""
 
 #: pretix_mollie/payment.py:567
 #: pretix_mollie/templates/pretix_mollie/order_pending.txt:9
@@ -343,7 +343,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
-msgstr "Platbu vykonajte podľa nasledujúcich bankových údajov:"
+msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:20
 msgid "Amount:"
@@ -352,7 +352,6 @@ msgstr ""
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
 msgstr ""
-"Referencia platby<br><small>Poznámka alebo správa pre prijímateľa</small>:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
