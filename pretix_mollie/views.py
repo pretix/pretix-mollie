@@ -287,9 +287,7 @@ def handle_payment(payment, mollie_id, retry=True):
             OrderPayment.PAYMENT_STATE_CREATED,
             OrderPayment.PAYMENT_STATE_PENDING,
         ):
-            payment.state = OrderPayment.PAYMENT_STATE_CANCELED
-            payment.save()
-            payment.order.log_action("pretix_mollie.event." + data.get("status"))
+            payment.fail(log_data={"status": data.get("status")})
         elif payment.state == OrderPayment.PAYMENT_STATE_CONFIRMED:
             known_refunds = [r.info_data.get("id") for r in payment.refunds.all()]
             for r in refunds:
