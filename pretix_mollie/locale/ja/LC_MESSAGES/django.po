@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-02-17 14:00+0000\n"
+"PO-Revision-Date: 2025-04-14 09:00+0000\n"
 "Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.9.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -449,10 +449,11 @@ msgstr "申し訳ありません。支払いの処理でエラーが発生しま
 
 #: pretix_mollie/__init__.py:12
 msgid "Integration for the Mollie payment provider."
-msgstr ""
+msgstr "Mollie支払いプロバイダーの統合。"
 
 #: pretix_mollie/views.py:267
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check beck in a couple of minutes."
-msgstr ""
+msgstr "お支払いを受け取りましたが、サーバーがビジーのため、チケットに印を付けること"
+"ができませんでした。数分後に改めてチェックしてください。"
