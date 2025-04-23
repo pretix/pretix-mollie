@@ -379,7 +379,11 @@ def handle_order(payment, mollie_id, retry=True):
                     headers=pprov.request_headers,
                     json=body,
                 )
-                resp.raise_for_status()
+                try:
+                    resp.raise_for_status()
+                except requests.HTTPError:
+                    logger.exception(f"Could not confirm shipment, response was: {resp.text}")
+                    raise
                 payment.state = OrderPayment.PAYMENT_STATE_PENDING
                 payment.save(update_fields=["state"])
             handle_order(payment, mollie_id)
