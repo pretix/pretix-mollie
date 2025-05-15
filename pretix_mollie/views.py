@@ -26,6 +26,7 @@ from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
 from pretix.control.permissions import event_permission_required
+from pretix.helpers import OF_SELF
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri, eventreverse
 from requests import HTTPError
@@ -363,7 +364,7 @@ def handle_order(payment, mollie_id, retry=True):
             payment.order.log_action("pretix_mollie.event." + data["status"])
             with transaction.atomic():
                 # Mark order as shipped
-                payment = OrderPayment.objects.select_for_update().get(pk=payment.pk)
+                payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
                 if payment.state != OrderPayment.PAYMENT_STATE_CREATED:
                     return  # race condition between return view and webhook
 
