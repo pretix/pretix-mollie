@@ -26,6 +26,7 @@ from pretix.base.payment import PaymentException
 from pretix.base.services.locking import LockTimeoutException
 from pretix.base.settings import GlobalSettingsObject
 from pretix.control.permissions import event_permission_required
+from pretix.helpers import OF_SELF
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri, eventreverse
 from requests import HTTPError
@@ -236,7 +237,7 @@ def handle_payment(payment, mollie_id, retry=True):
         resp.raise_for_status()
         data = resp.json()
 
-        if data.get("amountRefunded") and data.get("status") == "paid":
+        if data.get("amountRefunded") and data["amountRefunded"].get("value") != "0.00" and data.get("status") == "paid":
             refundsresp = requests.get(
                 "https://api.mollie.com/v2/payments/" + mollie_id + "/refunds?" + qp,
                 headers=pprov.request_headers,
@@ -246,7 +247,7 @@ def handle_payment(payment, mollie_id, retry=True):
         else:
             refunds = []
 
-        if data.get("status") == "paid":
+        if data.get("amountChargedBack") and data["amountChargedBack"].get("value") != "0.00" and data.get("status") == "paid":
             chargebacksresp = requests.get(
                 "https://api.mollie.com/v2/payments/"
                 + mollie_id
@@ -363,7 +364,7 @@ def handle_order(payment, mollie_id, retry=True):
             payment.order.log_action("pretix_mollie.event." + data["status"])
             with transaction.atomic():
                 # Mark order as shipped
-                payment = OrderPayment.objects.select_for_update().get(pk=payment.pk)
+                payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
                 if payment.state != OrderPayment.PAYMENT_STATE_CREATED:
                     return  # race condition between return view and webhook
 
