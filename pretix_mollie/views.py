@@ -236,7 +236,7 @@ def handle_payment(payment, mollie_id, retry=True):
         resp.raise_for_status()
         data = resp.json()
 
-        if data.get("amountRefunded") and data.get("status") == "paid":
+        if data.get("amountRefunded") and data["amountRefunded"].get("value") != "0.00" and data.get("status") == "paid":
             refundsresp = requests.get(
                 "https://api.mollie.com/v2/payments/" + mollie_id + "/refunds?" + qp,
                 headers=pprov.request_headers,
@@ -246,7 +246,7 @@ def handle_payment(payment, mollie_id, retry=True):
         else:
             refunds = []
 
-        if data.get("status") == "paid":
+        if data.get("amountChargedBack") and data["amountChargedBack"].get("value") != "0.00" and data.get("status") == "paid":
             chargebacksresp = requests.get(
                 "https://api.mollie.com/v2/payments/"
                 + mollie_id
