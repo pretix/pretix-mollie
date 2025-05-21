@@ -395,6 +395,14 @@ class MollieSettingsHolder(BasePaymentProvider):
                     "method_banktransfer",
                     forms.BooleanField(
                         label=_("Bank transfer"),
+                        help_text=_("Please note, that <code>Pay by Bank</code> and <code>Bank Transfer</code> are two "
+                                    "completely different payment methods. While both are based on a SEPA bank "
+                                    "transfer, the former is a guided bank transfer that takes the customer to a "
+                                    "pre-filled online banking screen where they only need to confirm the payment. The "
+                                    "latter provides bank account information that the customer needs to manually "
+                                    "input into their online banking to initiate the bank transfer. While the latter "
+                                    "might be the more reasonable choice for something like a <em>Pay by Invoice</em> "
+                                    "payment, the former bears more similarity with an instant online payment."),
                         required=False,
                     ),
                 ),
@@ -432,6 +440,21 @@ class MollieSettingsHolder(BasePaymentProvider):
                                 "data-display-dependency": "#id_payment_mollie_method_banktransfer",
                             }
                         ),
+                    ),
+                ),
+                (
+                    "method_paybybank",
+                    forms.BooleanField(
+                        label="Pay by Bank",  # Non-Translateable on purpose to avoid confusion with Bank Transfer
+                        help_text=_("Please note, that <code>Pay by Bank</code> and <code>Bank Transfer</code> are two "
+                                    "completely different payment methods. While both are based on a SEPA bank "
+                                    "transfer, the former is a guided bank transfer that takes the customer to a "
+                                    "pre-filled online banking screen where they only need to confirm the payment. The "
+                                    "latter provides bank account information that the customer needs to manually "
+                                    "input into their online banking to initiate the bank transfer. While the latter "
+                                    "might be the more reasonable choice for something like a <em>Pay by Invoice</em> "
+                                    "payment, the former bears more similarity with an instant online payment."),
+                        required=False,
                     ),
                 ),
                 (
@@ -1459,6 +1482,12 @@ class MollieBlik(MolliePaymentMethod):
 class MollieSatispay(MolliePaymentMethod):
     method = "satispay"
     public_name = _("Satispay")
+
+
+class MolliePayByBank(MolliePaymentMethod):
+    method = "paybybank"
+    public_name = _("Pay by Bank")
+    verbose_name = "Pay by Bank via Mollie"  # Non-translatable to avoid confusion with Bank Transfer
 
 
 class MollieAlma(MollieOrderMethod):
