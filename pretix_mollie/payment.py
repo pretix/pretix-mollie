@@ -445,7 +445,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                 (
                     "method_paybybank",
                     forms.BooleanField(
-                        label=_("Pay by Bank"),
+                        label="Pay by Bank",  # Non-Translateable on purpose to avoid confusion with Bank Transfer
                         help_text=_("Please note, that <code>Pay by Bank</code> and <code>Bank Transfer</code> are two "
                                     "completely different payment methods. While both are based on a SEPA bank "
                                     "transfer, the former is a guided bank transfer that takes the customer to a "
@@ -1487,6 +1487,7 @@ class MollieSatispay(MolliePaymentMethod):
 class MolliePayByBank(MolliePaymentMethod):
     method = "paybybank"
     public_name = _("Pay by Bank")
+    verbose_name = "Pay by Bank via Mollie"  # Non-translatable to avoid confusion with Bank Transfer
 
 
 class MollieAlma(MollieOrderMethod):
