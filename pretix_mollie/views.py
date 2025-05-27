@@ -212,8 +212,28 @@ def oauth_return(request, *args, **kwargs):
     )
 
 
+def get_or_create_payment(payment, mollie_id, data):
+    if payment.info_data.get("id") != mollie_id:
+        for op in OrderPayment.objects.filter(order=payment.order):
+            if payment.info_data.get("id") == mollie_id:
+                payment = op
+                break
+        else:
+            payment = OrderPayment(
+                order=payment.order,
+                amount=Decimal(data.get("amount", {}).get("value", 0)),
+                provider=f'mollie_{data.get("method")}',
+                state=OrderPayment.PAYMENT_STATE_CREATED,
+                info_data=data,
+            )
+            payment.save()
+
+    return payment
+
+
 def handle_payment(payment, mollie_id, retry=True):
     pprov = payment.payment_provider
+
     if (
         pprov.settings.connect_client_id
         and payment.info_data
@@ -236,6 +256,8 @@ def handle_payment(payment, mollie_id, retry=True):
         )
         resp.raise_for_status()
         data = resp.json()
+
+        payment = get_or_create_payment(payment, mollie_id, data)
 
         if data.get("amountRefunded") and data["amountRefunded"].get("value") != "0.00" and data.get("status") == "paid":
             refundsresp = requests.get(
@@ -340,6 +362,8 @@ def handle_order(payment, mollie_id, retry=True):
         )
         resp.raise_for_status()
         data = resp.json()
+
+        payment = get_or_create_payment(payment, mollie_id, data)
 
         if data.get("status") in ("paid", "shipping", "completed") and any(
             line["amountRefunded"].get("value", "0.00") != "0.00"
