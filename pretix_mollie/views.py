@@ -214,7 +214,7 @@ def oauth_return(request, *args, **kwargs):
 
 def get_or_create_payment(payment, mollie_id, data):
     if payment.info_data.get("id") != mollie_id:
-        for op in OrderPayment.objects.filter(order=payment.order):
+        for op in OrderPayment.objects.filter(order=payment.order, provider=payment.provider):
             if payment.info_data.get("id") == mollie_id:
                 return op
         else:
