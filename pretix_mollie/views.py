@@ -221,7 +221,7 @@ def get_or_create_payment(payment, mollie_id, data):
             payment = OrderPayment(
                 order=payment.order,
                 amount=Decimal(data.get("amount", {}).get("value", 0)),
-                provider=f'mollie_{data.get("method")}',
+                provider=payment.provder,
                 state=OrderPayment.PAYMENT_STATE_CREATED,
                 info_data=data,
             )
