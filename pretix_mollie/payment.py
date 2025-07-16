@@ -1,6 +1,8 @@
 import hashlib
 import json
 import logging
+from typing import Union
+
 import pytz
 import requests
 import textwrap
@@ -727,6 +729,9 @@ class MollieMethod(BasePaymentProvider):
         obj.info = json.dumps(d)
         obj.save(update_fields=["info"])
 
+    def _get_idempotency_key(self, obj: Union[OrderPayment, OrderRefund]) -> str:
+        return f'{obj.order.event.organizer.slug.upper()}-{obj.order.event.slug.upper()}-{obj.full_id}'
+
 
 class MolliePaymentMethod(MollieMethod):
     def _get_payment_body(self, payment):
@@ -785,7 +790,10 @@ class MolliePaymentMethod(MollieMethod):
             req = requests.post(
                 "https://api.mollie.com/v2/payments",
                 json=self._get_payment_body(payment),
-                headers=self.request_headers,
+                headers={
+                    **self.request_headers,
+                    **{'Idempotency-Key': self._get_idempotency_key(payment)}
+                },
             )
             req.raise_for_status()
         except HTTPError:
@@ -1086,7 +1094,10 @@ class MollieOrderMethod(MollieMethod):
             req = requests.post(
                 "https://api.mollie.com/v2/orders",
                 json=self._get_order_body(payment),
-                headers=self.request_headers,
+                headers={
+                    **self.request_headers,
+                    **{'Idempotency-Key': self._get_idempotency_key(payment)}
+                },
             )
             req.raise_for_status()
         except HTTPError:
