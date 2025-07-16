@@ -735,6 +735,111 @@ class MollieMethod(BasePaymentProvider):
 
 class MolliePaymentMethod(MollieMethod):
     def _get_payment_body(self, payment):
+        try:
+            ia = payment.order.invoice_address
+            first_name = (
+                    ia.name_parts.get("given_name")
+                    or ia.name.rsplit(" ", 1)[0]
+                    or "Unknown"
+            )
+            last_name = (
+                    ia.name_parts.get("family_name")
+                    or ia.name.rsplit(" ", 1)[-1]
+                    or "Unknown"
+            )
+            if (
+                    not ia.street
+                    and not ia.city
+                    and not ia.country
+                    or not payment.order.email
+            ):
+                raise PaymentException(
+                    _(
+                        "This payment method can only be used if a full invoice address or an "
+                        "email address has been entered."
+                    )
+                )
+        except InvoiceAddress.DoesNotExist:
+            raise PaymentException(
+                _(
+                    "This payment method can only be used if a full invoice address or an "
+                    "email address has been entered."
+                )
+            )
+
+        lines = []
+        for op in payment.order.positions.all():
+            lines.append(
+                {
+                    "type": self.settings.product_type,
+                    "name": str(op.item.name),
+                    "quantity": 1,
+                    "unitPrice": {
+                        "currency": self.event.currency,
+                        "value": str(op.price),
+                    },
+                    "totalAmount": {
+                        "currency": self.event.currency,
+                        "value": str(op.price),
+                    },
+                    "vatRate": str(op.tax_rate or "0.00"),
+                    "vatAmount": {
+                        "currency": self.event.currency,
+                        "value": str(op.tax_value),
+                    },
+                    "sku": f"{self.event.slug}-{op.item_id}-{op.variation_id or 0}",
+                }
+            )
+
+        for of in payment.order.fees.all():
+            lines.append(
+                {
+                    "type": (
+                        "shipping_fee"
+                        if of.fee_type == OrderFee.FEE_TYPE_SHIPPING
+                        else "surcharge"
+                    ),
+                    "name": of.get_fee_type_display(),
+                    "quantity": 1,
+                    "unitPrice": {
+                        "currency": self.event.currency,
+                        "value": str(of.value),
+                    },
+                    "totalAmount": {
+                        "currency": self.event.currency,
+                        "value": str(of.value),
+                    },
+                    "vatRate": str(of.tax_rate or "0.00"),
+                    "vatAmount": {
+                        "currency": self.event.currency,
+                        "value": str(of.tax_value),
+                    },
+                    "sku": f"{self.event.slug}-{of.fee_type}-{of.internal_type}",
+                }
+            )
+
+        if payment.order.total != payment.amount:
+            lines.append(
+                {
+                    "type": "gift_card",
+                    "name": str(_("Other payment methods")),
+                    "quantity": 1,
+                    "unitPrice": {
+                        "currency": self.event.currency,
+                        "value": str(payment.amount - payment.order.total),
+                    },
+                    "totalAmount": {
+                        "currency": self.event.currency,
+                        "value": str(payment.amount - payment.order.total),
+                    },
+                    "vatRate": "0.00",
+                    "vatAmount": {
+                        "currency": self.event.currency,
+                        "value": "0.00",
+                    },
+                }
+            )
+
         b = {
             "amount": {
                 "currency": self.event.currency,
@@ -743,6 +848,19 @@ class MolliePaymentMethod(MollieMethod):
             "description": "Order {}-{}".format(
                 self.event.slug.upper(), payment.full_id
             ),
+            "billingAddress": {
+                "organizationName": ia.company or None,
+                "title": ia.name_parts.get("title"),
+                "givenName": first_name,
+                "familyName": last_name,
+                "email": payment.order.email,
+                "phone": str(payment.order.phone) if payment.order.phone else None,
+                "streetAndNumber": ia.street,
+                "postalCode": ia.zipcode,
+                "city": ia.city,
+                "country": str(ia.country),
+            },
+            "lines": lines,
             "redirectUrl": build_absolute_uri(
                 self.event,
                 "plugins:pretix_mollie:return",
@@ -1441,27 +1559,27 @@ class MolliePrzelewy24(MolliePaymentMethod):
     public_name = _("Przelewy24")
 
 
-class MollieKlarna(MollieOrderMethod):
+class MollieKlarna(MolliePaymentMethod):
     method = "klarna"
     public_name = _("Klarna")
 
 
-class MollieKlarnaPaynow(MollieOrderMethod):
+class MollieKlarnaPaynow(MolliePaymentMethod):
     method = "klarnapaynow"
     public_name = _("Klarna Pay now")
 
 
-class MollieKlarnaPaylater(MollieOrderMethod):
+class MollieKlarnaPaylater(MolliePaymentMethod):
     method = "klarnapaylater"
     public_name = _("Klarna Pay later")
 
 
-class MollieKlarnaSliceit(MollieOrderMethod):
+class MollieKlarnaSliceit(MolliePaymentMethod):
     method = "klarnasliceit"
     public_name = _("Klarna Slice it")
 
 
-class MollieIn3(MollieOrderMethod):
+class MollieIn3(MolliePaymentMethod):
     method = "in3"
     public_name = _("iDEAL in3")
 
@@ -1502,7 +1620,7 @@ class MolliePayByBank(MolliePaymentMethod):
     verbose_name = "Pay by Bank via Mollie"  # Non-translatable to avoid confusion with Bank Transfer
 
 
-class MollieAlma(MollieOrderMethod):
+class MollieAlma(MolliePaymentMethod):
     method = "alma"
     public_name = _("Alma")
 

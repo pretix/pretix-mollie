@@ -337,7 +337,7 @@ def handle_payment(payment, mollie_id, retry=True):
         )
 
 
-def handle_order(payment, mollie_id, retry=True):
+def handle_order_deprecated(payment, mollie_id, retry=True):
     pprov = payment.payment_provider
     if (
         pprov.settings.connect_client_id
@@ -410,7 +410,7 @@ def handle_order(payment, mollie_id, retry=True):
                     raise
                 payment.state = OrderPayment.PAYMENT_STATE_PENDING
                 payment.save(update_fields=["state"])
-            handle_order(payment, mollie_id)
+            handle_order_deprecated(payment, mollie_id)
         elif data.get("status") in ("paid", "completed") and payment.state in (
             OrderPayment.PAYMENT_STATE_PENDING,
             OrderPayment.PAYMENT_STATE_CREATED,
@@ -527,9 +527,6 @@ class ReturnView(MollieOrderView, View):
             OrderPayment.PAYMENT_STATE_CANCELED,
         ):
             try:
-                if self.payment.info_data.get("resource") == "order":
-                    handle_order(self.payment, self.payment.info_data.get("id"))
-                else:
                     handle_payment(self.payment, self.payment.info_data.get("id"))
             except LockTimeoutException:
                 messages.error(
@@ -584,10 +581,7 @@ class ReturnView(MollieOrderView, View):
 class WebhookView(View):
     def post(self, request, *args, **kwargs):
         try:
-            if request.POST.get("id") and request.POST["id"].startswith("ord_"):
-                handle_order(self.payment, request.POST.get("id"))
-            else:
-                handle_payment(self.payment, request.POST.get("id"))
+            handle_payment(self.payment, request.POST.get("id"))
         except LockTimeoutException:
             return HttpResponse(status=503)
         except Quota.QuotaExceededException:
