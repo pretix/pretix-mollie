@@ -528,6 +528,10 @@ class ReturnView(MollieOrderView, View):
             OrderPayment.PAYMENT_STATE_CANCELED,
         ):
             try:
+                if self.payment.info_data.get("resource") == "order":
+                    # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
+                    handle_order(self.payment, self.payment.info_data.get("id"))
+                else:
                     handle_payment(self.payment, self.payment.info_data.get("id"))
             except LockTimeoutException:
                 messages.error(
@@ -582,7 +586,11 @@ class ReturnView(MollieOrderView, View):
 class WebhookView(View):
     def post(self, request, *args, **kwargs):
         try:
-            handle_payment(self.payment, request.POST.get("id"))
+            if request.POST.get("id") and request.POST["id"].startswith("ord_"):
+                # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
+                handle_order(self.payment, request.POST.get("id"))
+            else:
+                handle_payment(self.payment, request.POST.get("id"))
         except LockTimeoutException:
             return HttpResponse(status=503)
         except Quota.QuotaExceededException:
