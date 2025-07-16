@@ -337,7 +337,8 @@ def handle_payment(payment, mollie_id, retry=True):
         )
 
 
-def handle_order_deprecated(payment, mollie_id, retry=True):
+def handle_order(payment, mollie_id, retry=True):
+    # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
     pprov = payment.payment_provider
     if (
         pprov.settings.connect_client_id
@@ -410,7 +411,7 @@ def handle_order_deprecated(payment, mollie_id, retry=True):
                     raise
                 payment.state = OrderPayment.PAYMENT_STATE_PENDING
                 payment.save(update_fields=["state"])
-            handle_order_deprecated(payment, mollie_id)
+            handle_order(payment, mollie_id)
         elif data.get("status") in ("paid", "completed") and payment.state in (
             OrderPayment.PAYMENT_STATE_PENDING,
             OrderPayment.PAYMENT_STATE_CREATED,
