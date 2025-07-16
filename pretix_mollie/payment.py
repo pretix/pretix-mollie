@@ -404,6 +404,7 @@ class MollieSettingsHolder(BasePaymentProvider):
                                     "might be the more reasonable choice for something like a <em>Pay by Invoice</em> "
                                     "payment, the former bears more similarity with an instant online payment."),
                         required=False,
+                        disabled=self.event.currency != "EUR",
                     ),
                 ),
                 (
