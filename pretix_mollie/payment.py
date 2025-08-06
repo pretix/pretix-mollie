@@ -601,6 +601,8 @@ class MollieMethod(BasePaymentProvider):
         return self.refunds_allowed
 
     def payment_partial_refund_supported(self, payment: OrderPayment) -> bool:
+        if payment.info_data.get("resource") == "order":
+            return False  # we never allowed partial refunds via the (deprecated) orders API
         return self.refunds_allowed
 
     def payment_prepare(self, request, payment):
@@ -951,7 +953,7 @@ class MolliePaymentMethod(MollieMethod):
             return
 
     def execute_refund(self, refund: OrderRefund, retry=True):
-        payment = refund.payment.info_data.get("id")
+        refund = refund.payment.info_data.get("id")
         body = {
             "amount": {"currency": self.event.currency, "value": str(refund.amount)},
         }
@@ -959,11 +961,22 @@ class MolliePaymentMethod(MollieMethod):
             body["testmode"] = refund.payment.info_data.get("mode", "live") == "test"
         try:
             refresh_mollie_token(self.event, True)
-            req = requests.post(
-                "https://api.mollie.com/v2/payments/{}/refunds".format(payment),
-                json=body,
-                headers=self.request_headers,
-            )
+            if refund.payment.info_data.get("resource") == "order":
+                body = {
+                    "lines": [],
+                    # "If you send an empty array, the entire order will be refunded."
+                }
+                req = requests.post(
+                    "https://api.mollie.com/v2/orders/{}/refunds".format(refund),
+                    json=body,
+                    headers=self.request_headers,
+                )
+            else:
+                req = requests.post(
+                    "https://api.mollie.com/v2/payments/{}/refunds".format(refund),
+                    json=body,
+                    headers=self.request_headers,
+                )
             req.raise_for_status()
             refund.info_data = req.json()
         except HTTPError:
@@ -971,7 +984,7 @@ class MolliePaymentMethod(MollieMethod):
             try:
                 refund.info_data = req.json()
 
-                if payment.info_data.get("status") == 401 and retry:
+                if refund.info_data.get("status") == 401 and retry:
                     # Token might be expired, let's retry!
                     if refresh_mollie_token(self.event, False):
                         return self.execute_refund(refund, retry=False)
