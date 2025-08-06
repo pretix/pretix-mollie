@@ -737,7 +737,7 @@ class MolliePaymentMethod(MollieMethod):
     def _get_payment_body(self, payment):
         billing_address = None
         lines = None
-        if hasattr(self, 'needs_adr_lines') and self.needs_adr_lines:
+        if getattr(self, 'needs_adr_lines', False):
             try:
                 ia = payment.order.invoice_address
                 first_name = (
@@ -982,6 +982,60 @@ class MolliePaymentMethod(MollieMethod):
             )
         else:
             refund.done()
+
+    def is_allowed(self, request: HttpRequest, total=None) -> bool:
+        parent_allowed = super().is_allowed(request, total)
+
+        if parent_allowed and getattr(self, 'needs_adr_lines', False):
+
+            def get_invoice_address():
+                if not hasattr(request, "_checkout_flow_invoice_address"):
+                    cs = cart_session(request)
+                    iapk = cs.get("invoice_address")
+                    if not iapk:
+                        request._checkout_flow_invoice_address = InvoiceAddress()
+                    else:
+                        try:
+                            request._checkout_flow_invoice_address = (
+                                InvoiceAddress.objects.get(pk=iapk, order__isnull=True)
+                            )
+                        except InvoiceAddress.DoesNotExist:
+                            request._checkout_flow_invoice_address = InvoiceAddress()
+                return request._checkout_flow_invoice_address
+
+            ia = get_invoice_address()
+            if (
+                    not ia
+                    or not ia.country
+                    or not ia.zipcode
+                    or not ia.city
+                    or not ia.street
+                    or not ia.name
+            ):
+                return False
+
+        return parent_allowed
+
+    def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
+        parent_allowed = super().order_change_allowed(order, request)
+
+        if parent_allowed and getattr(self, 'needs_adr_lines', False):
+            try:
+                ia = order.invoice_address
+                if (
+                        not order.email
+                        or not ia
+                        or not ia.country
+                        or not ia.zipcode
+                        or not ia.city
+                        or not ia.street
+                        or not ia.name
+                ):
+                    return False
+            except InvoiceAddress.DoesNotExist:
+                return False
+
+        return parent_allowed
 
 
 class MollieCC(MolliePaymentMethod):
