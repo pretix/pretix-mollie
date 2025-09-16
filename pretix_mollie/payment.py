@@ -953,7 +953,7 @@ class MolliePaymentMethod(MollieMethod):
             return
 
     def execute_refund(self, refund: OrderRefund, retry=True):
-        payment = refund.payment.info_data.get("id")
+        resource_id = refund.payment.info_data.get("id")
         body = {
             "amount": {"currency": self.event.currency, "value": str(refund.amount)},
         }
@@ -967,13 +967,13 @@ class MolliePaymentMethod(MollieMethod):
                     # "If you send an empty array, the entire order will be refunded."
                 }
                 req = requests.post(
-                    "https://api.mollie.com/v2/orders/{}/refunds".format(order),
+                    "https://api.mollie.com/v2/orders/{}/refunds".format(resource_id),
                     json=body,
                     headers=self.request_headers,
                 )
             else:
                 req = requests.post(
-                    "https://api.mollie.com/v2/payments/{}/refunds".format(payment),
+                    "https://api.mollie.com/v2/payments/{}/refunds".format(resource_id),
                     json=body,
                     headers=self.request_headers,
                 )
