@@ -601,6 +601,8 @@ class MollieMethod(BasePaymentProvider):
         return self.refunds_allowed
 
     def payment_partial_refund_supported(self, payment: OrderPayment) -> bool:
+        if payment.info_data.get("resource") == "order":
+            return False  # we never allowed partial refunds via the (deprecated) orders API
         return self.refunds_allowed
 
     def payment_prepare(self, request, payment):
@@ -735,6 +737,127 @@ class MollieMethod(BasePaymentProvider):
 
 class MolliePaymentMethod(MollieMethod):
     def _get_payment_body(self, payment):
+        billing_address = None
+        lines = None
+        if getattr(self, 'needs_adr_lines', False):
+            try:
+                ia = payment.order.invoice_address
+                first_name = (
+                        ia.name_parts.get("given_name")
+                        or ia.name.rsplit(" ", 1)[0]
+                        or "Unknown"
+                )
+                last_name = (
+                        ia.name_parts.get("family_name")
+                        or ia.name.rsplit(" ", 1)[-1]
+                        or "Unknown"
+                )
+                if (
+                        not ia.street
+                        or not ia.city
+                        or not ia.country
+                        or not payment.order.email
+                ):
+                    raise PaymentException(
+                        _(
+                            "This payment method can only be used if a full invoice address and an "
+                            "email address has been entered."
+                        )
+                    )
+            except InvoiceAddress.DoesNotExist:
+                raise PaymentException(
+                    _(
+                        "This payment method can only be used if a full invoice address and an "
+                        "email address has been entered."
+                    )
+                )
+
+            billing_address = {
+                "organizationName": ia.company or None,
+                "title": ia.name_parts.get("title"),
+                "givenName": first_name,
+                "familyName": last_name,
+                "email": payment.order.email,
+                "phone": str(payment.order.phone) if payment.order.phone else None,
+                "streetAndNumber": ia.street,
+                "postalCode": ia.zipcode,
+                "city": ia.city,
+                "country": str(ia.country),
+            }
+
+            lines = []
+            for op in payment.order.positions.all():
+                lines.append(
+                    {
+                        "type": self.settings.product_type,
+                        "description": str(op.item.name),
+                        "quantity": 1,
+                        "unitPrice": {
+                            "currency": self.event.currency,
+                            "value": str(op.price),
+                        },
+                        "totalAmount": {
+                            "currency": self.event.currency,
+                            "value": str(op.price),
+                        },
+                        "vatRate": str(op.tax_rate or "0.00"),
+                        "vatAmount": {
+                            "currency": self.event.currency,
+                            "value": str(op.tax_value),
+                        },
+                        "sku": f"{self.event.slug}-{op.item_id}-{op.variation_id or 0}",
+                    }
+                )
+
+            for of in payment.order.fees.all():
+                lines.append(
+                    {
+                        "type": (
+                            "shipping_fee"
+                            if of.fee_type == OrderFee.FEE_TYPE_SHIPPING
+                            else "surcharge"
+                        ),
+                        "description": of.get_fee_type_display(),
+                        "quantity": 1,
+                        "unitPrice": {
+                            "currency": self.event.currency,
+                            "value": str(of.value),
+                        },
+                        "totalAmount": {
+                            "currency": self.event.currency,
+                            "value": str(of.value),
+                        },
+                        "vatRate": str(of.tax_rate or "0.00"),
+                        "vatAmount": {
+                            "currency": self.event.currency,
+                            "value": str(of.tax_value),
+                        },
+                        "sku": f"{self.event.slug}-{of.fee_type}-{of.internal_type}",
+                    }
+                )
+
+            if payment.order.total != payment.amount:
+                lines.append(
+                    {
+                        "type": "gift_card",
+                        "description": str(_("Other payment methods")),
+                        "quantity": 1,
+                        "unitPrice": {
+                            "currency": self.event.currency,
+                            "value": str(payment.amount - payment.order.total),
+                        },
+                        "totalAmount": {
+                            "currency": self.event.currency,
+                            "value": str(payment.amount - payment.order.total),
+                        },
+                        "vatRate": "0.00",
+                        "vatAmount": {
+                            "currency": self.event.currency,
+                            "value": "0.00",
+                        },
+                    }
+                )
+
         b = {
             "amount": {
                 "currency": self.event.currency,
@@ -743,6 +866,8 @@ class MolliePaymentMethod(MollieMethod):
             "description": "Order {}-{}".format(
                 self.event.slug.upper(), payment.full_id
             ),
+            "billingAddress": billing_address,
+            "lines": lines,
             "redirectUrl": build_absolute_uri(
                 self.event,
                 "plugins:pretix_mollie:return",
@@ -828,7 +953,7 @@ class MolliePaymentMethod(MollieMethod):
             return
 
     def execute_refund(self, refund: OrderRefund, retry=True):
-        payment = refund.payment.info_data.get("id")
+        resource_id = refund.payment.info_data.get("id")
         body = {
             "amount": {"currency": self.event.currency, "value": str(refund.amount)},
         }
@@ -836,11 +961,22 @@ class MolliePaymentMethod(MollieMethod):
             body["testmode"] = refund.payment.info_data.get("mode", "live") == "test"
         try:
             refresh_mollie_token(self.event, True)
-            req = requests.post(
-                "https://api.mollie.com/v2/payments/{}/refunds".format(payment),
-                json=body,
-                headers=self.request_headers,
-            )
+            if refund.payment.info_data.get("resource") == "order":
+                body = {
+                    "lines": [],
+                    # "If you send an empty array, the entire order will be refunded."
+                }
+                req = requests.post(
+                    "https://api.mollie.com/v2/orders/{}/refunds".format(resource_id),
+                    json=body,
+                    headers=self.request_headers,
+                )
+            else:
+                req = requests.post(
+                    "https://api.mollie.com/v2/payments/{}/refunds".format(resource_id),
+                    json=body,
+                    headers=self.request_headers,
+                )
             req.raise_for_status()
             refund.info_data = req.json()
         except HTTPError:
@@ -848,7 +984,7 @@ class MolliePaymentMethod(MollieMethod):
             try:
                 refund.info_data = req.json()
 
-                if payment.info_data.get("status") == 401 and retry:
+                if refund.info_data.get("status") == 401 and retry:
                     # Token might be expired, let's retry!
                     if refresh_mollie_token(self.event, False):
                         return self.execute_refund(refund, retry=False)
@@ -860,173 +996,10 @@ class MolliePaymentMethod(MollieMethod):
         else:
             refund.done()
 
-
-class MollieOrderMethod(MollieMethod):
-
-    def _get_order_body(self, payment):
-        try:
-            ia = payment.order.invoice_address
-            first_name = (
-                ia.name_parts.get("given_name")
-                or ia.name.rsplit(" ", 1)[0]
-                or "Unknown"
-            )
-            last_name = (
-                ia.name_parts.get("family_name")
-                or ia.name.rsplit(" ", 1)[-1]
-                or "Unknown"
-            )
-            if (
-                not ia.street
-                or not ia.city
-                or not ia.country
-                or not payment.order.email
-            ):
-                raise PaymentException(
-                    _(
-                        "This payment method can only be used if a full invoice address and an "
-                        "email address has been entered."
-                    )
-                )
-        except InvoiceAddress.DoesNotExist:
-            raise PaymentException(
-                _(
-                    "This payment method can only be used if a full invoice address and an "
-                    "email address has been entered."
-                )
-            )
-
-        lines = []
-        for op in payment.order.positions.all():
-            lines.append(
-                {
-                    "type": self.settings.product_type,
-                    "name": str(op.item.name),
-                    "quantity": 1,
-                    "unitPrice": {
-                        "currency": self.event.currency,
-                        "value": str(op.price),
-                    },
-                    "totalAmount": {
-                        "currency": self.event.currency,
-                        "value": str(op.price),
-                    },
-                    "vatRate": str(op.tax_rate or "0.00"),
-                    "vatAmount": {
-                        "currency": self.event.currency,
-                        "value": str(op.tax_value),
-                    },
-                    "sku": f"{self.event.slug}-{op.item_id}-{op.variation_id or 0}",
-                }
-            )
-
-        for of in payment.order.fees.all():
-            lines.append(
-                {
-                    "type": (
-                        "shipping_fee"
-                        if of.fee_type == OrderFee.FEE_TYPE_SHIPPING
-                        else "surcharge"
-                    ),
-                    "name": of.get_fee_type_display(),
-                    "quantity": 1,
-                    "unitPrice": {
-                        "currency": self.event.currency,
-                        "value": str(of.value),
-                    },
-                    "totalAmount": {
-                        "currency": self.event.currency,
-                        "value": str(of.value),
-                    },
-                    "vatRate": str(of.tax_rate or "0.00"),
-                    "vatAmount": {
-                        "currency": self.event.currency,
-                        "value": str(of.tax_value),
-                    },
-                    "sku": f"{self.event.slug}-{of.fee_type}-{of.internal_type}",
-                }
-            )
-
-        if payment.order.total != payment.amount:
-            lines.append(
-                {
-                    "type": "gift_card",
-                    "name": str(_("Other payment methods")),
-                    "quantity": 1,
-                    "unitPrice": {
-                        "currency": self.event.currency,
-                        "value": str(payment.amount - payment.order.total),
-                    },
-                    "totalAmount": {
-                        "currency": self.event.currency,
-                        "value": str(payment.amount - payment.order.total),
-                    },
-                    "vatRate": "0.00",
-                    "vatAmount": {
-                        "currency": self.event.currency,
-                        "value": "0.00",
-                    },
-                }
-            )
-
-        b = {
-            "amount": {
-                "currency": self.event.currency,
-                "value": str(payment.amount),
-            },
-            "orderNumber": "{}-{}".format(self.event.slug.upper(), payment.full_id),
-            "billingAddress": {
-                "organizationName": ia.company or None,
-                "title": ia.name_parts.get("title"),
-                "givenName": first_name,
-                "familyName": last_name,
-                "email": payment.order.email,
-                "phone": str(payment.order.phone) if payment.order.phone else None,
-                "streetAndNumber": ia.street,
-                "postalCode": ia.zipcode,
-                "city": ia.city,
-                "country": str(ia.country),
-            },
-            "lines": lines,
-            "redirectUrl": build_absolute_uri(
-                self.event,
-                "plugins:pretix_mollie:return",
-                kwargs={
-                    "order": payment.order.code,
-                    "payment": payment.pk,
-                    "hash": hashlib.sha1(
-                        payment.order.secret.lower().encode()
-                    ).hexdigest(),
-                },
-            ),
-            "webhookUrl": build_absolute_uri(
-                self.event,
-                "plugins:pretix_mollie:webhook",
-                kwargs={"payment": payment.pk},
-            ),
-            "locale": self.get_locale(payment.order.locale),
-            "method": self.method,
-            "metadata": {
-                "organizer": self.event.organizer.slug,
-                "event": self.event.slug,
-                "order": payment.order.code,
-                "payment": payment.local_id,
-            },
-        }
-        if self.settings.connect_client_id and self.settings.access_token:
-            b["profileId"] = self.settings.connect_profile
-            b["testmode"] = self.settings.endpoint == "test" or self.event.testmode
-        return b
-
-    def payment_form_render(self, request) -> str:
-        template = get_template("pretix_mollie/checkout_payment_form_order.html")
-        ctx = {"request": request, "event": self.event, "settings": self.settings}
-        return template.render(ctx)
-
     def is_allowed(self, request: HttpRequest, total=None) -> bool:
         parent_allowed = super().is_allowed(request, total)
 
-        if parent_allowed:
+        if parent_allowed and getattr(self, 'needs_adr_lines', False):
 
             def get_invoice_address():
                 if not hasattr(request, "_checkout_flow_invoice_address"):
@@ -1045,12 +1018,12 @@ class MollieOrderMethod(MollieMethod):
 
             ia = get_invoice_address()
             if (
-                not ia
-                or not ia.country
-                or not ia.zipcode
-                or not ia.city
-                or not ia.street
-                or not ia.name
+                    not ia
+                    or not ia.country
+                    or not ia.zipcode
+                    or not ia.city
+                    or not ia.street
+                    or not ia.name
             ):
                 return False
 
@@ -1059,114 +1032,23 @@ class MollieOrderMethod(MollieMethod):
     def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
         parent_allowed = super().order_change_allowed(order, request)
 
-        if parent_allowed:
+        if parent_allowed and getattr(self, 'needs_adr_lines', False):
             try:
                 ia = order.invoice_address
                 if (
-                    not order.email
-                    or not ia
-                    or not ia.country
-                    or not ia.zipcode
-                    or not ia.city
-                    or not ia.street
-                    or not ia.name
+                        not order.email
+                        or not ia
+                        or not ia.country
+                        or not ia.zipcode
+                        or not ia.city
+                        or not ia.street
+                        or not ia.name
                 ):
                     return False
             except InvoiceAddress.DoesNotExist:
                 return False
 
         return parent_allowed
-
-    def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
-        try:
-            if "_links" in payment.info_data:
-                if request:
-                    return self.redirect(
-                        request,
-                        payment.info_data.get("_links").get("checkout").get("href"),
-                    )
-                else:
-                    return
-        except Exception:
-            pass
-        try:
-            refresh_mollie_token(self.event, True)
-            req = requests.post(
-                "https://api.mollie.com/v2/orders",
-                json=self._get_order_body(payment),
-                headers={
-                    **self.request_headers,
-                    **{'Idempotency-Key': self._get_idempotency_key(payment)}
-                },
-            )
-            req.raise_for_status()
-        except HTTPError:
-            logger.exception("Mollie error: %s" % req.text)
-            try:
-                d = req.json()
-
-                if d.get("status") == 401 and retry:
-                    # Token might be expired, let's retry!
-                    if refresh_mollie_token(self.event, False):
-                        return self.execute_payment(request, payment, retry=False)
-            except Exception:
-                d = {"error": True, "detail": req.text}
-            payment.fail(info=d)
-            raise PaymentException(
-                _(
-                    "We had trouble communicating with Mollie. Please try again and get in touch "
-                    "with us if this problem persists."
-                )
-            )
-
-        data = req.json()
-        payment.info = json.dumps(data)
-        payment.state = OrderPayment.PAYMENT_STATE_CREATED
-        payment.save()
-        if request:
-            request.session["payment_mollie_order_secret"] = payment.order.secret
-            return self.redirect(
-                request, data.get("_links").get("checkout").get("href")
-            )
-        else:
-            return
-
-    def payment_partial_refund_supported(self, payment: OrderPayment) -> bool:
-        return False
-
-    def execute_refund(self, refund: OrderRefund, retry=True):
-        order = refund.payment.info_data.get("id")
-        body = {
-            "lines": [],  # " If you send an empty array, the entire order will be refunded."
-        }
-        if self.settings.connect_client_id and self.settings.access_token:
-            body["testmode"] = refund.payment.info_data.get("mode", "live") == "test"
-        try:
-            refresh_mollie_token(self.event, True)
-            req = requests.post(
-                "https://api.mollie.com/v2/orders/{}/refunds".format(order),
-                json=body,
-                headers=self.request_headers,
-            )
-            req.raise_for_status()
-            refund.info_data = req.json()
-        except HTTPError:
-            logger.exception("Mollie error: %s" % req.text)
-            try:
-                refund.info_data = req.json()
-
-                if refund.info_data.get("status") == 401 and retry:
-                    # Token might be expired, let's retry!
-                    if refresh_mollie_token(self.event, False):
-                        return self.execute_refund(refund, retry=False)
-            except Exception:
-                refund.info_data = {"error": True, "detail": req.text}
-            raise PaymentException(
-                _("Mollie reported an error: {}").format(refund.info_data.get("detail"))
-            )
-        else:
-            refund.amount = Decimal(refund.info_data["amount"]["value"])
-            refund.done()
 
 
 class MollieCC(MolliePaymentMethod):
@@ -1441,29 +1323,34 @@ class MolliePrzelewy24(MolliePaymentMethod):
     public_name = _("Przelewy24")
 
 
-class MollieKlarna(MollieOrderMethod):
+class MollieKlarna(MolliePaymentMethod):
     method = "klarna"
     public_name = _("Klarna")
+    needs_adr_lines = True
 
 
-class MollieKlarnaPaynow(MollieOrderMethod):
+class MollieKlarnaPaynow(MolliePaymentMethod):
     method = "klarnapaynow"
     public_name = _("Klarna Pay now")
+    needs_adr_lines = True
 
 
-class MollieKlarnaPaylater(MollieOrderMethod):
+class MollieKlarnaPaylater(MolliePaymentMethod):
     method = "klarnapaylater"
     public_name = _("Klarna Pay later")
+    needs_adr_lines = True
 
 
-class MollieKlarnaSliceit(MollieOrderMethod):
+class MollieKlarnaSliceit(MolliePaymentMethod):
     method = "klarnasliceit"
     public_name = _("Klarna Slice it")
+    needs_adr_lines = True
 
 
-class MollieIn3(MollieOrderMethod):
+class MollieIn3(MolliePaymentMethod):
     method = "in3"
     public_name = _("iDEAL in3")
+    needs_adr_lines = True
 
 
 class MollieTwint(MolliePaymentMethod):
@@ -1502,7 +1389,7 @@ class MolliePayByBank(MolliePaymentMethod):
     verbose_name = "Pay by Bank via Mollie"  # Non-translatable to avoid confusion with Bank Transfer
 
 
-class MollieAlma(MollieOrderMethod):
+class MollieAlma(MolliePaymentMethod):
     method = "alma"
     public_name = _("Alma")
 

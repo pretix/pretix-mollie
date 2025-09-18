@@ -338,6 +338,7 @@ def handle_payment(payment, mollie_id, retry=True):
 
 
 def handle_order(payment, mollie_id, retry=True):
+    # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
     pprov = payment.payment_provider
     if (
         pprov.settings.connect_client_id
@@ -528,6 +529,7 @@ class ReturnView(MollieOrderView, View):
         ):
             try:
                 if self.payment.info_data.get("resource") == "order":
+                    # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
                     handle_order(self.payment, self.payment.info_data.get("id"))
                 else:
                     handle_payment(self.payment, self.payment.info_data.get("id"))
@@ -585,6 +587,7 @@ class WebhookView(View):
     def post(self, request, *args, **kwargs):
         try:
             if request.POST.get("id") and request.POST["id"].startswith("ord_"):
+                # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
                 handle_order(self.payment, request.POST.get("id"))
             else:
                 handle_payment(self.payment, request.POST.get("id"))
