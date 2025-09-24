@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-04-14 09:00+0000\n"
+"PO-Revision-Date: 2025-09-25 02:00+0000\n"
 "Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.4\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -29,6 +29,9 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"クレジットカードだけでなく、giropay、口座振替、iDEAL、電信送金などの多くのロ"
+"ーカル支払い方法をサポートするヨーロッパの決済プロバイダーであるMollieを通じ"
+"て支払いを受け付けます。"
 
 #: pretix_mollie/forms.py:17
 #, python-format
