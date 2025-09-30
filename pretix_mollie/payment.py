@@ -156,6 +156,13 @@ class MollieSettingsHolder(BasePaymentProvider):
                         forms.CharField(label=_("Mollie account"), disabled=True),
                     ),
                     (
+                        "connect_org_id",
+                        forms.CharField(
+                            label=_("Mollie account ID"),
+                            disabled=True,
+                        ),
+                    ),
+                    (
                         "connect_profile",
                         forms.ChoiceField(
                             label=_("Website profile"),
