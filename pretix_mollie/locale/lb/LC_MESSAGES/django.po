@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-10-27 21:00+0000\n"
+"PO-Revision-Date: 2025-10-28 18:00+0000\n"
 "Last-Translator: Sven Muhlen <sven.muhlen@bnl.etat.lu>\n"
 "Language-Team: Luxembourgish <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/lb/>\n"
@@ -381,7 +381,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
-msgstr ""
+msgstr "Onbekannte Grond"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:17
 msgid "The payment process has started in a new window."
