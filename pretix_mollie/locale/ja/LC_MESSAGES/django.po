@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-09-25 02:00+0000\n"
+"PO-Revision-Date: 2025-11-18 18:00+0000\n"
 "Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13.3\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -47,10 +47,13 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
+"Mollie経由での支払いを受け入れるには、Mollieのアカウントが必要です。次のボタ"
+"ンをクリックすると、新しいMollieアカウントを作成し、pretixを既存のアカウント"
+"に接続できます。"
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
-msgstr ""
+msgstr "Mollieに接続する"
 
 #: pretix_mollie/payment.py:97
 msgid "Disconnect from Mollie"
