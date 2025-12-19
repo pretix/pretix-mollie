@@ -1,3 +1,4 @@
+import functools
 import hashlib
 import json
 import logging
@@ -230,7 +231,28 @@ def get_or_create_payment(payment, mollie_id, data):
     return payment
 
 
-def handle_payment(payment, mollie_id, retry=True):
+def retry_if_token_expired(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except HTTPError as e:
+            if e.response.status_code == 401:
+                # Token might be expired, let's retry!
+                kwargs["force_new_token"] = True
+                return func(*args, **kwargs)
+            raise PaymentException(
+                _(
+                    "We had trouble communicating with Mollie. Please try again and get in touch "
+                    "with us if this problem persists."
+                )
+            )
+
+    return wrapper
+
+
+@retry_if_token_expired
+def handle_payment(payment, mollie_id, force_new_token=False):
     pprov = payment.payment_provider
 
     if (
@@ -247,8 +269,13 @@ def handle_payment(payment, mollie_id, retry=True):
         qp = "testmode=true"
     else:
         qp = ""
-    try:
-        refresh_mollie_token(payment.order.event, True)
+
+    refresh_mollie_token(payment.order.event, not force_new_token)
+
+    with transaction.atomic():
+        # Swap for a locked instance to serialize between webhook and return view
+        payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
+
         resp = requests.get(
             "https://api.mollie.com/v2/payments/" + mollie_id + "?" + qp,
             headers=pprov.request_headers,
@@ -324,20 +351,10 @@ def handle_payment(payment, mollie_id, retry=True):
                     )
         else:
             payment.order.log_action("pretix_mollie.event.unknown", data)
-    except HTTPError:
-        if resp.status_code == 401 and retry:
-            # Token might be expired, let's retry!
-            if refresh_mollie_token(payment.order.event, False):
-                return handle_payment(payment, mollie_id, retry=False)
-        raise PaymentException(
-            _(
-                "We had trouble communicating with Mollie. Please try again and get in touch "
-                "with us if this problem persists."
-            )
-        )
 
 
-def handle_order(payment, mollie_id, retry=True):
+@retry_if_token_expired
+def handle_order(payment, mollie_id, force_new_token=False):
     # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
     pprov = payment.payment_provider
     if (
@@ -354,8 +371,13 @@ def handle_order(payment, mollie_id, retry=True):
         qp = "testmode=true"
     else:
         qp = ""
-    try:
-        refresh_mollie_token(payment.order.event, True)
+
+    refresh_mollie_token(payment.order.event, not force_new_token)
+
+    with transaction.atomic():
+        # Swap for a locked instance to serialize between webhook and return view
+        payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
+
         resp = requests.get(
             "https://api.mollie.com/v2/orders/" + mollie_id + "?" + qp,
             headers=pprov.request_headers,
@@ -449,17 +471,6 @@ def handle_order(payment, mollie_id, retry=True):
                     )
         else:
             payment.order.log_action("pretix_mollie.event.unknown", data)
-    except HTTPError:
-        if resp.status_code == 401 and retry:
-            # Token might be expired, let's retry!
-            if refresh_mollie_token(payment.order.event, False):
-                return handle_payment(payment, mollie_id, retry=False)
-        raise PaymentException(
-            _(
-                "We had trouble communicating with Mollie. Please try again and get in touch "
-                "with us if this problem persists."
-            )
-        )
 
 
 @event_permission_required("can_change_event_settings")
@@ -551,6 +562,7 @@ class ReturnView(MollieOrderView, View):
                         "the event organizer for further steps."
                     ),
                 )
+        self.order.refresh_from_db()
         return self._redirect_to_order()
 
     def _redirect_to_order(self):
