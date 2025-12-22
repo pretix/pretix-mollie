@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2025-11-18 18:00+0000\n"
+"PO-Revision-Date: 2025-12-22 23:00+0000\n"
 "Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
-"Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/"
-"pretix-plugin-mollie/ja/>\n"
+"Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/pretix-"
+"plugin-mollie/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -57,21 +57,23 @@ msgstr "Mollieに接続する"
 
 #: pretix_mollie/payment.py:97
 msgid "Disconnect from Mollie"
-msgstr ""
+msgstr "Mollieから切断する"
 
 #: pretix_mollie/payment.py:107
 msgid ""
 "The Mollie plugin is operating in test mode. No money will actually be "
 "transferred."
 msgstr ""
+"Mollieプラグインはテストモードで動作しています。実際にはお金が振り込まれませ"
+"ん。"
 
 #: pretix_mollie/payment.py:118
 msgid "Mollie account"
-msgstr ""
+msgstr "Mollieアカウント"
 
 #: pretix_mollie/payment.py:123
 msgid "Website profile"
-msgstr ""
+msgstr "ウェブサイトのプロフィール"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
@@ -105,11 +107,11 @@ msgstr "銀行振込"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr ""
+msgstr "Belfius Pay ボタン"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
-msgstr ""
+msgstr "ビットコイン"
 
 #: pretix_mollie/payment.py:179
 msgid "EPS"
