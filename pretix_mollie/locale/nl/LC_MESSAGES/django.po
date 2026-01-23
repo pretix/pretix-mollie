@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-22 20:00+0000\n"
+"PO-Revision-Date: 2026-01-23 21:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/nl/>\n"
@@ -349,7 +349,7 @@ msgstr "Naam betaler"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
-msgstr "Bitcoinhoeveelheid"
+msgstr "Hoeveelheid bitcoin"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
@@ -382,15 +382,15 @@ msgstr "Bedrag:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr "Betalingscode (belangrijk, plaats in omschrijving):"
+msgstr "Betalingscode (belangrijk):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
-"Nadat u de bankoverschrijving heeft verstuurd kunt u dit venster sluiten. We "
-"zullen u een email sturen wanneer we uw betaling hebben ontvangen."
+"Nadat u de bankoverschrijving hebt verstuurd, kunt u dit venster sluiten. We "
+"zullen u een e-mail sturen zodra we uw betaling hebben ontvangen."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
@@ -435,7 +435,7 @@ msgstr "Klik hier om het venster te openen."
 #: pretix_mollie/views.py:102
 msgid "An error occurred during connecting with Mollie, please try again."
 msgstr ""
-"Er is iets misgegaan tijdens het communiceren met Mollie, probeer het "
+"Er is iets misgegaan tijdens het communiceren met Mollie. Probeer het "
 "opnieuw."
 
 #: pretix_mollie/views.py:105
@@ -502,7 +502,7 @@ msgid ""
 "was too busy. Please check beck in a couple of minutes."
 msgstr ""
 "We hebben uw betaling ontvangen, maar konden uw ticket niet als betaald "
-"markeren, omdat de server overbelast was. Kijk over een paar minuten terug."
+"markeren, omdat de server overbelast was. Kom over een paar minuten terug."
 
 #~ msgid "Mollie payment integration for pretix"
 #~ msgstr "Mollie-betalingsintegratie voor pretix"
