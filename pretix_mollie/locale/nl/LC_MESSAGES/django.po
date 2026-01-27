@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-23 21:00+0000\n"
+"PO-Revision-Date: 2026-01-28 00:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/nl/>\n"
@@ -39,8 +39,8 @@ msgid ""
 "The provided key \"%(value)s\" does not look valid. It should start with "
 "\"%(prefix)s\"."
 msgstr ""
-"De opgegeven key \"%(value)s\" ziet er niet geldig uit. Hij moet beginnen "
-"met \"%(prefix)s\"."
+"De opgegeven sleutel \"%(value)s\" ziet er niet geldig uit. Hij moet "
+"beginnen met \"%(prefix)s\"."
 
 #: pretix_mollie/payment.py:83
 msgid ""
@@ -78,7 +78,7 @@ msgstr "Websiteprofiel"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr "Endpoint"
+msgstr "Eindpunt"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
@@ -382,7 +382,7 @@ msgstr "Bedrag:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:21
 msgid "Reference code (important):"
-msgstr "Betalingscode (belangrijk):"
+msgstr "Betalingskenmerk (belangrijk):"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:24
 msgid ""
@@ -425,7 +425,8 @@ msgstr "Het betalingsproces is begonnen in een nieuw venster."
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
 msgstr ""
-"Het venster om uw betaling in te voeren is niet geopend of was gesloten?"
+"Het venster voor het invoeren van uw betalingsgegevens werd niet geopend of "
+"werd gesloten?"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
