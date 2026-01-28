@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-28 00:00+0000\n"
+"PO-Revision-Date: 2026-01-28 17:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/nl/>\n"
@@ -30,7 +30,7 @@ msgid ""
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
 "Accepteer betalingen via Mollie, een Europese betalingsprovider met "
-"ondersteuning voor creditcards en lokale betalingsmethoden als giropay, "
+"ondersteuning voor creditcards en lokale betaalmethoden als giropay, "
 "automatische incasso, iDEAL, overboekingen en vele anderen."
 
 #: pretix_mollie/forms.py:17
@@ -274,7 +274,7 @@ msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
-"Betalingsmethode uitgeschakeld, omdat we het accesstoken niet konden "
+"Betaalmethode uitgeschakeld, omdat we het accesstoken niet konden "
 "vernieuwen. Neem contact op met ondersteuning."
 
 #: pretix_mollie/signals.py:67 pretix_mollie/signals.py:66
@@ -300,7 +300,7 @@ msgstr ""
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr "Betalingsmethode"
+msgstr "Betaalmethode"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
