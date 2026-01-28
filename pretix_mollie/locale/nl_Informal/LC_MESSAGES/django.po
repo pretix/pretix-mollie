@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2020-12-22 05:00+0000\n"
-"Last-Translator: Maarten van den Berg <maartenberg1@gmail.com>\n"
+"PO-Revision-Date: 2026-01-28 17:00+0000\n"
+"Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch (informal) <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/nl_Informal/>\n"
 "Language: nl_Informal\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -29,6 +29,9 @@ msgid ""
 "credit cards as well as many local payment methods such as giropay, direct "
 "debit, iDEAL, wire transfers, and many more."
 msgstr ""
+"Accepteer betalingen via Mollie, een Europese betalingsprovider die "
+"creditcards en vele lokale betaalmethoden ondersteunt, zoals giropay, "
+"automatische incasso, iDEAL, bankoverschrijvingen en nog veel meer."
 
 #: pretix_mollie/forms.py:17
 #, python-format
@@ -45,9 +48,9 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
-"Om betalingen met Mollie te accepteren heb je een account bij Mollie nodig. "
-"Door op de volgende knop te klikken kan je een nieuw account bij Mollie "
-"aanmaken, of Pretix met een bestaand account verbinden."
+"Om betalingen via Mollie te kunnen accepteren, heb je een account bij Mollie "
+"nodig. Door op de volgende knop te klikken, kun je een nieuw Mollie-account "
+"aanmaken of pretix koppelen aan een bestaand account."
 
 #: pretix_mollie/payment.py:87
 msgid "Connect with Mollie"
@@ -105,7 +108,7 @@ msgstr "Bankoverschrijving"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr "Belfius Pay Button"
+msgstr "Belfius-betaalknop"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
@@ -137,7 +140,7 @@ msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
-msgstr "Sofort-betaling"
+msgstr "Sofort"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
@@ -149,8 +152,8 @@ msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
-"We hadden moeite met het communiceren met Mollie. Probeer het opnieuw, en "
-"neem contact met ons op als het probleem aanhoudt."
+"We hadden problemen met de communicatie met Mollie. Probeer het nog eens en "
+"neem contact met ons op als dit probleem zich blijft voordoen."
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
@@ -198,13 +201,12 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
-"Gebruik alleen het kenmerk dat hier staat. Als u dit niet doet kan uw "
-"betaling niet worden verwerkt en zal het bedrag na een aantal dagen "
-"automatisch worden teruggestort."
+"Gebruik alleen de opgegeven referentie. Anders kan je betaling niet verwerkt "
+"worden."
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr "Belfius Pay Button via Mollie"
+msgstr "Belfius-betaalknop via Mollie"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
@@ -220,11 +222,11 @@ msgstr "EPS via Mollie"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr "EPS"
+msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
-msgstr "Giropay via Mollie"
+msgstr "giropay via Mollie"
 
 #: pretix_mollie/payment.py:606
 msgid "iDEAL via Mollie"
@@ -236,7 +238,7 @@ msgstr "ING Home'Pay via Mollie"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr "KBC/CBC-Betaalknop via Mollie"
+msgstr "KBC/CBC-betaalknop via Mollie"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
@@ -271,7 +273,7 @@ msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
-"Betalingsmethode uitgeschakeld, omdat we het access token niet konden "
+"Betaalmethode uitgeschakeld, omdat we het access-token niet konden "
 "vernieuwen. Neem contact op met ondersteuning."
 
 #: pretix_mollie/signals.py:67 pretix_mollie/signals.py:66
@@ -280,7 +282,7 @@ msgstr "Mollie meldde een gebeurtenis: {}"
 
 #: pretix_mollie/signals.py:77 pretix_mollie/signals.py:76
 msgid "Mollie Connect: Client ID"
-msgstr "Mollie Connect: Client ID"
+msgstr "Mollie Connect: Client-ID"
 
 #: pretix_mollie/signals.py:84 pretix_mollie/signals.py:83
 msgid "Mollie Connect: Client secret"
@@ -292,13 +294,13 @@ msgid ""
 "After you submitted your order, we will redirect you to Mollie to complete "
 "your payment. You will then be redirected back here to get your tickets."
 msgstr ""
-"Nadat je je bestelling hebt ingediend zullen we je naar Mollie doorverwijzen "
-"om je betaling uit te voeren. Je zal hierna naar hier worden teruggestuurd "
-"om je kaartjes te krijgen."
+"Nadat je je bestelling hebt ingediend, zullen we je naar Mollie "
+"doorverwijzen om je betaling uit te voeren. Je zal hierna naar hier worden "
+"teruggestuurd om je tickets te krijgen."
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
-msgstr "Betalingsmethode"
+msgstr "Betaalmethode"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form_banktransfer.html:3
 msgid ""
@@ -327,7 +329,7 @@ msgstr "Verloopt op"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:18
 msgid "Settlement amount"
-msgstr "Uitbetalingshoeveelheid"
+msgstr "Afrekeningsbedrag"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
@@ -404,13 +406,13 @@ msgid ""
 "We're waiting for an answer from the payment provider regarding your "
 "payment. Please contact us if this takes more than a few days."
 msgstr ""
-"We wachten op een antwoord van de betalingsprovider over je betaling. Neem "
-"contact met ons op als dit langer dan een paar dagen duurt."
+"We wachten op een antwoord van de betalingsprovider met betrekking tot je "
+"betaling. Neem contact met ons op als dit langer dan een paar dagen duurt."
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:71
 msgid ""
 "The payment transaction could not be completed for the following reason:"
-msgstr "De betalingstransactie kon om de volgende reden niet voltooid worden:"
+msgstr "De betalingstransactie kon om de volgende reden niet worden voltooid:"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:78
 msgid "Unknown reason"
@@ -487,8 +489,8 @@ msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
 msgstr ""
-"Sorry, er is iets misgegaan in het betalingsproces. Klik op de link in je "
-"email om door te gaan."
+"Sorry, er is iets misgegaan in het betalingsproces. Klik op de link in je e-"
+"mail om door te gaan."
 
 #: pretix_mollie/__init__.py:12
 msgid "Integration for the Mollie payment provider."
