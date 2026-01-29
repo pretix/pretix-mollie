@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-28 17:00+0000\n"
+"PO-Revision-Date: 2026-01-29 23:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch (informal) <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/nl_Informal/>\n"
@@ -465,14 +465,12 @@ msgid "Your Mollie account has been disconnected."
 msgstr "De verbinding met je Mollie-account is verbroken."
 
 #: pretix_mollie/views.py:271
-#, fuzzy
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
-"We hebben je betaling ontvangen, maar konden je kaartje niet als betaald "
-"markeren, omdat de server overbelast was. Kijk alsjeblieft over een paar "
-"minuten opnieuw op deze pagina."
+"We hebben je betaling ontvangen, maar konden je ticket niet markeren omdat "
+"de server te druk was. Probeer het over een paar minuten nog eens."
 
 #: pretix_mollie/views.py:275 pretix_mollie/views.py:271
 msgid ""
