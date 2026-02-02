@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-28 17:00+0000\n"
+"PO-Revision-Date: 2026-02-02 20:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/nl/>\n"
@@ -48,7 +48,7 @@ msgid ""
 "clicking on the following button, you can either create a new Mollie account "
 "connect pretix to an existing one."
 msgstr ""
-"Om betalingen met Mollie te accepteren heeft u een account bij Mollie nodig. "
+"Om betalingen met Mollie te accepteren hebt u een account bij Mollie nodig. "
 "Door op de volgende knop te klikken kunt u een nieuw account bij Mollie "
 "aanmaken, of Pretix met een bestaand account verbinden."
 
@@ -78,7 +78,7 @@ msgstr "Websiteprofiel"
 
 #: pretix_mollie/payment.py:128
 msgid "Endpoint"
-msgstr "Eindpunt"
+msgstr "Endpoint"
 
 #: pretix_mollie/payment.py:131
 msgctxt "mollie"
@@ -108,7 +108,7 @@ msgstr "Bankoverschrijving"
 
 #: pretix_mollie/payment.py:169
 msgid "Belfius Pay Button"
-msgstr "Belfius Pay Button"
+msgstr "Belfius-betaalknop"
 
 #: pretix_mollie/payment.py:174 pretix_mollie/payment.py:588
 msgid "Bitcoin"
@@ -132,7 +132,7 @@ msgstr "ING Home'Pay"
 
 #: pretix_mollie/payment.py:199
 msgid "KBC/CBC Payment Button"
-msgstr "KBC/CBC-Betaalknop"
+msgstr "KBC/CBC-betaalknop"
 
 #: pretix_mollie/payment.py:204 pretix_mollie/payment.py:625
 msgid "paysafecard"
@@ -140,11 +140,11 @@ msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
-msgstr "Sofort-betaling"
+msgstr "Sofort"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
-msgstr "Mollie meldde een fout: {}"
+msgstr "Mollie heeft een fout gemeld: {}"
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 #: pretix_mollie/views.py:211
@@ -152,8 +152,8 @@ msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
-"We hadden moeite met het communiceren met Mollie. Probeer het opnieuw, en "
-"neem contact met ons op als het probleem aanhoudt."
+"We hadden problemen met de communicatie met Mollie. Probeer het nog eens en "
+"neem contact met ons op als dit probleem zich blijft voordoen."
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
@@ -207,7 +207,7 @@ msgstr ""
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr "Belfius Pay Button via Mollie"
+msgstr "Belfius-betaalknop via Mollie"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
@@ -223,7 +223,7 @@ msgstr "EPS via Mollie"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
-msgstr "EPS"
+msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
@@ -239,7 +239,7 @@ msgstr "ING Home'Pay via Mollie"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr "KBC/CBC-Betaalknop via Mollie"
+msgstr "KBC/CBC-betaalknop via Mollie"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
@@ -425,8 +425,8 @@ msgstr "Het betalingsproces is begonnen in een nieuw venster."
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
 msgstr ""
-"Het venster voor het invoeren van uw betalingsgegevens werd niet geopend of "
-"werd gesloten?"
+"Het venster voor het invoeren van uw betalingsgegevens was niet open of werd "
+"gesloten?"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
