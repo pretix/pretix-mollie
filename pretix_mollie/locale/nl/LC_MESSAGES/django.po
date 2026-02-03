@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-02-02 20:00+0000\n"
+"PO-Revision-Date: 2026-02-03 21:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/nl/>\n"
@@ -279,7 +279,7 @@ msgstr ""
 
 #: pretix_mollie/signals.py:67 pretix_mollie/signals.py:66
 msgid "Mollie reported an event: {}"
-msgstr "Mollie meldde een gebeurtenis: {}"
+msgstr "Mollie heeft een gebeurtenis gemeld: {}"
 
 #: pretix_mollie/signals.py:77 pretix_mollie/signals.py:76
 msgid "Mollie Connect: Client ID"
@@ -441,7 +441,7 @@ msgstr ""
 
 #: pretix_mollie/views.py:105
 msgid "Mollie returned an error: {}"
-msgstr "Mollie meldde een fout: {}"
+msgstr "Mollie heeft een fout gemeld: {}"
 
 #: pretix_mollie/views.py:107
 msgid "Please create a website profile in your Mollie account and try again."
