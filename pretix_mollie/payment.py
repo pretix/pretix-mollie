@@ -478,53 +478,62 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     ),
                 ),
-                (
-                    "method_klarnapaynow",
-                    forms.BooleanField(
-                        label=_("Klarna Pay now"),
-                        help_text='{}<br />{}'.format(
-                            help_text_legacy_klarna,
-                            help_text_order_based
-                        ),
-                        required=False,
-                    ),
-                ),
-                (
-                    "method_klarnapaylater",
-                    forms.BooleanField(
-                        label=_("Klarna Pay later"),
-                        help_text='{}<br />{}'.format(
-                            help_text_legacy_klarna,
-                            help_text_order_based_financing
-                        ),
-                        required=False,
-                    ),
-                ),
-                (
-                    "method_klarnasliceit",
-                    forms.BooleanField(
-                        label=_("Klarna Slice it"),
-                        help_text='{}<br />{}'.format(
-                            help_text_legacy_klarna,
-                            help_text_order_based_financing
-                        ),
-                        required=False,
-                    ),
-                ),
-                (
-                    "method_in3",
-                    forms.BooleanField(
-                        label=_("iDEAL in3"),
-                        help_text=help_text_order_based_financing,
-                        disabled=self.event.currency != 'EUR',
-                        required=False,
-                    ),
-                ),
+                # Retired, requires Order-API
+                # (
+                #     "method_klarnapaynow",
+                #     forms.BooleanField(
+                #         label=_("Klarna Pay now"),
+                #         help_text='{}<br />{}'.format(
+                #             help_text_legacy_klarna,
+                #             help_text_order_based
+                #         ),
+                #         required=False,
+                #     ),
+                # ),
+                # (
+                #     "method_klarnapaylater",
+                #     forms.BooleanField(
+                #         label=_("Klarna Pay later"),
+                #         help_text='{}<br />{}'.format(
+                #             help_text_legacy_klarna,
+                #             help_text_order_based_financing
+                #         ),
+                #         required=False,
+                #     ),
+                # ),
+                # (
+                #     "method_klarnasliceit",
+                #     forms.BooleanField(
+                #         label=_("Klarna Slice it"),
+                #         help_text='{}<br />{}'.format(
+                #             help_text_legacy_klarna,
+                #             help_text_order_based_financing
+                #         ),
+                #         required=False,
+                #     ),
+                # ),
+                # (
+                #     "method_in3",
+                #     forms.BooleanField(
+                #         label=_("iDEAL in3"),
+                #         help_text=help_text_order_based_financing,
+                #         disabled=self.event.currency != 'EUR',
+                #         required=False,
+                #     ),
+                # ),
                 (
                     "method_alma",
                     forms.BooleanField(
                         label=_("Alma"),
                         help_text=help_text_order_based_financing,
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    )
+                ),
+                (
+                    "method_wero",
+                    forms.BooleanField(
+                        label=_("WERO"),
                         disabled=self.event.currency != 'EUR',
                         required=False,
                     )
@@ -1058,6 +1067,14 @@ class MolliePaymentMethod(MollieMethod):
         return parent_allowed
 
 
+class RetiredMethodMixin:
+    def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
+        return False
+
+    def order_change_allowed(self, order: Order) -> bool:
+        return False
+
+
 class MollieCC(MolliePaymentMethod):
     method = "creditcard"
     public_name = _("Credit card")
@@ -1336,25 +1353,25 @@ class MollieKlarna(MolliePaymentMethod):
     needs_adr_lines = True
 
 
-class MollieKlarnaPaynow(MolliePaymentMethod):
+class MollieKlarnaPaynow(MolliePaymentMethod, RetiredMethodMixin):
     method = "klarnapaynow"
     public_name = _("Klarna Pay now")
     needs_adr_lines = True
 
 
-class MollieKlarnaPaylater(MolliePaymentMethod):
+class MollieKlarnaPaylater(MolliePaymentMethod, RetiredMethodMixin):
     method = "klarnapaylater"
     public_name = _("Klarna Pay later")
     needs_adr_lines = True
 
 
-class MollieKlarnaSliceit(MolliePaymentMethod):
+class MollieKlarnaSliceit(MolliePaymentMethod, RetiredMethodMixin):
     method = "klarnasliceit"
     public_name = _("Klarna Slice it")
     needs_adr_lines = True
 
 
-class MollieIn3(MolliePaymentMethod):
+class MollieIn3(MolliePaymentMethod, RetiredMethodMixin):
     method = "in3"
     public_name = _("iDEAL in3")
     needs_adr_lines = True
@@ -1405,3 +1422,8 @@ class MollieAlma(MolliePaymentMethod):
 
     def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
         return Decimal(50.00) <= order.pending_sum <= Decimal(20000.00) and super().order_change_allowed(order, request)
+
+class MollieWero(MolliePaymentMethod):
+    method = "wero"
+    public_name = _("WERO")
+    verbose_name = _("WERO via Mollie")
