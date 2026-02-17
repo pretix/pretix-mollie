@@ -300,13 +300,14 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     ),
                 ),
-                (
-                    "method_bitcoin",
-                    forms.BooleanField(
-                        label=_("Bitcoin"),
-                        required=False,
-                    ),
-                ),
+                # Retired
+                # (
+                #     "method_bitcoin",
+                #     forms.BooleanField(
+                #         label=_("Bitcoin"),
+                #         required=False,
+                #     ),
+                # ),
                 (
                     "method_blik",
                     forms.BooleanField(
@@ -331,13 +332,14 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     ),
                 ),
-                (
-                    "method_inghomepay",
-                    forms.BooleanField(
-                        label=_("ING Home’Pay"),
-                        required=False,
-                    ),
-                ),
+                # Retired
+                # (
+                #     "method_inghomepay",
+                #     forms.BooleanField(
+                #         label=_("ING Home’Pay"),
+                #         required=False,
+                #     ),
+                # ),
                 (
                     "method_kbc",
                     forms.BooleanField(
@@ -530,14 +532,15 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     )
                 ),
-                (
-                    "method_wero",
-                    forms.BooleanField(
-                        label=_("WERO"),
-                        disabled=self.event.currency != 'EUR',
-                        required=False,
-                    )
-                ),
+                # Not yet active
+                # (
+                #     "method_wero",
+                #     forms.BooleanField(
+                #         label=_("WERO"),
+                #         disabled=self.event.currency != 'EUR',
+                #         required=False,
+                #     )
+                # ),
                 (
                     "product_type",
                     forms.ChoiceField(
@@ -1277,7 +1280,7 @@ class MollieBelfius(MolliePaymentMethod):
     public_name = _("Belfius")
 
 
-class MollieBitcoin(MolliePaymentMethod):
+class MollieBitcoin(MolliePaymentMethod, RetiredMethodMixin):
     method = "bitcoin"
     public_name = _("Bitcoin")
     refunds_allowed = False
@@ -1307,7 +1310,7 @@ class MollieIdeal(MolliePaymentMethod):
     public_name = _("iDEAL")
 
 
-class MollieINGHomePay(MolliePaymentMethod):
+class MollieINGHomePay(MolliePaymentMethod, RetiredMethodMixin):
     method = "inghomepay"
     public_name = _("ING Home’Pay")
 
