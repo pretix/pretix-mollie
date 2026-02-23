@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-02-06 11:00+0000\n"
-"Last-Translator: Ryo Tagami <rtagami@airstrip.jp>\n"
+"PO-Revision-Date: 2026-02-23 11:00+0000\n"
+"Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/ja/>\n"
 "Language: ja\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -401,7 +401,7 @@ msgstr "新規ウィンドウで、支払いの処理が開始しました。"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:20
 msgid "The window to enter your payment data was not opened or was closed?"
-msgstr "支払いデータを入力するためのウィンドウが開いていませんか、閉じましたか？"
+msgstr "支払い情報を入力するウィンドウが開かれてないか、閉じられている?"
 
 #: pretix_mollie/templates/pretix_mollie/redirect.html:24
 msgid "Click here in order to open the window."
@@ -452,8 +452,9 @@ msgstr ""
 msgid ""
 "Sorry, there was an error in the payment process. Please check the link in "
 "your emails to continue."
-msgstr "申し訳ありません。支払いの処理でエラーが発生しました。電子メールのリンクを確"
-"認して、支払いを継続してください。"
+msgstr ""
+"申し訳ありません。支払いの処理でエラーが発生しました。続行するには、メール内"
+"のリンクをご確認ください。"
 
 #: pretix_mollie/__init__.py:12
 msgid "Integration for the Mollie payment provider."
