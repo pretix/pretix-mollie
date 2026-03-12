@@ -1307,7 +1307,8 @@ class MollieGiropay(MolliePaymentMethod):
 
 class MollieIdeal(MolliePaymentMethod):
     method = "ideal"
-    public_name = _("iDEAL")
+    public_name = _("iDEAL | Wero")
+    verbose_name = _("iDEAL via Mollie")
 
 
 class MollieINGHomePay(MolliePaymentMethod, RetiredMethodMixin):
