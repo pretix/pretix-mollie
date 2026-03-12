@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-01-29 23:00+0000\n"
+"PO-Revision-Date: 2026-03-03 21:00+0000\n"
 "Last-Translator: Ruud Hendrickx <ruud@leckxicon.eu>\n"
 "Language-Team: Dutch (informal) <https://translate.pretix.eu/projects/pretix/"
 "pretix-plugin-mollie/nl_Informal/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16.1\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -250,7 +250,7 @@ msgstr "paysafecard via Mollie"
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
-msgstr "SOFORT via Mollie"
+msgstr "Sofort via Mollie"
 
 #: pretix_mollie/signals.py:58 pretix_mollie/signals.py:57
 msgid "Payment canceled."
