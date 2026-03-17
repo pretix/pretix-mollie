@@ -3,10 +3,8 @@ import json
 import logging
 from typing import Union
 
-import pytz
 import requests
 import textwrap
-import zoneinfo
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -584,7 +582,7 @@ class MollieMethod(BasePaymentProvider):
 
     def _is_available_by_time(self, now_dt=None, cart_id=None, order=None):
         now_dt = now_dt or now()
-        tz = pytz.timezone(self.event.settings.timezone)
+        tz = self.event.timezone
 
         if not super()._is_available_by_time(now_dt, cart_id, order):
             return False
