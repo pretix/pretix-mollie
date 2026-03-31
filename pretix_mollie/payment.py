@@ -1144,7 +1144,9 @@ class MollieBanktransfer(MolliePaymentMethod):
             refresh_mollie_token(self.event, True)
 
             body = {
-                "dueDate": (payment.order.expires.date() + timedelta(days=1)).isoformat(),
+                "dueDate": (
+                    payment.order.payment_term_expire_date.date() + timedelta(days=1)
+                ).isoformat()
             }
             if self.settings.connect_client_id and self.settings.access_token:
                 body["testmode"] = payment.info_data.get("mode", "live") == "test"
@@ -1180,7 +1182,9 @@ class MollieBanktransfer(MolliePaymentMethod):
 
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
-        body["dueDate"] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
+        body["dueDate"] = (
+            payment.order.payment_term_expire_date.date() + timedelta(days=1)
+        ).isoformat()
         return body
 
     def order_pending_mail_render(self, order, payment) -> str:
