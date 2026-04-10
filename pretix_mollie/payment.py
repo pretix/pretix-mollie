@@ -1231,7 +1231,7 @@ class MollieBanktransfer(MolliePaymentMethod):
 
         t = self.settings.get("_invoice_text", as_type=LazyI18nString, default="")
 
-        if payment.info:
+        if payment.info and payment.state in [OrderPayment.PAYMENT_STATE_CREATED, OrderPayment.PAYMENT_STATE_PENDING]:
             payment_info = json.loads(payment.info)
         else:
             return t
