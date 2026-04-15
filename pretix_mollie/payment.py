@@ -916,6 +916,26 @@ class MolliePaymentMethod(MollieMethod):
             b["testmode"] = self.settings.endpoint == "test" or self.event.testmode
         return b
 
+    def matching_id(self, payment: OrderPayment):
+        return payment.info_data.get("id", None)
+
+    def refund_matching_id(self, refund: OrderRefund):
+        return refund.info_data.get('id', None)
+
+    def api_payment_details(self, payment: OrderPayment):
+        return {
+            "id": payment.info_data.get("id", None),
+            "method": payment.info_data.get("method", None)
+        }
+
+    def api_refund_details(self, refund: OrderRefund):
+        try:
+            return {
+                "id": refund.info_data.get("id", None),
+            }
+        except JSONDecodeError:
+            return {}
+
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         try:
             if "_links" in payment.info_data:
