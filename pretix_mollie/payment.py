@@ -1,5 +1,6 @@
 import hashlib
 import json
+from json.decoder import JSONDecodeError
 import logging
 import zoneinfo
 from typing import Union
