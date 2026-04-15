@@ -2,7 +2,6 @@
 
 from django.db import migrations
 from django_scopes import scopes_disabled
-
 from pretix.base.models import OrderPayment, OrderRefund
 
 

@@ -1,11 +1,11 @@
+from typing import Union
+
 import hashlib
 import json
 import logging
-import zoneinfo
-from typing import Union
-
 import requests
 import textwrap
+import zoneinfo
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -22,6 +22,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
+from json.decoder import JSONDecodeError
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
@@ -237,10 +238,11 @@ class MollieSettingsHolder(BasePaymentProvider):
                                      'website profile in the Mollie Dashboard to see if you can enable just a specific '
                                      'Klarna payment method or only a generic Klarna payment method.')
 
-        help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
-                                    'control of dis- and enabling individual Klarna payment methods, may use this '
-                                    'option. Please note that you will have to switch to the unified Klarna method by '
-                                    'the end of 2024.')
+        # Retired
+        # help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
+        #                            'control of dis- and enabling individual Klarna payment methods, may use this '
+        #                            'option. Please note that you will have to switch to the unified Klarna method by '
+        #                            'the end of 2024.')
 
         d = OrderedDict(
             fields
@@ -761,20 +763,20 @@ class MolliePaymentMethod(MollieMethod):
             try:
                 ia = payment.order.invoice_address
                 first_name = (
-                        ia.name_parts.get("given_name")
-                        or ia.name.rsplit(" ", 1)[0]
-                        or "Unknown"
+                    ia.name_parts.get("given_name")
+                    or ia.name.rsplit(" ", 1)[0]
+                    or "Unknown"
                 )
                 last_name = (
-                        ia.name_parts.get("family_name")
-                        or ia.name.rsplit(" ", 1)[-1]
-                        or "Unknown"
+                    ia.name_parts.get("family_name")
+                    or ia.name.rsplit(" ", 1)[-1]
+                    or "Unknown"
                 )
                 if (
-                        not ia.street
-                        or not ia.city
-                        or not ia.country
-                        or not payment.order.email
+                    not ia.street
+                    or not ia.city
+                    or not ia.country
+                    or not payment.order.email
                 ):
                     raise PaymentException(
                         _(
@@ -915,6 +917,26 @@ class MolliePaymentMethod(MollieMethod):
             b["profileId"] = self.settings.connect_profile
             b["testmode"] = self.settings.endpoint == "test" or self.event.testmode
         return b
+
+    def matching_id(self, payment: OrderPayment):
+        return payment.info_data.get("id", None)
+
+    def refund_matching_id(self, refund: OrderRefund):
+        return refund.info_data.get('id', None)
+
+    def api_payment_details(self, payment: OrderPayment):
+        return {
+            "id": payment.info_data.get("id", None),
+            "method": payment.info_data.get("method", None)
+        }
+
+    def api_refund_details(self, refund: OrderRefund):
+        try:
+            return {
+                "id": refund.info_data.get("id", None),
+            }
+        except JSONDecodeError:
+            return {}
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         try:
@@ -1425,6 +1447,7 @@ class MollieAlma(MolliePaymentMethod):
 
     def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
         return Decimal(50.00) <= order.pending_sum <= Decimal(20000.00) and super().order_change_allowed(order, request)
+
 
 class MollieWero(MolliePaymentMethod):
     method = "wero"
