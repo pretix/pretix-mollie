@@ -8,9 +8,7 @@ from pretix.base.models import Event, Order, OrderPayment
 from pretix.base.payment import PaymentException
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import (
-    logentry_display,
-    order_expiry_changed,
-    register_global_settings,
+    logentry_display, order_expiry_changed, register_global_settings,
     register_payment_providers,
 )
 
@@ -22,34 +20,13 @@ logger = logging.getLogger(__name__)
 @receiver(register_payment_providers, dispatch_uid="payment_mollie")
 def register_payment_provider(sender, **kwargs):
     from .payment import (
-        MollieAlma,
-        MollieBancomatPay,
-        MollieBancontact,
-        MollieBanktransfer,
-        MollieBelfius,
-        MollieBitcoin,
-        MollieBlik,
-        MollieCC,
-        MollieEPS,
-        MollieGiropay,
-        MollieIdeal,
-        MollieIn3,
-        MollieINGHomePay,
-        MollieKBC,
-        MollieKlarna,
-        MollieKlarnaPaylater,
-        MollieKlarnaPaynow,
-        MollieKlarnaSliceit,
-        MollieMyBank,
-        MolliePayPal,
-        MolliePaysafecard,
-        MolliePrzelewy24,
-        MollieSatispay,
-        MollieSettingsHolder,
-        MollieSofort,
-        MollieTrustly,
-        MollieTwint,
-        MolliePayByBank,
+        MollieAlma, MollieBancomatPay, MollieBancontact, MollieBanktransfer,
+        MollieBelfius, MollieBitcoin, MollieBlik, MollieCC, MollieEPS,
+        MollieGiropay, MollieIdeal, MollieIn3, MollieINGHomePay, MollieKBC,
+        MollieKlarna, MollieKlarnaPaylater, MollieKlarnaPaynow,
+        MollieKlarnaSliceit, MollieMyBank, MolliePayByBank, MolliePayPal,
+        MolliePaysafecard, MolliePrzelewy24, MollieSatispay,
+        MollieSettingsHolder, MollieSofort, MollieTrustly, MollieTwint,
     )
 
     return [
