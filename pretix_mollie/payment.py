@@ -238,10 +238,11 @@ class MollieSettingsHolder(BasePaymentProvider):
                                      'website profile in the Mollie Dashboard to see if you can enable just a specific '
                                      'Klarna payment method or only a generic Klarna payment method.')
 
-        help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
-                                    'control of dis- and enabling individual Klarna payment methods, may use this '
-                                    'option. Please note that you will have to switch to the unified Klarna method by '
-                                    'the end of 2024.')
+        # Retired
+        # help_text_legacy_klarna = _('Merchants having enrolled before June, 16 and whose Mollie Dashboard offers '
+        #                            'control of dis- and enabling individual Klarna payment methods, may use this '
+        #                            'option. Please note that you will have to switch to the unified Klarna method by '
+        #                            'the end of 2024.')
 
         d = OrderedDict(
             fields
@@ -762,20 +763,20 @@ class MolliePaymentMethod(MollieMethod):
             try:
                 ia = payment.order.invoice_address
                 first_name = (
-                        ia.name_parts.get("given_name")
-                        or ia.name.rsplit(" ", 1)[0]
-                        or "Unknown"
+                    ia.name_parts.get("given_name")
+                    or ia.name.rsplit(" ", 1)[0]
+                    or "Unknown"
                 )
                 last_name = (
-                        ia.name_parts.get("family_name")
-                        or ia.name.rsplit(" ", 1)[-1]
-                        or "Unknown"
+                    ia.name_parts.get("family_name")
+                    or ia.name.rsplit(" ", 1)[-1]
+                    or "Unknown"
                 )
                 if (
-                        not ia.street
-                        or not ia.city
-                        or not ia.country
-                        or not payment.order.email
+                    not ia.street
+                    or not ia.city
+                    or not ia.country
+                    or not payment.order.email
                 ):
                     raise PaymentException(
                         _(
@@ -1446,6 +1447,7 @@ class MollieAlma(MolliePaymentMethod):
 
     def order_change_allowed(self, order: Order, request: HttpRequest = None) -> bool:
         return Decimal(50.00) <= order.pending_sum <= Decimal(20000.00) and super().order_change_allowed(order, request)
+
 
 class MollieWero(MolliePaymentMethod):
     method = "wero"
