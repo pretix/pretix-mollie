@@ -1,12 +1,11 @@
-import hashlib
-import json
-from json.decoder import JSONDecodeError
-import logging
-import zoneinfo
 from typing import Union
 
+import hashlib
+import json
+import logging
 import requests
 import textwrap
+import zoneinfo
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -23,6 +22,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
+from json.decoder import JSONDecodeError
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
