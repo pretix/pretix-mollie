@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-02-23 11:00+0000\n"
-"Last-Translator: Hijiri Umemoto <hijiri@umemoto.org>\n"
+"PO-Revision-Date: 2026-04-19 18:00+0000\n"
+"Last-Translator: Yasunobu YesNo Kawaguchi <kawaguti@gmail.com>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/ja/>\n"
 "Language: ja\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 5.17\n"
 
 #: pretix_mollie/__init__.py:10 pretix_mollie/payment.py:53
 msgid "Mollie"
@@ -127,23 +127,23 @@ msgstr "iDEAL"
 
 #: pretix_mollie/payment.py:194 pretix_mollie/payment.py:613
 msgid "ING Home’Pay"
-msgstr ""
+msgstr "ING Home’Pay"
 
 #: pretix_mollie/payment.py:199
 msgid "KBC/CBC Payment Button"
-msgstr ""
+msgstr "KBC/CBC 決済ボタン"
 
 #: pretix_mollie/payment.py:204 pretix_mollie/payment.py:625
 msgid "paysafecard"
-msgstr ""
+msgstr "paysafecard"
 
 #: pretix_mollie/payment.py:209 pretix_mollie/payment.py:632
 msgid "Sofort"
-msgstr ""
+msgstr "Sofort"
 
 #: pretix_mollie/payment.py:346
 msgid "Mollie reported an error: {}"
-msgstr ""
+msgstr "Mollie がエラーを報告しました: {}"
 
 #: pretix_mollie/payment.py:442 pretix_mollie/views.py:215
 #: pretix_mollie/views.py:211
@@ -151,18 +151,20 @@ msgid ""
 "We had trouble communicating with Mollie. Please try again and get in touch "
 "with us if this problem persists."
 msgstr ""
+"Mollie との通信で問題が発生しました。もう一度お試しください。問題が解決しない"
+"場合はお問い合わせください。"
 
 #: pretix_mollie/payment.py:482
 msgid "Credit card via Mollie"
-msgstr ""
+msgstr "クレジットカード（Mollie 経由）"
 
 #: pretix_mollie/payment.py:488
 msgid "Bancontact via Mollie"
-msgstr ""
+msgstr "Bancontact（Mollie 経由）"
 
 #: pretix_mollie/payment.py:494
 msgid "Bank transfer via Mollie"
-msgstr ""
+msgstr "銀行振込（Mollie 経由）"
 
 #: pretix_mollie/payment.py:527 pretix_mollie/payment.py:562
 #: pretix_mollie/templates/pretix_mollie/pending.html:17
@@ -185,6 +187,8 @@ msgid ""
 "Please transfer the invoice amount to the bank account of our payment "
 "service provider using the specified reference:"
 msgstr ""
+"指定された参照番号を使用して、当社の決済サービスプロバイダーの銀行口座に請求"
+"金額をお振込みください："
 
 #: pretix_mollie/payment.py:565
 msgid "Reference"
@@ -196,22 +200,24 @@ msgid ""
 "Please only use the given reference. Otherwise, your payment can not be "
 "processed."
 msgstr ""
+"指定された参照番号のみをご使用ください。そうでない場合、お支払いを処理できま"
+"せん。"
 
 #: pretix_mollie/payment.py:581
 msgid "Belfius Pay Button via Mollie"
-msgstr ""
+msgstr "Belfius Pay Button（Mollie 経由）"
 
 #: pretix_mollie/payment.py:582
 msgid "Belfius"
-msgstr ""
+msgstr "Belfius"
 
 #: pretix_mollie/payment.py:587
 msgid "Bitcoin via Mollie"
-msgstr ""
+msgstr "Bitcoin（Mollie 経由）"
 
 #: pretix_mollie/payment.py:594
 msgid "EPS via Mollie"
-msgstr ""
+msgstr "EPS（Mollie 経由）"
 
 #: pretix_mollie/payment.py:595
 msgid "eps"
@@ -219,23 +225,23 @@ msgstr "eps"
 
 #: pretix_mollie/payment.py:600
 msgid "giropay via Mollie"
-msgstr ""
+msgstr "giropay（Mollie 経由）"
 
 #: pretix_mollie/payment.py:606
 msgid "iDEAL via Mollie"
-msgstr ""
+msgstr "iDEAL（Mollie 経由）"
 
 #: pretix_mollie/payment.py:612
 msgid "ING Home’Pay via Mollie"
-msgstr ""
+msgstr "ING Home’Pay（Mollie 経由）"
 
 #: pretix_mollie/payment.py:618
 msgid "KBC/CBC Payment Button via Mollie"
-msgstr ""
+msgstr "KBC/CBC 決済ボタン（Mollie 経由）"
 
 #: pretix_mollie/payment.py:619
 msgid "KBC/CBC"
-msgstr ""
+msgstr "KBC/CBC"
 
 #: pretix_mollie/payment.py:624
 msgid "paysafecard via Mollie"
@@ -243,41 +249,43 @@ msgstr ""
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
-msgstr ""
+msgstr "paysafecard（Mollie 経由）"
 
 #: pretix_mollie/signals.py:58 pretix_mollie/signals.py:57
 msgid "Payment canceled."
-msgstr ""
+msgstr "決済がキャンセルされました。"
 
 #: pretix_mollie/signals.py:59 pretix_mollie/signals.py:58
 msgid "Payment failed."
-msgstr ""
+msgstr "決済に失敗しました。"
 
 #: pretix_mollie/signals.py:60 pretix_mollie/signals.py:59
 msgid "Payment succeeded."
-msgstr ""
+msgstr "決済が完了しました。"
 
 #: pretix_mollie/signals.py:61 pretix_mollie/signals.py:60
 msgid "Payment expired."
-msgstr ""
+msgstr "決済の有効期限が切れました。"
 
 #: pretix_mollie/signals.py:62 pretix_mollie/signals.py:61
 msgid ""
 "Payment method disabled since we were unable to refresh the access token. "
 "Please contact support."
 msgstr ""
+"アクセストークンを更新できなかったため、決済方法を無効にしました。サポートま"
+"でお問い合わせください。"
 
 #: pretix_mollie/signals.py:67 pretix_mollie/signals.py:66
 msgid "Mollie reported an event: {}"
-msgstr ""
+msgstr "Mollie がイベントを報告しました: {}"
 
 #: pretix_mollie/signals.py:77 pretix_mollie/signals.py:76
 msgid "Mollie Connect: Client ID"
-msgstr ""
+msgstr "Mollie Connect: クライアント ID"
 
 #: pretix_mollie/signals.py:84 pretix_mollie/signals.py:83
 msgid "Mollie Connect: Client secret"
-msgstr ""
+msgstr "Mollie Connect: クライアントシークレット"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:3
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_form.html:3
@@ -285,6 +293,8 @@ msgid ""
 "After you submitted your order, we will redirect you to Mollie to complete "
 "your payment. You will then be redirected back here to get your tickets."
 msgstr ""
+"注文送信後、Mollie にリダイレクトしてお支払いを完了します。その後、こちらに"
+"リダイレクトして戻り、チケットを受け取れます。"
 
 #: pretix_mollie/templates/pretix_mollie/checkout_payment_confirm.html:8
 msgid "Payment method"
@@ -307,15 +317,15 @@ msgstr "ステータス"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:11
 msgid "Paid at"
-msgstr ""
+msgstr "支払い済み日時"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:15
 msgid "Expires at"
-msgstr ""
+msgstr "有効期限"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:18
 msgid "Settlement amount"
-msgstr ""
+msgstr "決済額"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:21
 msgid "Card holder"
@@ -335,7 +345,7 @@ msgstr "支払人の名前"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:41
 msgid "Bitcoin amount"
-msgstr ""
+msgstr "Bitcoin 金額"
 
 #: pretix_mollie/templates/pretix_mollie/control.html:48
 msgid "Error message"
@@ -351,6 +361,12 @@ msgid ""
 "    Amount: %(total)s\n"
 "%(bank)s\n"
 msgstr ""
+"\n"
+"以下の銀行口座に全額をお振込みください。\n"
+"\n"
+"    参照番号: %(code)s\n"
+"    金額: %(total)s\n"
+"%(bank)s\n"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:10
 msgid "Please transfer the full amount to the following bank account:"
@@ -369,14 +385,16 @@ msgid ""
 "After you sent the bank transfer, you can close this window. We will send "
 "you an email as soon as we received your payment."
 msgstr ""
+"銀行振込を送信後、このウィンドウを閉じて構いません。お支払いを受領次第、電子"
+"メールをお送りします。"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:53
 msgid "Open banking app"
-msgstr ""
+msgstr "バンキングアプリを開く"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:55
 msgid "Requires that the app supports BezahlCode"
-msgstr ""
+msgstr "アプリが BezahlCode に対応している必要があります"
 
 #: pretix_mollie/templates/pretix_mollie/pending.html:60
 #: pretix_mollie/templates/pretix_mollie/pending.html:66
@@ -410,36 +428,40 @@ msgstr "ウィンドウを開くには、ここをクリック。"
 #: pretix_mollie/views.py:53 pretix_mollie/views.py:59
 #: pretix_mollie/views.py:102
 msgid "An error occurred during connecting with Mollie, please try again."
-msgstr ""
+msgstr "Mollie への接続中にエラーが発生しました。もう一度お試しください。"
 
 #: pretix_mollie/views.py:105
 msgid "Mollie returned an error: {}"
-msgstr ""
+msgstr "Mollie がエラーを返しました: {}"
 
 #: pretix_mollie/views.py:107
 msgid "Please create a website profile in your Mollie account and try again."
 msgstr ""
+"Mollie アカウントでウェブサイトプロファイルを作成してから、もう一度お試しくだ"
+"さい。"
 
 #: pretix_mollie/views.py:109
 msgid ""
 "Please fill in your company details in your Mollie account and try again."
-msgstr ""
+msgstr "Mollie アカウントで会社情報を入力してから、もう一度お試しください。"
 
 #: pretix_mollie/views.py:112
 msgid ""
 "Your Mollie account is now connected to pretix. You can change the settings "
 "in detail below."
-msgstr ""
+msgstr "Mollie アカウントが pretix に接続されました。以下で詳細な設定を変更できます。"
 
 #: pretix_mollie/views.py:229 pretix_mollie/views.py:225
 msgid "Your Mollie account has been disconnected."
-msgstr ""
+msgstr "Mollie アカウントの接続を解除しました。"
 
 #: pretix_mollie/views.py:271
 msgid ""
 "We received your payment but were unable to mark your ticket as the server "
 "was too busy. Please check back in a couple of minutes."
 msgstr ""
+"お支払いは受領しましたが、サーバーが混雑していたためチケットに反映できません"
+"でした。しばらくしてから再度ご確認ください。"
 
 #: pretix_mollie/views.py:275 pretix_mollie/views.py:271
 msgid ""
@@ -447,6 +469,9 @@ msgid ""
 "of your ordered products is sold out. Please contact the event organizer for "
 "further steps."
 msgstr ""
+"お支払いは受領しましたが、ご注文の商品の一部が売り切れのためチケットを支払い"
+"済みに更新できませんでした。次のステップについてイベント主催者までお問い合わ"
+"せください。"
 
 #: pretix_mollie/views.py:282 pretix_mollie/views.py:278
 msgid ""
