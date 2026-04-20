@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-22 22:27+0100\n"
-"PO-Revision-Date: 2026-04-19 18:00+0000\n"
+"PO-Revision-Date: 2026-04-20 08:07+0000\n"
 "Last-Translator: Yasunobu YesNo Kawaguchi <kawaguti@gmail.com>\n"
 "Language-Team: Japanese <https://translate.pretix.eu/projects/pretix/pretix-"
 "plugin-mollie/ja/>\n"
@@ -245,7 +245,7 @@ msgstr "KBC/CBC"
 
 #: pretix_mollie/payment.py:624
 msgid "paysafecard via Mollie"
-msgstr ""
+msgstr "paysafecard (Mollie 経由)"
 
 #: pretix_mollie/payment.py:631
 msgid "Sofort via Mollie"
