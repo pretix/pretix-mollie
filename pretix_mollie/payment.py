@@ -1119,6 +1119,24 @@ class MollieBanktransfer(MolliePaymentMethod):
     method = "banktransfer"
     public_name = _("Bank transfer")
 
+    def _validate_due_date(self, due_date):
+        """Validate and constrain dueDate according to Mollie requirements.
+        
+        The minimum date is tomorrow, and the maximum date is 100 days after tomorrow.
+        If the date is outside these bounds, it will be adjusted.
+        """
+        from django.utils.timezone import now as tz_now
+        
+        today = tz_now().astimezone(zoneinfo.ZoneInfo(self.event.timezone)).date()
+        min_date = today + timedelta(days=1)  # tomorrow
+        max_date = today + timedelta(days=101)  # 100 days after tomorrow
+        
+        if due_date < min_date:
+            return min_date
+        elif due_date > max_date:
+            return max_date
+        return due_date
+
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         err = None
         with transaction.atomic():
@@ -1165,8 +1183,10 @@ class MollieBanktransfer(MolliePaymentMethod):
         try:
             refresh_mollie_token(self.event, True)
 
+            due_date = payment.order.payment_term_expire_date.date()
+            due_date = self._validate_due_date(due_date)
             body = {
-                "dueDate": (payment.order.expires.date() + timedelta(days=1)).isoformat(),
+                "dueDate": due_date.isoformat()
             }
             if self.settings.connect_client_id and self.settings.access_token:
                 body["testmode"] = payment.info_data.get("mode", "live") == "test"
@@ -1202,7 +1222,9 @@ class MollieBanktransfer(MolliePaymentMethod):
 
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
-        body["dueDate"] = (payment.order.expires.date() + timedelta(days=1)).isoformat()
+        due_date = payment.order.payment_term_expire_date.date()
+        due_date = self._validate_due_date(due_date)
+        body["dueDate"] = due_date.isoformat()
         return body
 
     def order_pending_mail_render(self, order, payment) -> str:
