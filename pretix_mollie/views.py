@@ -572,6 +572,7 @@ class ReturnView(MollieOrderView, View):
             "mollie_ideal",
             "mollie_eps",
             "mollie_giropay",
+            "mollie_paypal",
         ):
             # We need to lift this requirement for payment methods that are known to open the redirect url in a browser
             # context of the banking app where our session does not exist. :(
