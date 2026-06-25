@@ -1,6 +1,5 @@
 from typing import Union
 
-import hashlib
 import json
 import logging
 import requests
@@ -894,15 +893,17 @@ class MolliePaymentMethod(MollieMethod):
                 kwargs={
                     "order": payment.order.code,
                     "payment": payment.pk,
-                    "hash": hashlib.sha1(
-                        payment.order.secret.lower().encode()
-                    ).hexdigest(),
+                    "hash": payment.order.tagged_secret(f"plugins:pretix_mollie:return:{payment.pk}"),
                 },
             ),
             "webhookUrl": build_absolute_uri(
                 self.event,
-                "plugins:pretix_mollie:webhook",
-                kwargs={"payment": payment.pk},
+                "plugins:pretix_mollie:webhook2",
+                kwargs={
+                    "order": payment.order.code,
+                    "payment": payment.pk,
+                    "hash": payment.order.tagged_secret(f"plugins:pretix_mollie:webhook2:{payment.pk}"),
+                },
             ),
             "locale": self.get_locale(payment.order.locale),
             "method": self.method,
