@@ -1,5 +1,4 @@
 import functools
-import hashlib
 import json
 import logging
 import requests
@@ -499,22 +498,14 @@ def oauth_disconnect(request, **kwargs):
 
 class MollieOrderView:
     def dispatch(self, request, *args, **kwargs):
+        url = request.resolver_match
         try:
-            self.order = request.event.orders.get(code=kwargs["order"])
-            if (
-                hashlib.sha1(self.order.secret.lower().encode()).hexdigest()
-                != kwargs["hash"].lower()
-            ):
-                raise Http404("")
+            self.order = request.event.orders.get_with_secret_check(
+                code=kwargs["order"],
+                received_secret=kwargs["hash"], tag=f"{url.namespace}:{url.url_name}:{kwargs["payment"]}"
+            )
         except Order.DoesNotExist:
-            # Do a hash comparison as well to harden timing attacks
-            if (
-                "abcdefghijklmnopq".lower()
-                == hashlib.sha1("abcdefghijklmnopq".encode()).hexdigest()
-            ):
-                raise Http404("")
-            else:
-                raise Http404("")
+            raise Http404("")
         return super().dispatch(request, *args, **kwargs)
 
     @cached_property
@@ -598,6 +589,9 @@ class ReturnView(MollieOrderView, View):
 @method_decorator(csrf_exempt, "dispatch")
 class WebhookView(View):
     def post(self, request, *args, **kwargs):
+        # old-style webhook url, deprecated as of 2026-06-11
+        if "/webhook2/" in self.payment.info_data.get("webhookUrl", ""):
+            return HttpResponse(status=404)
         try:
             if request.POST.get("id") and request.POST["id"].startswith("ord_"):
                 # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
@@ -617,3 +611,15 @@ class WebhookView(View):
             pk=self.kwargs["payment"],
             provider__startswith="mollie",
         )
+
+
+@method_decorator(csrf_exempt, "dispatch")
+class Webhook2View(MollieOrderView, View):
+    def post(self, request, *args, **kwargs):
+        try:
+            handle_payment(self.payment, request.POST.get("id"))
+        except LockTimeoutException:
+            return HttpResponse(status=503)
+        except Quota.QuotaExceededException:
+            pass
+        return HttpResponse(status=200)
