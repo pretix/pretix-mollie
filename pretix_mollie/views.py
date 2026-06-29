@@ -502,7 +502,7 @@ class MollieOrderView:
         try:
             self.order = request.event.orders.get_with_secret_check(
                 code=kwargs["order"],
-                received_secret=kwargs["hash"], tag=f"{url.namespace}:{url.url_name}:{kwargs["payment"]}"
+                received_secret=kwargs["hash"], tag=f"{url.namespace}:{url.url_name}:{kwargs['payment']}"
             )
         except Order.DoesNotExist:
             raise Http404("")
