@@ -916,7 +916,7 @@ class MolliePaymentMethod(MollieMethod):
         }
         if self.settings.connect_client_id and self.settings.access_token:
             b["profileId"] = self.settings.connect_profile
-            b["testmode"] = self.settings.endpoint == "test" or self.event.testmode
+            b["testmode"] = self.settings.endpoint == "test" or payment.order.testmode
         return b
 
     def matching_id(self, payment: OrderPayment):
