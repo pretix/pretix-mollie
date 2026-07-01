@@ -731,7 +731,7 @@ class MollieMethod(BasePaymentProvider):
                             ],
                         },
                     },
-                    salt="safe-redirect",
+                    salt="plugins:mollie:redirect:safe-redirect-data",
                 )
             )
         else:
