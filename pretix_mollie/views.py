@@ -588,33 +588,6 @@ class ReturnView(MollieOrderView, View):
 
 
 @method_decorator(csrf_exempt, "dispatch")
-class WebhookView(View):
-    def post(self, request, *args, **kwargs):
-        # old-style webhook url, deprecated as of 2026-06-11
-        if "/webhook2/" in self.payment.info_data.get("webhookUrl", ""):
-            return HttpResponse(status=404)
-        try:
-            if request.POST.get("id") and request.POST["id"].startswith("ord_"):
-                # todo: remove after some time, as it is deprecated (noted on 2025-07-16)
-                handle_order(self.payment, request.POST.get("id"))
-            else:
-                handle_payment(self.payment, request.POST.get("id"))
-        except LockTimeoutException:
-            return HttpResponse(status=503)
-        except Quota.QuotaExceededException:
-            pass
-        return HttpResponse(status=200)
-
-    @cached_property
-    def payment(self):
-        return get_object_or_404(
-            OrderPayment.objects.filter(order__event=self.request.event),
-            pk=self.kwargs["payment"],
-            provider__startswith="mollie",
-        )
-
-
-@method_decorator(csrf_exempt, "dispatch")
 class Webhook2View(MollieOrderView, View):
     def post(self, request, *args, **kwargs):
         try:
