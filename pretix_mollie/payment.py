@@ -1142,15 +1142,16 @@ class MollieBanktransfer(MolliePaymentMethod):
         ) == "paid" and self.settings.get(
             "method_banktransfer_invoice_immediately", False, as_type=bool
         ):
-            i = payment.order.invoices.filter(is_cancellation=False).last()
+            order = Order.objects.select_for_update(of=OF_SELF).get(pk=payment.order.pk)
+            i = order.invoices.filter(is_cancellation=False).last()
             has_active_invoice = i and not i.canceled
             if (
-                not has_active_invoice or payment.order.invoice_dirty
-            ) and invoice_qualified(payment.order):
+                not has_active_invoice or order.invoice_dirty
+            ) and invoice_qualified(order):
                 if has_active_invoice:
                     generate_cancellation(i)
-                i = generate_invoice(payment.order)
-                payment.order.log_action(
+                i = generate_invoice(order)
+                order.log_action(
                     "pretix.event.order.invoice.generated", data={"invoice": i.pk}
                 )
 
