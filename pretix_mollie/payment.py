@@ -1,15 +1,13 @@
+from typing import Union
+
 import json
 import logging
+import requests
 import textwrap
 import zoneinfo
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from decimal import Decimal
-from json.decoder import JSONDecodeError
-from typing import Union
-from urllib.parse import quote
-
-import requests
 from django import forms
 from django.core import signing
 from django.db import transaction
@@ -23,8 +21,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
-from requests import HTTPError
-
+from json.decoder import JSONDecodeError
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
@@ -42,7 +39,11 @@ from pretix.helpers import OF_SELF
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri
 from pretix.presale.views.cart import cart_session
+from requests import HTTPError
+from urllib.parse import quote
+
 from pretix_mollie.utils import refresh_mollie_token
+
 from .forms import MollieKeyValidator
 
 logger = logging.getLogger(__name__)
