@@ -1,13 +1,15 @@
-from typing import Union
-
 import json
 import logging
-import requests
 import textwrap
 import zoneinfo
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from decimal import Decimal
+from json.decoder import JSONDecodeError
+from typing import Union
+from urllib.parse import quote
+
+import requests
 from django import forms
 from django.core import signing
 from django.db import transaction
@@ -21,7 +23,8 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _, pgettext
 from i18nfield.strings import LazyI18nString
-from json.decoder import JSONDecodeError
+from requests import HTTPError
+
 from pretix.base.models import (
     Event, InvoiceAddress, Order, OrderFee, OrderPayment, OrderRefund,
 )
@@ -39,11 +42,7 @@ from pretix.helpers import OF_SELF
 from pretix.helpers.urls import build_absolute_uri as build_global_uri
 from pretix.multidomain.urlreverse import build_absolute_uri
 from pretix.presale.views.cart import cart_session
-from requests import HTTPError
-from urllib.parse import quote
-
 from pretix_mollie.utils import refresh_mollie_token
-
 from .forms import MollieKeyValidator
 
 logger = logging.getLogger(__name__)
@@ -1122,6 +1121,7 @@ class MollieBanktransfer(MolliePaymentMethod):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         err = None
+        created_now = False
         with transaction.atomic():
             p_orig = payment
             if retry:
@@ -1129,30 +1129,37 @@ class MollieBanktransfer(MolliePaymentMethod):
                     pk=payment.pk
                 )
             try:
+                had_mollie_payment = "id" in payment.info_data
                 super().execute_payment(request, payment, retry)
             except PaymentException as e:
                 err = e
+            else:
+                created_now = not had_mollie_payment and "id" in payment.info_data
         if err:
             raise err
 
         p_orig.refresh_from_db()
 
-        if payment.order.event.settings.get(
+        if created_now and payment.order.event.settings.get(
             "invoice_generate"
         ) == "paid" and self.settings.get(
             "method_banktransfer_invoice_immediately", False, as_type=bool
         ):
-            i = payment.order.invoices.filter(is_cancellation=False).last()
-            has_active_invoice = i and not i.canceled
-            if (
-                not has_active_invoice or payment.order.invoice_dirty
-            ) and invoice_qualified(payment.order):
-                if has_active_invoice:
-                    generate_cancellation(i)
-                i = generate_invoice(payment.order)
-                payment.order.log_action(
-                    "pretix.event.order.invoice.generated", data={"invoice": i.pk}
+            with transaction.atomic():
+                order = Order.objects.select_for_update(of=OF_SELF).get(
+                    pk=payment.order_id
                 )
+                i = order.invoices.filter(is_cancellation=False).last()
+                has_active_invoice = i and not i.canceled
+                if (
+                        not has_active_invoice or order.invoice_dirty
+                ) and invoice_qualified(order):
+                    if has_active_invoice:
+                        generate_cancellation(i)
+                    i = generate_invoice(order)
+                    order.log_action(
+                        "pretix.event.order.invoice.generated", data={"invoice": i.pk}
+                    )
 
         return  # no redirect necessary for this method
 
