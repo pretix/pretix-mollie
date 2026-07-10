@@ -1122,7 +1122,6 @@ class MollieBanktransfer(MolliePaymentMethod):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         err = None
-        created_now = False
         with transaction.atomic():
             p_orig = payment
             if retry:
@@ -1130,18 +1129,15 @@ class MollieBanktransfer(MolliePaymentMethod):
                     pk=payment.pk
                 )
             try:
-                had_mollie_payment = "id" in payment.info_data
                 super().execute_payment(request, payment, retry)
             except PaymentException as e:
                 err = e
-            else:
-                created_now = not had_mollie_payment and "id" in payment.info_data
         if err:
             raise err
 
         p_orig.refresh_from_db()
 
-        if created_now and payment.order.event.settings.get(
+        if payment.order.event.settings.get(
             "invoice_generate"
         ) == "paid" and self.settings.get(
             "method_banktransfer_invoice_immediately", False, as_type=bool
