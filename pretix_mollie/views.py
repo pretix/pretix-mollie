@@ -213,7 +213,17 @@ def oauth_return(request, *args, **kwargs):
     )
 
 
+def data_matches_payment(data, order):
+    return (data['metadata']['organizer'] == order.event.organizer.slug and
+            data['metadata']['event'] == order.event.slug and
+            data['metadata']['order'] == order.code)
+
+
 def get_or_create_payment(payment, mollie_id, data):
+    if not data_matches_payment(data, payment.order):
+        payment.order.log_action("pretix_mollie.event.wrong_order", data)
+        return
+
     if payment.info_data.get("id") != mollie_id:
         for op in OrderPayment.objects.filter(order=payment.order, provider=payment.provider):
             if payment.info_data.get("id") == mollie_id:
@@ -273,8 +283,8 @@ def handle_payment(payment, mollie_id, force_new_token=False):
     refresh_mollie_token(payment.order.event, not force_new_token)
 
     with transaction.atomic():
-        # Swap for a locked instance to serialize between webhook and return view
-        payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
+        # Lock order to prevent multiple returns/webhooks running concurrently
+        _order = Order.objects.select_for_update(of=OF_SELF).get(pk=payment.order.pk)  # noqa: F841
 
         resp = requests.get(
             "https://api.mollie.com/v2/payments/" + mollie_id + "?" + qp,
@@ -284,6 +294,8 @@ def handle_payment(payment, mollie_id, force_new_token=False):
         data = resp.json()
 
         payment = get_or_create_payment(payment, mollie_id, data)
+        if not payment:
+            return
 
         if data.get("amountRefunded") and data["amountRefunded"].get("value") != "0.00" and data.get("status") == "paid":
             refundsresp = requests.get(
@@ -375,8 +387,8 @@ def handle_order(payment, mollie_id, force_new_token=False):
     refresh_mollie_token(payment.order.event, not force_new_token)
 
     with transaction.atomic():
-        # Swap for a locked instance to serialize between webhook and return view
-        payment = OrderPayment.objects.select_for_update(of=OF_SELF).get(pk=payment.pk)
+        # Lock order to prevent multiple returns/webhooks running concurrently
+        _order = Order.objects.select_for_update(of=OF_SELF).get(pk=payment.order.pk)  # noqa: F841
 
         resp = requests.get(
             "https://api.mollie.com/v2/orders/" + mollie_id + "?" + qp,
@@ -386,6 +398,8 @@ def handle_order(payment, mollie_id, force_new_token=False):
         data = resp.json()
 
         payment = get_or_create_payment(payment, mollie_id, data)
+        if not payment:
+            return
 
         if data.get("status") in ("paid", "shipping", "completed") and any(
             line["amountRefunded"].get("value", "0.00") != "0.00"

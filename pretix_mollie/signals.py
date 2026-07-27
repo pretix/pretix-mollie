@@ -76,6 +76,12 @@ def pretixcontrol_logentry_display(sender, logentry, **kwargs):
             "Payment method disabled since we were unable to refresh the access token. Please "
             "contact support."
         ),  # for historical reasons, no longer occurs
+        "unknown": _(
+            "Unknown"
+        ),
+        "wrong_order": _(
+            "Payment update for different order"
+        ),
     }
     text = plains.get(logentry.action_type[20:], None)
     if text:
