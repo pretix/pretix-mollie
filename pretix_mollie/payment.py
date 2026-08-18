@@ -1091,8 +1091,11 @@ class MolliePaymentMethod(MollieMethod):
 
         return parent_allowed
 
-
 class RetiredMethodMixin:
+    @property
+    def is_enabled(self) -> bool:
+        return False
+
     def is_allowed(self, request: HttpRequest, total: Decimal = None) -> bool:
         return False
 
