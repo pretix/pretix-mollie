@@ -1309,7 +1309,7 @@ class MollieBelfius(MolliePaymentMethod):
     public_name = _("Belfius")
 
 
-class MollieBitcoin(MolliePaymentMethod, RetiredMethodMixin):
+class MollieBitcoin(RetiredMethodMixin, MolliePaymentMethod):
     method = "bitcoin"
     public_name = _("Bitcoin")
     refunds_allowed = False
@@ -1340,7 +1340,7 @@ class MollieIdeal(MolliePaymentMethod):
     verbose_name = _("iDEAL via Mollie")
 
 
-class MollieINGHomePay(MolliePaymentMethod, RetiredMethodMixin):
+class MollieINGHomePay(RetiredMethodMixin, MolliePaymentMethod):
     method = "inghomepay"
     public_name = _("ING Home’Pay")
 
@@ -1386,25 +1386,25 @@ class MollieKlarna(MolliePaymentMethod):
     needs_adr_lines = True
 
 
-class MollieKlarnaPaynow(MolliePaymentMethod, RetiredMethodMixin):
+class MollieKlarnaPaynow(RetiredMethodMixin, MolliePaymentMethod):
     method = "klarnapaynow"
     public_name = _("Klarna Pay now")
     needs_adr_lines = True
 
 
-class MollieKlarnaPaylater(MolliePaymentMethod, RetiredMethodMixin):
+class MollieKlarnaPaylater(RetiredMethodMixin, MolliePaymentMethod):
     method = "klarnapaylater"
     public_name = _("Klarna Pay later")
     needs_adr_lines = True
 
 
-class MollieKlarnaSliceit(MolliePaymentMethod, RetiredMethodMixin):
+class MollieKlarnaSliceit(RetiredMethodMixin, MolliePaymentMethod):
     method = "klarnasliceit"
     public_name = _("Klarna Slice it")
     needs_adr_lines = True
 
 
-class MollieIn3(MolliePaymentMethod, RetiredMethodMixin):
+class MollieIn3(RetiredMethodMixin, MolliePaymentMethod):
     method = "in3"
     public_name = _("iDEAL in3")
     needs_adr_lines = True
