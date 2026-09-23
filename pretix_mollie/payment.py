@@ -1098,22 +1098,17 @@ class MollieBanktransfer(MolliePaymentMethod):
     public_name = _("Bank transfer")
 
     def _validate_due_date(self, due_date):
-        """Validate and constrain dueDate according to Mollie requirements.
+        """
+        Validate and constrain dueDate according to Mollie requirements.
         
         The minimum date is tomorrow, and the maximum date is 100 days after tomorrow.
         If the date is outside these bounds, it will be adjusted.
         """
-        from django.utils.timezone import now as tz_now
-        
-        today = tz_now().astimezone(zoneinfo.ZoneInfo(self.event.timezone)).date()
+        today = now().astimezone(self.event.timezone).date()
         min_date = today + timedelta(days=1)  # tomorrow
         max_date = today + timedelta(days=101)  # 100 days after tomorrow
-        
-        if due_date < min_date:
-            return min_date
-        elif due_date > max_date:
-            return max_date
-        return due_date
+
+        return max(min(due_date, max_date), min_date)
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment, retry=True):
         err = None
