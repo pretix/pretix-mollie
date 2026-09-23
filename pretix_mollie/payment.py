@@ -1156,7 +1156,7 @@ class MollieBanktransfer(MolliePaymentMethod):
         try:
             refresh_mollie_token(self.event, True)
 
-            due_date = payment.order.payment_term_expire_date.date()
+            due_date = payment.order.payment_term_expire_date.astimezone(self.event.timezone).date()
             due_date = self._validate_due_date(due_date)
             body = {
                 "dueDate": due_date.isoformat()
@@ -1195,7 +1195,7 @@ class MollieBanktransfer(MolliePaymentMethod):
 
     def _get_payment_body(self, payment):
         body = super()._get_payment_body(payment)
-        due_date = payment.order.payment_term_expire_date.date()
+        due_date = payment.order.payment_term_expire_date.astimezone(self.event.timezone).date()
         due_date = self._validate_due_date(due_date)
         body["dueDate"] = due_date.isoformat()
         return body
