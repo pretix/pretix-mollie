@@ -2,7 +2,7 @@ from django.urls import include, path, re_path
 from pretix.multidomain import event_path, event_url
 
 from .views import (
-    ReturnView, WebhookView, Webhook2View, oauth_disconnect, oauth_return, redirect_view,
+    ReturnView, Webhook2View, oauth_disconnect, oauth_return, redirect_view,
 )
 
 event_patterns = [
@@ -10,12 +10,6 @@ event_patterns = [
         "mollie/",
         include(
             [
-                event_url(
-                    r"^webhook/(?P<payment>[0-9]+)/$",
-                    WebhookView.as_view(),
-                    name="webhook",
-                    require_live=False,
-                ),
                 event_path(
                     "webhook2/<str:order>/<str:hash>/<int:payment>/",
                     Webhook2View.as_view(),
