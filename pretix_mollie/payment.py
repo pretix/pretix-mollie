@@ -532,15 +532,14 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     )
                 ),
-                # Not yet active
-                # (
-                #     "method_wero",
-                #     forms.BooleanField(
-                #         label=_("WERO"),
-                #         disabled=self.event.currency != 'EUR',
-                #         required=False,
-                #     )
-                # ),
+                (
+                    "method_wero",
+                    forms.BooleanField(
+                        label=_("WERO"),
+                        disabled=self.event.currency != 'EUR',
+                        required=False,
+                    )
+                ),
                 (
                     "product_type",
                     forms.ChoiceField(
