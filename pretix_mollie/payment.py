@@ -386,14 +386,15 @@ class MollieSettingsHolder(BasePaymentProvider):
                         required=False,
                     ),
                 ),
-                (
-                    "method_trustly",
-                    forms.BooleanField(
-                        label=_("Trustly"),
-                        disabled=self.event.currency != 'EUR',
-                        required=False,
-                    ),
-                ),
+                # Retired
+                # (
+                #     "method_trustly",
+                #     forms.BooleanField(
+                #         label=_("Trustly"),
+                #         disabled=self.event.currency != 'EUR',
+                #         required=False,
+                #     ),
+                # ),
                 (
                     "method_twint",
                     forms.BooleanField(
@@ -1431,7 +1432,7 @@ class MollieTwint(MolliePaymentMethod):
     public_name = _("TWINT")
 
 
-class MollieTrustly(MolliePaymentMethod):
+class MollieTrustly(RetiredMethodMixin, MolliePaymentMethod):
     method = "trustly"
     public_name = _("Trustly")
 
